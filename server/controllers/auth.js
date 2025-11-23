@@ -380,7 +380,8 @@ export const oauthLogin = async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        // Allow overriding SameSite via env (use 'none' for cross-site cookies in production)
+        sameSite: process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
         path: '/',
         maxAge: (process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30) * 24 * 60 * 60 * 1000
       };
@@ -439,7 +440,7 @@ export const googleCallback = async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
         path: '/',
         maxAge: (process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30) * 24 * 60 * 60 * 1000
       };

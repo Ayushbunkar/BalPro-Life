@@ -44,11 +44,13 @@ if (process.env.NODE_ENV === 'development') {
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)
 // In development we disable the limiter to avoid accidental 429s from HMR/dev tooling.
-let limiter;
-if (process.env.NODE_ENV === 'production') {
-  limiter = rateLimit({
+// Rate limiting (apply after CORS so preflight and CORS headers are returned)
+// Controlled by `RATE_LIMIT_ENABLED` env var or enabled automatically in production.
+const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true' || process.env.NODE_ENV === 'production';
+if (rateLimitEnabled) {
+  const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: Number(process.env.RATE_LIMIT_MAX || 100), // limit each IP to RATE_LIMIT_MAX requests per windowMs
     // Return JSON error so clients (and fetch) can parse it safely
     handler: (req, res) => {
       res.status(429).json({
@@ -58,8 +60,13 @@ if (process.env.NODE_ENV === 'production') {
     }
   });
   app.use(limiter);
+  if (process.env.QUIET_STARTUP !== 'true') {
+    console.log(`🔒 Rate limiter enabled (max ${process.env.RATE_LIMIT_MAX || 100} requests / ${process.env.RATE_LIMIT_WINDOW || 15} minutes)`);
+  }
 } else {
-  console.log('⚠️ Rate limiter disabled in development (NODE_ENV !== production)');
+  if (process.env.QUIET_STARTUP !== 'true') {
+    console.log('⚠️ Rate limiter is disabled. To enable set RATE_LIMIT_ENABLED=true or run with NODE_ENV=production.');
+  }
 }
 
 // Body parsing middleware

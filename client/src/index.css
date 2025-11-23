@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Utilities for consistent spacing relative to the fixed navbar */
+@layer utilities {
+	.section-below-navbar { @apply pt-24; }
+	.content-container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+}

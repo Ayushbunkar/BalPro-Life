@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import DashboardLayout from '../../../components/dashboard/DashboardLayout';
-import UserSidebar from '../../../components/dashboard/UserSidebar';
+import DashboardLayout from '../../DashboardLayout';
+import UserSidebar from './UserSidebar';
 import { ordersAPI } from '../../../utils/api';
 
 const UserOrders = () => {

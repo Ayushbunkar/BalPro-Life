@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import DashboardLayout from '../../../components/dashboard/DashboardLayout';
-import AdminSidebar from '../../../components/dashboard/AdminSidebar';
+import DashboardLayout from '../../DashboardLayout';
+import AdminSidebar from './AdminSidebar';
 import { ordersAPI } from '../../../utils/api';
+import Button from '../../../components/Button';
+import ConfirmDialog from '../../../components/ConfirmDialog';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -23,6 +27,24 @@ const AdminOrders = () => {
 
     fetchOrders();
   }, []);
+
+  const confirmCancel = (id) => {
+    setSelectedOrderId(id);
+    setConfirmOpen(true);
+  };
+
+  const onConfirmCancel = async () => {
+    if (!selectedOrderId) return;
+    try {
+      await ordersAPI.updateOrderStatus(selectedOrderId, { status: 'cancelled' });
+      setOrders(prev => prev.map(o => o._id === selectedOrderId ? { ...o, status: 'cancelled' } : o));
+    } catch (err) {
+      setError(err.message || 'Failed to cancel order');
+    } finally {
+      setSelectedOrderId(null);
+      setConfirmOpen(false);
+    }
+  };
 
   return (
     <DashboardLayout sidebar={<AdminSidebar />} title="Orders">
@@ -42,7 +64,14 @@ const AdminOrders = () => {
                       <div className="font-bold">Order #{o._id}</div>
                       <div className="text-sm text-slate-500">User: {o.user?.name || o.user}</div>
                     </div>
-                    <div className="text-sm">₹{o.total}</div>
+                    <div className="text-sm flex flex-col items-end gap-2">
+                      <div>₹{o.total}</div>
+                      <div>
+                        {o.status !== 'cancelled' && (
+                          <Button variant="danger" onClick={() => confirmCancel(o._id)}>Cancel</Button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </li>
               ))}
@@ -50,6 +79,7 @@ const AdminOrders = () => {
           )}
         </div>
       )}
+      <ConfirmDialog open={confirmOpen} title="Cancel order" message="Are you sure you want to cancel this order?" onConfirm={onConfirmCancel} onCancel={() => setConfirmOpen(false)} />
     </DashboardLayout>
   );
 };

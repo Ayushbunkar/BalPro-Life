@@ -9,6 +9,7 @@ import {
   searchProducts,
   getFeaturedProducts
 } from '../controllers/products.js';
+import { uploadProduct, handleUpload } from '../middleware/upload.js';
 import { protect, authorize } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -24,8 +25,11 @@ router.get('/:id', getProduct);
 router.use(protect);
 router.use(authorize('admin'));
 
-router.post('/', createProduct);
-router.put('/:id', updateProduct);
+// routes with multer middleware below for handling multipart/form-data
 router.delete('/:id', deleteProduct);
+
+// Note: create/update accept multipart/form-data with `image` (single) field
+router.post('/', uploadProduct.single('image'), handleUpload, createProduct);
+router.put('/:id', uploadProduct.single('image'), handleUpload, updateProduct);
 
 export default router;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import DashboardLayout from '../../../components/dashboard/DashboardLayout';
-import AdminSidebar from '../../../components/dashboard/AdminSidebar';
+import DashboardLayout from '../../DashboardLayout';
+import AdminSidebar from './AdminSidebar';
 import { productsAPI } from '../../../utils/api';
 import Button from '../../../components/Button';
 import { useNavigate, useParams } from 'react-router-dom';

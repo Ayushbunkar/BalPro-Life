@@ -52,8 +52,8 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
                     <User size={16} />
                     <span className="text-sm font-medium">Hi, {user?.name?.split(' ')[0]}</span>
                   </div>
-                  <button
-                    onClick={logout}
+                  <Link
+                    to={user?.role === 'admin' ? '/admin' : '/dashboard'}
                     className="text-xs font-bold uppercase tracking-widest px-3 py-2 border rounded-md flex items-center gap-1 transition-colors"
                     style={{color: '#7B4A22', borderColor: '#EAD8C0'}}
                     onMouseEnter={(e) => {
@@ -65,9 +65,9 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
                       e.target.style.borderColor = '#EAD8C0';
                     }}
                   >
-                    <LogOut size={14} />
-                    Logout
-                  </button>
+                    Dashboard
+                  </Link>
+                  {/* Logout moved to dashboard sidebar */}
                 </div>
               ) : (
                 <>
@@ -125,19 +125,18 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
                     <p className="text-sm" style={{color: '#7B4A22', opacity: 0.7}}>{user?.email}</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                  }}
+                <Link
+                  to={user?.role === 'admin' ? '/admin' : '/dashboard'}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors flex items-center gap-2"
                   style={{backgroundColor: '#1D6B3A', color: 'white'}}
                   onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'}
                   onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}
                 >
-                  <LogOut size={20} />
-                  Logout
-                </button>
+                  <User size={20} />
+                  Dashboard
+                </Link>
+                {/* Logout moved to dashboard sidebar */}
               </div>
             ) : (
               <>

@@ -20,12 +20,29 @@ const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
   const config = {
     headers: getAuthHeaders(),
+    credentials: 'include', // send cookies for cookie-based auth
     ...options,
   };
 
   try {
     const response = await fetch(url, config);
-    const data = await response.json();
+
+    // Attempt to parse JSON, but fall back to text if body is not JSON
+    const contentType = response.headers.get('content-type') || '';
+    let data;
+    if (contentType.includes('application/json')) {
+      try {
+        data = await response.json();
+      } catch (e) {
+        // invalid JSON
+        const txt = await response.text();
+        throw new Error(txt || 'Invalid JSON response from server');
+      }
+    } else {
+      // non-json response (e.g., rate limiter plain text) - read as text
+      const txt = await response.text();
+      data = { message: txt };
+    }
 
     if (!response.ok) {
       // Handle validation errors specifically
@@ -33,7 +50,7 @@ const apiRequest = async (endpoint, options = {}) => {
         const errorMessages = data.errors.map(err => err.msg || err.message).join(', ');
         throw new Error(`${data.message}: ${errorMessages}`);
       }
-      throw new Error(data.message || 'API request failed');
+      throw new Error(data.message || response.statusText || 'API request failed');
     }
 
     return data;
@@ -57,10 +74,36 @@ export const authAPI = {
 
   getMe: () => apiRequest('/auth/me'),
 
+  oauth: (payload) => apiRequest('/auth/oauth', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+
   updateProfile: (userData) => apiRequest('/auth/profile', {
     method: 'PUT',
     body: JSON.stringify(userData),
   }),
+
+  // Form version for avatar uploads
+  updateProfileForm: (formData) => {
+    const url = `${API_BASE_URL}/auth/profile`;
+    const token = getAuthToken();
+    const config = {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` })
+      },
+      credentials: 'include'
+    };
+
+    return fetch(url, config).then(async (res) => {
+      const contentType = res.headers.get('content-type') || '';
+      const data = contentType.includes('application/json') ? await res.json() : { message: await res.text() };
+      if (!res.ok) throw new Error(data.message || 'API request failed');
+      return data;
+    }).catch(err => { console.error('API request error:', err); throw err; });
+  },
 
   changePassword: (passwordData) => apiRequest('/auth/change-password', {
     method: 'PUT',
@@ -100,7 +143,8 @@ export const productsAPI = {
       body: formData,
       headers: {
         ...(token && { Authorization: `Bearer ${token}` })
-      }
+      },
+      credentials: 'include'
     };
 
     return fetch(url, config).then(async (res) => {
@@ -123,7 +167,8 @@ export const productsAPI = {
       body: formData,
       headers: {
         ...(token && { Authorization: `Bearer ${token}` })
-      }
+      },
+      credentials: 'include'
     };
 
     return fetch(url, config).then(async (res) => {
@@ -195,4 +240,9 @@ export default {
   ordersAPI,
   usersAPI,
   healthAPI,
+};
+
+// Admin API
+export const adminAPI = {
+  getMetrics: () => apiRequest('/admin/metrics')
 };

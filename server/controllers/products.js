@@ -1,4 +1,8 @@
 import Product from '../models/Product.js';
+import fs from 'fs';
+import path from 'path';
+import cloudinary from '../config/cloudinary.js';
+const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 
 // @desc    Get all products
 // @route   GET /api/products
@@ -32,8 +36,17 @@ export const getProducts = async (req, res) => {
       sortOptions = '-createdAt';
     }
 
-    const products = await Product.find(query)
-      .sort(sortOptions)
+    // If a text query is present, use text search and sort by score
+    let productsQuery;
+    if (req.query.q) {
+      query.$text = { $search: req.query.q };
+      productsQuery = Product.find(query, { score: { $meta: 'textScore' } })
+        .sort({ score: { $meta: 'textScore' }, createdAt: -1 });
+    } else {
+      productsQuery = Product.find(query).sort(sortOptions);
+    }
+
+    const products = await productsQuery
       .limit(limit)
       .skip(startIndex);
 
@@ -91,7 +104,19 @@ export const getProduct = async (req, res) => {
 // @access  Private/Admin
 export const createProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    // Build product data from body; multer will populate req.file when an image is uploaded
+    const data = { ...req.body };
+    if (data.price) data.price = parseFloat(data.price);
+    if (data.originalPrice) data.originalPrice = parseFloat(data.originalPrice);
+
+    // If upload middleware set `req.uploaded`, use it (cloudinary or local)
+    if (req.uploaded) {
+      const img = { url: req.uploaded.url, alt: data.name || '' };
+      if (req.uploaded.public_id) img.public_id = req.uploaded.public_id;
+      data.images = [img];
+    }
+
+    const product = await Product.create(data);
 
     res.status(201).json({
       success: true,
@@ -112,7 +137,35 @@ export const createProduct = async (req, res) => {
 // @access  Private/Admin
 export const updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = { ...req.body };
+    if (updateData.price) updateData.price = parseFloat(updateData.price);
+    if (updateData.originalPrice) updateData.originalPrice = parseFloat(updateData.originalPrice);
+
+    // If uploading a new image, remove previous local file or cloud image when possible
+    if (req.uploaded) {
+      // remove old image if exists
+      try {
+        const existing = await Product.findById(req.params.id);
+        if (existing && existing.images && existing.images.length > 0) {
+          const old = existing.images[0];
+          if (old.public_id && usingCloudinary) {
+            // attempt to remove from cloudinary
+            await cloudinary.uploader.destroy(old.public_id).catch(err => console.warn('Cloudinary destroy warning:', err.message || err));
+          } else if (old.url && old.url.startsWith('/uploads')) {
+            const filePath = path.join(process.cwd(), old.url.replace(/^\//, ''));
+            fs.unlink(filePath, (err) => { if (err) console.warn('Failed to remove old file', filePath, err.message); });
+          }
+        }
+      } catch (err) {
+        console.warn('Error removing old image:', err.message || err);
+      }
+
+      const img = { url: req.uploaded.url, alt: updateData.name || '' };
+      if (req.uploaded.public_id) img.public_id = req.uploaded.public_id;
+      updateData.images = [img];
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true
     });
@@ -150,6 +203,21 @@ export const deleteProduct = async (req, res) => {
         success: false,
         message: 'Product not found'
       });
+    }
+
+    // Remove associated images from disk or cloud
+    try {
+      if (product.images && product.images.length > 0) {
+        const img = product.images[0];
+        if (img.public_id && usingCloudinary) {
+          await cloudinary.uploader.destroy(img.public_id).catch(err => console.warn('Cloudinary destroy warning:', err.message || err));
+        } else if (img.url && img.url.startsWith('/uploads')) {
+          const filePath = path.join(process.cwd(), img.url.replace(/^\//, ''));
+          fs.unlink(filePath, (err) => { if (err) console.warn('Failed to remove file', filePath, err.message); });
+        }
+      }
+    } catch (err) {
+      console.warn('Error removing product images on delete:', err.message || err);
     }
 
     await product.deleteOne();

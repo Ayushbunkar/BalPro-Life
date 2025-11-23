@@ -5,3 +5,26 @@
 	.section-below-navbar { @apply pt-24; }
 	.content-container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
 }
+
+/* Global typography and brand tokens */
+:root {
+	--brand-500: #1D6B3A;
+	--brand-600: #15572d;
+	--accent-500: #F97316;
+}
+
+html, body, #root {
+	height: 100%;
+}
+
+body {
+	font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: #FAFAFA;
+}
+
+.dashboard-card {
+	border-radius: 12px;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}

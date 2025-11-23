@@ -8,12 +8,16 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import AdminDashboard from './pages/dashboard/AdminDashboard';
-import UserDashboard from './pages/dashboard/UserDashboard';
+import AdminDashboard from './pages/dashboard/admin/AdminDashboard';
+import UserDashboard from './pages/dashboard/user/UserDashboard';
 import AdminUsers from './pages/dashboard/admin/AdminUsers';
 import AdminProducts from './pages/dashboard/admin/AdminProducts';
+import AdminProductForm from './pages/dashboard/admin/AdminProductForm';
 import AdminOrders from './pages/dashboard/admin/AdminOrders';
+import AdminSettings from './pages/dashboard/admin/AdminSettings';
+import OAuthCallback from './pages/OAuthCallback';
 import UserOrders from './pages/dashboard/user/UserOrders';
+import Settings from './pages/dashboard/user/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartSidebar from './components/CartSidebar';
 import CheckoutModal from './components/CheckoutModal';
@@ -93,6 +97,11 @@ function AppContent() {
               <UserOrders />
             </ProtectedRoute>
           } />
+          <Route path="/dashboard/settings" element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          } />
 
           {/* Admin dashboard and nested pages - protected and role-based */}
           <Route path="/admin" element={
@@ -110,11 +119,28 @@ function AppContent() {
               <AdminProducts />
             </ProtectedRoute>
           } />
+          <Route path="/admin/products/new" element={
+            <ProtectedRoute roles={[ 'admin' ]}>
+              <AdminProductForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/products/:id/edit" element={
+            <ProtectedRoute roles={[ 'admin' ]}>
+              <AdminProductForm isEdit={true} />
+            </ProtectedRoute>
+          } />
           <Route path="/admin/orders" element={
             <ProtectedRoute roles={[ 'admin' ]}>
               <AdminOrders />
             </ProtectedRoute>
           } />
+          <Route path="/admin/settings" element={
+            <ProtectedRoute roles={[ 'admin' ]}>
+              <AdminSettings />
+            </ProtectedRoute>
+          } />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
+          
         </Routes>
       </main>
 

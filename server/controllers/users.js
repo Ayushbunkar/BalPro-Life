@@ -9,12 +9,20 @@ export const getUsers = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 10;
     const startIndex = (page - 1) * limit;
 
-    const users = await User.find()
+    // Build query (support search by name or email via `q`)
+    const query = {};
+    if (req.query.q) {
+      const q = req.query.q.trim();
+      const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+      query.$or = [{ name: re }, { email: re }];
+    }
+
+    const users = await User.find(query)
       .sort('-createdAt')
       .limit(limit)
       .skip(startIndex);
 
-    const total = await User.countDocuments();
+    const total = await User.countDocuments(query);
 
     res.status(200).json({
       success: true,
@@ -73,7 +81,8 @@ export const updateUser = async (req, res) => {
       email: req.body.email,
       role: req.body.role,
       phone: req.body.phone,
-      isActive: req.body.isActive
+      isActive: req.body.isActive,
+      isPremium: typeof req.body.isPremium !== 'undefined' ? req.body.isPremium : undefined
     };
 
     // Remove undefined fields

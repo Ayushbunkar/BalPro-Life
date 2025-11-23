@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 // Create Auth Context
 const AuthContext = createContext();
@@ -30,36 +30,50 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = (userData, token) => {
+  const login = useCallback((userData, token) => {
     setUser(userData);
     setIsAuthenticated(true);
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
+    // Only persist token if provided (cookie-based flows won't provide a readable token)
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+    try {
+      localStorage.setItem('user', JSON.stringify(userData));
+    } catch (e) {
+      // ignore localStorage errors
+    }
+  }, []);
 
   // Logout function
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-  };
+  }, []);
 
-  // Update user function
-  const updateUser = (userData) => {
-    const updatedUser = { ...user, ...userData };
-    setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-  };
+  // Update user function (uses functional setState so it's stable)
+  const updateUser = useCallback((userData) => {
+    setUser(prev => {
+      const updatedUser = { ...(prev || {}), ...userData };
+      try {
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      } catch (e) {
+        // ignore localStorage errors
+      }
+      return updatedUser;
+    });
+    setIsAuthenticated(true);
+  }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     loading,
     isAuthenticated,
     login,
     logout,
     updateUser,
-  };
+  }), [user, loading, isAuthenticated, login, logout, updateUser]);
 
   return (
     <AuthContext.Provider value={value}>

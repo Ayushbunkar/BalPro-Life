@@ -34,9 +34,25 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  avatarPublicId: {
+    type: String,
+    default: ''
+  },
   phone: {
     type: String,
     default: ''
+  },
+  profession: {
+    type: String,
+    default: ''
+  },
+  isProfessional: {
+    type: Boolean,
+    default: false
+  },
+  isPremium: {
+    type: Boolean,
+    default: false
   },
   address: {
     street: String,

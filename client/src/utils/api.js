@@ -1,5 +1,6 @@
 // API utility functions for BalPro Life app
-const API_BASE_URL = 'http://localhost:4500/api';
+// Use Vite env `VITE_API_BASE` when available (set on Vercel), otherwise fall back to localhost.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE || 'http://localhost:4500').replace(/\/$/, '') + '/api';
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {

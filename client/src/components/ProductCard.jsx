@@ -1,4 +1,5 @@
 import React from 'react';
+import bottleImg from '../assets/bottle1.png';
 import { Star } from 'lucide-react';
 import Button from './Button';
 
@@ -27,7 +28,7 @@ const ProductCard = ({ onAddToCart }) => {
           {/* Product Bottle Image */}
           <div className="relative z-10 transform group-hover:scale-105 transition-transform duration-700 ease-out">
             <img
-              src="/src/assets/bottle1.png"
+              src={bottleImg}
               alt="BalPro Life Protein Shake"
               className="w-100 h-100 md:w-110  md:h-110 lg:w-120 lg:h-120 object-contain rounded-2xl drop-shadow-2xl"
             />

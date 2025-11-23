@@ -1,4 +1,5 @@
 import React from 'react';
+import bottleImg from '../assets/bottle1.png';
 import { ShoppingCart, X, Trash2, ArrowRight } from 'lucide-react';
 import Button from './Button';
 
@@ -31,7 +32,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onRemove, onUpdateQty, onCheckout 
                 <div key={item.id} className="flex gap-6 group">
                   <div className="w-20 h-24 shrink-0 shadow-md bg-white border border-slate-100 flex items-center justify-center overflow-hidden">
                     <img
-                      src="/src/assets/bottle1.png"
+                      src={bottleImg}
                       alt={item.name}
                       className="w-16 h-20 object-contain"
                     />

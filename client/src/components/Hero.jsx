@@ -1,4 +1,5 @@
 import React from 'react';
+import homepageVideo from '../assets/homepage.mp4';
 import { Play } from 'lucide-react';
 import Button from './Button';
 
@@ -27,8 +28,8 @@ const Hero = ({ scrollToSection }) => {
           </div>          <div className="lg:w-1/2 relative">
              {/* --- AI GENERATED IMAGE IMPLEMENTATION --- */}
              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 ring-1 ring-slate-100 group" style={{borderColor: '#F4E8D3', boxShadow: '0 25px 50px -12px rgba(125, 74, 34, 0.25)'}}>
-                <video
-                   src="/src/assets/homepage.mp4"
+                 <video
+                   src={homepageVideo}
                    alt="BalPro Premium Protein Splash"
                    className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-1000"
                    autoPlay

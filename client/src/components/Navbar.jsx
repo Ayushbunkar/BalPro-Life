@@ -103,53 +103,56 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-24 z-30 p-8 flex flex-col space-y-8 animate-in slide-in-from-right-10" style={{backgroundColor: '#F8F2E9'}}>
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-3xl font-black uppercase tracking-tight text-left`}
-              style={{color: location.pathname === item.path ? '#1D6B3A' : '#7B4A22'}}
-            >
-              {item.name}
-            </Link>
-          ))}
-          <div className="flex flex-col space-y-4 pt-8 border-t" style={{borderColor: '#EAD8C0'}}>
-            {isAuthenticated ? (
-              <div className="flex flex-col space-y-4">
-                <div className="flex items-center gap-3 pb-4 border-b" style={{color: '#7B4A22', borderColor: '#EAD8C0'}}>
-                  <User size={20} />
-                  <div>
-                    <p className="text-lg font-bold">{user?.name}</p>
-                    <p className="text-sm" style={{color: '#7B4A22', opacity: 0.7}}>{user?.email}</p>
+        <>
+          <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setMobileMenuOpen(false)} />
+          <div className="md:hidden fixed inset-0 top-24 z-30 p-8 flex flex-col space-y-8 animate-in slide-in-from-right-10" style={{backgroundColor: '#F8F2E9'}}>
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`text-3xl font-black uppercase tracking-tight text-left`}
+                style={{color: location.pathname === item.path ? '#1D6B3A' : '#7B4A22'}}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <div className="flex flex-col space-y-4 pt-8 border-t" style={{borderColor: '#EAD8C0'}}>
+              {isAuthenticated ? (
+                <div className="flex flex-col space-y-4">
+                  <div className="flex items-center gap-3 pb-4 border-b" style={{color: '#7B4A22', borderColor: '#EAD8C0'}}>
+                    <User size={20} />
+                    <div>
+                      <p className="text-lg font-bold">{user?.name}</p>
+                      <p className="text-sm" style={{color: '#7B4A22', opacity: 0.7}}>{user?.email}</p>
+                    </div>
                   </div>
+                  <Link
+                    to={user?.role === 'admin' ? '/admin' : '/dashboard'}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors flex items-center gap-2"
+                    style={{backgroundColor: '#1D6B3A', color: 'white'}}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}
+                  >
+                    <User size={20} />
+                    Dashboard
+                  </Link>
+                  {/* Logout moved to dashboard sidebar */}
                 </div>
-                <Link
-                  to={user?.role === 'admin' ? '/admin' : '/dashboard'}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors flex items-center gap-2"
-                  style={{backgroundColor: '#1D6B3A', color: 'white'}}
-                  onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'}
-                  onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}
-                >
-                  <User size={20} />
-                  Dashboard
-                </Link>
-                {/* Logout moved to dashboard sidebar */}
-              </div>
-            ) : (
-              <>
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-tight text-left transition-colors" style={{color: '#7B4A22'}} onMouseEnter={(e) => e.target.style.color = '#1D6B3A'} onMouseLeave={(e) => e.target.style.color = '#7B4A22'}>
-                  Login
-                </Link>
-                <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors" style={{backgroundColor: '#1D6B3A', color: 'white'}} onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'} onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}>
-                  Register
-                </Link>
-              </>
-            )}
+              ) : (
+                <>
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-tight text-left transition-colors" style={{color: '#7B4A22'}} onMouseEnter={(e) => e.target.style.color = '#1D6B3A'} onMouseLeave={(e) => e.target.style.color = '#7B4A22'}>
+                    Login
+                  </Link>
+                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors" style={{backgroundColor: '#1D6B3A', color: 'white'}} onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'} onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}>
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );

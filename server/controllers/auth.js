@@ -431,15 +431,20 @@ export const googleCallback = async (req, res, next) => {
     const payload = jwt.decode(idToken);
     if (!payload || !payload.email) return res.status(400).send('Invalid id_token payload');
     const profile = { email: payload.email, name: payload.name || payload.email.split('@')[0], avatar: payload.picture || '' };
+    console.log('Profile from token:', profile);
 
     let user = await User.findOne({ email: profile.email });
     if (!user) {
       const randomPassword = Math.random().toString(36).slice(2, 12);
       user = await User.create({ name: profile.name, email: profile.email, password: randomPassword, avatar: profile.avatar });
+      console.log('User created:', user.email);
+    } else {
+      console.log('User found:', user.email);
     }
     user.lastLogin = new Date();
     await user.save();
     const appToken = user.getSignedJwtToken();
+    console.log('Token generated for user:', user.email);
 
     // Set cookie instead of returning token in URL
     try {
@@ -451,12 +456,14 @@ export const googleCallback = async (req, res, next) => {
         maxAge: (process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30) * 24 * 60 * 60 * 1000
       };
       res.cookie('token', appToken, cookieOptions);
+      console.log('Cookie set for user:', user.email);
     } catch (cookieErr) {
       console.warn('Failed to set auth cookie on Google callback:', cookieErr);
     }
 
     // Redirect back to client without token in URL
     const clientUrl = process.env.NODE_ENV === 'production' ? (process.env.CLIENT_URL || 'http://localhost:5173') : 'http://localhost:5173';
+    console.log('Redirecting to:', clientUrl + '/auth/callback');
     return res.redirect(`${clientUrl}/auth/callback`);
   } catch (err) {
     console.error('Google callback error:', err.response?.data || err.message || err);

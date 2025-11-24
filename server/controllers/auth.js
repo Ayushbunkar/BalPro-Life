@@ -412,6 +412,8 @@ export const googleCallback = async (req, res) => {
   try {
     const code = req.query.code;
     const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
+    console.log('DEBUG: Received code:', code ? 'present' : 'missing');
+    console.log('DEBUG: Using redirectUri:', redirectUri);
     const tokenRes = await axios.post('https://oauth2.googleapis.com/token', new URLSearchParams({
       code,
       client_id: process.env.GOOGLE_CLIENT_ID,
@@ -450,7 +452,7 @@ export const googleCallback = async (req, res) => {
     }
 
     // Redirect back to client without token in URL
-    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+    const clientUrl = process.env.NODE_ENV === 'production' ? (process.env.CLIENT_URL || 'http://localhost:5173') : 'http://localhost:5173';
     return res.redirect(`${clientUrl}/auth/callback`);
   } catch (err) {
     console.error('Google callback error:', err.response?.data || err.message || err);

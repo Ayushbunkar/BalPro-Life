@@ -402,6 +402,7 @@ export const oauthLogin = async (req, res) => {
 export const googleAuthRedirect = (req, res) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
+  console.log('Google redirect URI:', redirectUri);
   const scope = 'openid email profile';
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`;
   return res.redirect(url);

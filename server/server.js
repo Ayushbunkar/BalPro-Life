@@ -77,11 +77,17 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Routes
-app.use('/api/auth', (await import('./routes/auth.js')).default);
-app.use('/api/products', (await import('./routes/products.js')).default);
-app.use('/api/orders', (await import('./routes/orders.js')).default);
-app.use('/api/users', (await import('./routes/users.js')).default);
-app.use('/api/admin', (await import('./routes/admin.js')).default);
+try {
+  app.use('/api/auth', (await import('./routes/auth.js')).default);
+  app.use('/api/products', (await import('./routes/products.js')).default);
+  app.use('/api/orders', (await import('./routes/orders.js')).default);
+  app.use('/api/users', (await import('./routes/users.js')).default);
+  app.use('/api/admin', (await import('./routes/admin.js')).default);
+  console.log('Routes loaded successfully');
+} catch (error) {
+  console.error('Error loading routes:', error);
+  process.exit(1);
+}
 
 // Health check route
 app.get('/api/health', (req, res) => {

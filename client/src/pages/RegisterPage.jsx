@@ -125,6 +125,10 @@ const RegisterPage = () => {
           window.google.accounts.id.renderButton(document.getElementById('gsi-button-register'), { theme: 'outline', size: 'large' });
         }
       };
+      s.onerror = () => {
+        console.warn('Google Identity Services script failed to load (possibly blocked by an extension). Falling back to redirect flow.');
+        // Optionally you could set local state to inform the user; for simplicity we just log here.
+      };
       document.body.appendChild(s);
     } else {
       if (window.google && window.google.accounts && window.google.accounts.id) {

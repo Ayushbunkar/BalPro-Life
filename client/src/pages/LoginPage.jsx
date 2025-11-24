@@ -62,6 +62,8 @@ const LoginPage = () => {
     }
   };
 
+  const [gsiFailed, setGsiFailed] = useState(false);
+
   useEffect(() => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     if (!clientId) return;
@@ -76,6 +78,10 @@ const LoginPage = () => {
           window.google.accounts.id.initialize({ client_id: clientId, callback: handleGoogleCredential });
           window.google.accounts.id.renderButton(document.getElementById('gsi-button'), { theme: 'outline', size: 'large' });
         }
+      };
+      s.onerror = () => {
+        console.warn('Google Identity Services script failed to load (possibly blocked by an extension). Falling back to redirect flow.');
+        setGsiFailed(true);
       };
       document.body.appendChild(s);
     } else {
@@ -159,6 +165,11 @@ const LoginPage = () => {
               </a>
             </div>
           </div>
+          {gsiFailed && (
+            <div className="mt-3 text-sm text-center text-yellow-700 bg-yellow-50 border border-yellow-100 p-3 rounded-md">
+              Google Sign-In appears to be blocked by a browser extension. Use the "Continue with Google" button above or disable your ad-blocker/extension for this site.
+            </div>
+          )}
 
           <Button
             type="submit"

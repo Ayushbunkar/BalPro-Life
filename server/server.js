@@ -83,7 +83,6 @@ try {
   app.use('/api/orders', (await import('./routes/orders.js')).default);
   app.use('/api/users', (await import('./routes/users.js')).default);
   app.use('/api/admin', (await import('./routes/admin.js')).default);
-  console.log('Routes loaded successfully');
 } catch (error) {
   console.error('Error loading routes:', error);
   process.exit(1);

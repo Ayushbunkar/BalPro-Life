@@ -408,12 +408,11 @@ export const googleAuthRedirect = (req, res) => {
 };
 
 // Google callback -> exchange code for tokens and issue app JWT
-export const googleCallback = async (req, res) => {
+export const googleCallback = async (req, res, next) => {
   try {
+    if (!googleClient) return res.status(500).send('Google client not configured on server');
     const code = req.query.code;
     const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
-    console.log('DEBUG: Received code:', code ? 'present' : 'missing');
-    console.log('DEBUG: Using redirectUri:', redirectUri);
     const tokenRes = await axios.post('https://oauth2.googleapis.com/token', new URLSearchParams({
       code,
       client_id: process.env.GOOGLE_CLIENT_ID,

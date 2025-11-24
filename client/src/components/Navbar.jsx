@@ -1,179 +1,149 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, User } from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
-import logo from "../assets/logo.png";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { ShoppingCart, Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/logo.png';
 
 const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact Us", path: "/contact" },
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Contact Us', path: '/contact' }
   ];
 
   return (
-    <>
-      {/* NAVBAR */}
-      <nav
-        className="
-          fixed top-0 w-full z-50
-          backdrop-blur-xl 
-          bg-[#f8f2e9]/95 
-          border-b border-[#EAD8C0]
-          shadow-sm
-        "
-      >
-        <div className="content-container">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <Link className="flex items-center gap-3" to="/">
-              <img src={logo} className="w-14 h-14 object-contain" alt="" />
-              <span className="font-black text-2xl tracking-tight text-[#7B4A22]">
-                BalPro Life
-              </span>
-            </Link>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-12">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`text-[13px] font-bold uppercase tracking-widest relative group ${
-                    location.pathname === item.path
-                      ? "text-[#1D6B3A]"
-                      : "text-[#7B4A22]/80"
-                  }`}
-                >
-                  {item.name}
-                  <span
-                    className={`absolute -bottom-2 left-0 h-0.5 bg-[#1D6B3A] transition-all ${
-                      location.pathname === item.path
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  ></span>
-                </Link>
-              ))}
+    <nav className="fixed w-full z-40 backdrop-blur-lg border-b transition-all" style={{backgroundColor: 'rgba(248, 242, 233, 0.9)', borderColor: '#EAD8C0'}}>
+      <div className="content-container">
+        <div className="flex justify-between items-center h-24">
+          <Link to="/" className="shrink-0 flex items-center gap-3 cursor-pointer">
+            <img src={logo} alt="BalPro Life" className="w-20 h-20 object-contain" />
+            <div className="flex flex-col leading-none">
+              <span className="font-black text-2xl tracking-tighter" style={{color: '#7B4A22'}}>BalPro Life</span>
             </div>
+          </Link>
 
-            {/* Right Section */}
-            <div className="flex items-center gap-6">
-              {/* Auth (Desktop) */}
-              <div className="hidden md:flex gap-4 items-center">
-                {isAuthenticated ? (
-                  <>
-                    <div className="flex items-center gap-2 text-[#7B4A22] font-medium">
-                      <User size={16} />
-                      Hi, {user?.name?.split(" ")[0]}
-                    </div>
-                    <Link
-                      to={"/dashboard"}
-                      className="text-xs uppercase tracking-widest px-3 py-2 border rounded-md"
-                      style={{ borderColor: "#EAD8C0", color: "#7B4A22" }}
-                    >
-                      Dashboard
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="text-xs uppercase tracking-widest px-3 py-2 border rounded-md"
-                      style={{ borderColor: "#EAD8C0", color: "#7B4A22" }}
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/register"
-                      className="text-xs uppercase tracking-widest px-3 py-2 rounded-md text-white"
-                      style={{ backgroundColor: "#1D6B3A" }}
-                    >
-                      Register
-                    </Link>
-                  </>
-                )}
-              </div>
+          <div className="hidden md:flex items-center space-x-12">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`text-xs font-bold uppercase tracking-widest transition-colors relative group ${
+                  location.pathname === item.path ? 'text-[#1D6B3A]' : 'text-[#7B4A22] opacity-70'
+                }`}
+                onMouseEnter={(e) => e.target.style.color = '#1D6B3A'}
+                onMouseLeave={(e) => e.target.style.color = location.pathname === item.path ? '#1D6B3A' : '#7B4A22'}
+              >
+                {item.name}
+                <span className={`absolute -bottom-2 left-0 w-0 h-0.5 transition-all group-hover:w-full ${
+                  location.pathname === item.path ? 'w-full' : ''
+                }`} style={{backgroundColor: '#1D6B3A'}}></span>
+              </Link>
+            ))}
+          </div>
 
-              {/* Cart */}
-              <button className="relative" onClick={onCartClick}>
-                <ShoppingCart size={24} className="text-[#7B4A22]" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white bg-[#1D6B3A]">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-
-              {/* Mobile Toggle */}
-              <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-              </button>
+          <div className="flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-4">
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2" style={{color: '#7B4A22'}}>
+                    <User size={16} />
+                    <span className="text-sm font-medium">Hi, {user?.name?.split(' ')[0]}</span>
+                  </div>
+                  <Link
+                    to={user?.role === 'admin' ? '/admin' : '/dashboard'}
+                    className="text-xs font-bold uppercase tracking-widest px-3 py-2 border rounded-md flex items-center gap-1 transition-colors"
+                    style={{color: '#7B4A22', borderColor: '#EAD8C0'}}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#1D6B3A';
+                      e.target.style.borderColor = '#1D6B3A';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = '#7B4A22';
+                      e.target.style.borderColor = '#EAD8C0';
+                    }}
+                  >
+                    Dashboard
+                  </Link>
+                  {/* Logout moved to dashboard sidebar */}
+                </div>
+              ) : (
+                <>
+                  <Link to="/login" className="text-xs font-bold uppercase tracking-widest px-3 py-2 border rounded-md transition-colors" style={{color: '#7B4A22', borderColor: '#EAD8C0'}} onMouseEnter={(e) => {e.target.style.color = '#1D6B3A'; e.target.style.borderColor = '#1D6B3A';}} onMouseLeave={(e) => {e.target.style.color = '#7B4A22'; e.target.style.borderColor = '#EAD8C0';}}>
+                    Login
+                  </Link>
+                  <Link to="/register" className="text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-md transition-colors" style={{backgroundColor: '#1D6B3A', color: 'white'}} onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'} onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}>
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
+            <button
+              className="relative group"
+              onClick={onCartClick}
+            >
+              <ShoppingCart size={24} className="transition-colors" style={{color: '#7B4A22'}} onMouseEnter={(e) => e.target.style.color = '#1D6B3A'} onMouseLeave={(e) => e.target.style.color = '#7B4A22'} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 h-5 w-5 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white" style={{backgroundColor: '#1D6B3A'}}>
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <button
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* MOBILE FULLSCREEN MENU */}
+      {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div
-          className="
-            fixed inset-0 z-[999]
-            backdrop-blur-2xl 
-            bg-[#f8f2e9]/98
-            flex flex-col p-10 pt-24 
-            space-y-8 
-            animate-slideIn
-          "
-        >
+        <div className="md:hidden fixed inset-0 top-24 z-30 p-8 flex flex-col space-y-8 backdrop-blur-lg" style={{backgroundColor: 'rgba(248, 242, 233, 0.98)'}}>
           {navItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-2xl font-black uppercase tracking-tight"
-              style={{ color: location.pathname === item.path ? "#1D6B3A" : "#7B4A22" }}
+              className={`text-3xl font-black uppercase tracking-tight text-left`}
+              style={{color: location.pathname === item.path ? '#1D6B3A' : '#7B4A22'}}
             >
               {item.name}
             </Link>
           ))}
-
-          <div className="w-full border-t pt-8 border-[#EAD8C0]">
+          <div className="flex flex-col space-y-4 pt-8 border-t" style={{borderColor: '#EAD8C0'}}>
             {isAuthenticated ? (
-              <>
-                <div className="flex items-center gap-3 pb-4 border-b border-[#EAD8C0]">
-                  <User size={22} className="text-[#7B4A22]" />
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-center gap-3 pb-4 border-b" style={{color: '#7B4A22', borderColor: '#EAD8C0'}}>
+                  <User size={20} />
                   <div>
                     <p className="text-lg font-bold">{user?.name}</p>
-                    <p className="text-xs opacity-70">{user?.email}</p>
+                    <p className="text-sm" style={{color: '#7B4A22', opacity: 0.7}}>{user?.email}</p>
                   </div>
                 </div>
-
                 <Link
-                  to="/dashboard"
+                  to={user?.role === 'admin' ? '/admin' : '/dashboard'}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mt-6 bg-[#1D6B3A] text-white px-6 py-3 rounded-lg text-lg font-black uppercase"
+                  className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors flex items-center gap-2"
+                  style={{backgroundColor: '#1D6B3A', color: 'white'}}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}
                 >
+                  <User size={20} />
                   Dashboard
                 </Link>
-              </>
+                {/* Logout moved to dashboard sidebar */}
+              </div>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-xl font-black uppercase tracking-tight text-[#7B4A22]"
-                >
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black uppercase tracking-tight text-left transition-colors" style={{color: '#7B4A22'}} onMouseEnter={(e) => e.target.style.color = '#1D6B3A'} onMouseLeave={(e) => e.target.style.color = '#7B4A22'}>
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-2 bg-[#1D6B3A] text-white px-6 py-3 rounded-lg text-xl font-black uppercase"
-                >
+                <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-black px-6 py-3 rounded-lg uppercase tracking-tight text-left transition-colors" style={{backgroundColor: '#1D6B3A', color: 'white'}} onMouseEnter={(e) => e.target.style.backgroundColor = '#4FAF5A'} onMouseLeave={(e) => e.target.style.backgroundColor = '#1D6B3A'}>
                   Register
                 </Link>
               </>
@@ -181,7 +151,7 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
           </div>
         </div>
       )}
-    </>
+    </nav>
   );
 };
 

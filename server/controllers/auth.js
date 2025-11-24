@@ -455,6 +455,6 @@ export const googleCallback = async (req, res, next) => {
     return res.redirect(`${clientUrl}/auth/callback`);
   } catch (err) {
     console.error('Google callback error:', err.response?.data || err.message || err);
-    return res.status(500).send('Google authentication failed');
+    return res.status(500).json({ success: false, message: 'Google authentication failed' });
   }
 };

@@ -401,6 +401,7 @@ export const oauthLogin = async (req, res) => {
 // Google redirect -> /api/auth/google
 export const googleAuthRedirect = (req, res) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
+  if (!clientId) return res.status(500).json({ success: false, message: 'Google OAuth not configured on server' });
   const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
   console.log('Google redirect URI:', redirectUri);
   const scope = 'openid email profile';
@@ -421,6 +422,8 @@ export const googleCallback = async (req, res, next) => {
       grant_type: 'authorization_code',
       redirect_uri: redirectUri
     }).toString(), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+    console.log('Token response status:', tokenRes.status);
+    console.log('Token response data:', tokenRes.data);
 
     const idToken = tokenRes.data.id_token;
     if (!idToken) return res.status(400).send('No id_token from Google');

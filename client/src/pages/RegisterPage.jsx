@@ -19,7 +19,6 @@ const RegisterPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const { login } = useAuth();
 
   const handleChange = (e) => {
@@ -84,11 +83,8 @@ const RegisterPage = () => {
           navigate('/dashboard');
         }
       } catch (err) {
-        // If auto-login fails, fall back to showing success and redirecting to login
-        setSuccess(true);
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        // If auto-login fails, navigate to home
+        navigate('/');
       }
     } catch (error) {
       setError(error.message || 'Registration failed');
@@ -96,23 +92,6 @@ const RegisterPage = () => {
       setLoading(false);
     }
   };
-
-  if (success) {
-    return (
-      <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full mx-auto space-y-8 text-center">
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
-            <h3 className="text-lg font-medium mb-2">Registration Successful!</h3>
-            <p className="text-sm">Your account has been created. Redirecting to login page...</p>
-          </div>
-          <Link to="/" className="inline-flex items-center gap-2">
-            <img src="/logo.png" alt="BalPro Life" className="w-8 h-8" />
-            <span className="text-2xl font-black text-slate-900">BalPro Life</span>
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">

@@ -23,8 +23,6 @@ app.use(helmet());
 // In production keep a stricter allowlist based on CLIENT_URL.
 if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: true, credentials: true, optionSuccessStatus: 200 }));
-  // Ensure preflight requests are handled immediately with CORS headers
-  app.options('*', cors());
 } else {
   const allowedOrigins = [process.env.CLIENT_URL].filter(Boolean);
   const corsOptions = {
@@ -39,7 +37,6 @@ if (process.env.NODE_ENV === 'development') {
     optionSuccessStatus: 200
   };
   app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
 }
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)
@@ -96,7 +93,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // 404 handler
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found'

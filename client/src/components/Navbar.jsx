@@ -8,7 +8,7 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
 
-  const navItems = [
+  const navItems = [  
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact Us', path: '/contact' }
@@ -103,7 +103,7 @@ const Navbar = ({ cartCount, onCartClick, mobileMenuOpen, setMobileMenuOpen }) =
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-24 z-30 p-8 flex flex-col space-y-8 backdrop-blur-lg" style={{backgroundColor: 'rgba(248, 242, 233, 0.98)'}}>
+        <div className="md:hidden fixed inset-0 top-0 z-30 p-8 flex flex-col space-y-8 backdrop-blur-md" style={{backgroundColor: 'rgba(248, 242, 233, 0.95)'}}>
           {navItems.map((item) => (
             <Link
               key={item.name}

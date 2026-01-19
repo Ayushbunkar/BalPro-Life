@@ -3,6 +3,8 @@ import { X, Loader } from 'lucide-react';
 import Button from './Button';
 import InputField from './InputField';
 
+//variant can be 'primary', 'secondary', etc.
+
 const CheckoutModal = ({ isOpen, onClose, total, onPlaceOrder }) => {
   const [isProcessing, setIsProcessing] = useState(false);
 

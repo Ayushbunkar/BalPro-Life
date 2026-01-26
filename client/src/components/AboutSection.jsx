@@ -23,7 +23,7 @@ const AboutSection = () => {
 
              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 border-t border-white/10">
                 <div>
-                   <h3 className="text-4xl font-black text-white mb-2">25g</h3>
+                   <h3 className="text-4xl font-black text-white mb-2">20g</h3>
                    <p className="text-sm text-slate-400 uppercase tracking-widest">Protein Isolate</p>
                 </div>
                 <div>

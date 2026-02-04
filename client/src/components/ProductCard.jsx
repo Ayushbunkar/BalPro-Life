@@ -4,7 +4,7 @@ import { Star } from 'lucide-react';
 import Button from './Button';
 
 const ProductCard = ({ onAddToCart }) => {
-  // Two products - Banana and Chocolate flavors for demonstration hsad
+  // Two products - Banana and Chocolate flavors for demonstration hsad jn
   const products = [
     {
       id: 1,

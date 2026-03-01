@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import ProductsSection from '../components/ProductsSection';
+
 import AboutSection from '../components/AboutSection';
 import Footer from '../components/Footer';
 

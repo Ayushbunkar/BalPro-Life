@@ -1,49 +1,96 @@
 import React from 'react';
-import homepageVideo from '../assets/homepage.mp4';
-import { Play } from 'lucide-react';
-import Button from './Button';
 
 const Hero = ({ scrollToSection }) => {
   return (
-    <section className="relative pb-10 pt-10 overflow-hidden section-below-navbar" style={{backgroundColor: '#F8F2E9'}}>
-      <div className="content-container relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
+    <section className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden" style={{backgroundColor: '#0A0807'}}>
+      {/* Ambient Amber Glows */}
+      <div
+        className="absolute top-1/4 -left-20 w-[600px] h-[600px] blur-[120px] rounded-full pointer-events-none"
+        style={{backgroundColor: 'rgba(239, 191, 112, 0.1)'}}
+      ></div>
+      <div
+        className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] blur-[100px] rounded-full pointer-events-none"
+        style={{backgroundColor: 'rgba(239, 191, 112, 0.05)'}}
+      ></div>
 
-          <div className="lg:w-1/2 space-y-10 text-center lg:text-left z-20">
-            <div className="inline-block">
-              
-            </div>
-            <h1 className="text-6xl lg:text-8xl font-black leading-[0.9] tracking-tighter" style={{color: '#7B4A22'}}>
-              FUEL <br/>
-              <span className="text-transparent bg-clip-text bg-linear-to-r" style={{backgroundImage: 'linear-gradient(to right, #4FAF5A, #1D6B3A)'}}>AMBITION.</span>
+      <div className="relative z-10 max-w-[1440px] mx-auto px-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center w-full">
+        {/* Left Content */}
+        <div className="space-y-10">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border" style={{backgroundColor: 'rgba(55, 52, 50, 0.3)', borderColor: 'rgba(77, 69, 65, 0.2)'}}>
+            <div className="w-2 h-2 rounded-full" style={{backgroundColor: '#efbf70', boxShadow: '0 0 10px #efbf70'}}></div>
+            <span className="font-label text-[0.6875rem] uppercase tracking-[0.2rem]" style={{color: '#d9c4a2', fontFamily: 'Manrope'}}>
+              The 2024 Collection
+            </span>
+          </div>
+
+          {/* Heading */}
+          <div className="space-y-6">
+            <h1 className="text-7xl md:text-8xl font-black leading-[0.9] tracking-tighter text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
+              Pure Indulgence.<br />
+              <span style={{background: 'linear-gradient(135deg, #efbf70 0%, #9a722b 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text'}}>
+                Better Energy.
+              </span>
             </h1>
-            <p className="text-lg max-w-md mx-auto lg:mx-0 font-medium leading-relaxed pl-6" style={{color: '#1A1A1A', borderLeftColor: '#D6B37C', borderLeftWidth: '4px'}}>
-              Real Food. Real Protein. Real Performance. <br />
-              The Everyday Protein Your Body Deserves.
+            <p className="text-xl text-[#d9c4a2] max-w-lg leading-relaxed font-light" style={{fontFamily: 'Manrope'}}>
+              Experience the fusion of molecular science and liquid luxury. Crafted for those who demand performance without compromising on the sensory ritual.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-              <Button variant="primary" onClick={() => scrollToSection('products')}>Shop Now</Button>
+          </div>
 
-            </div>
-          </div>          <div className="lg:w-1/2 relative">
-             {/* --- AI GENERATED IMAGE IMPLEMENTATION --- */}
-             <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 ring-1 ring-slate-100 group" style={{borderColor: '#F4E8D3', boxShadow: '0 25px 50px -12px rgba(125, 74, 34, 0.25)'}}>
-                 <video
-                   src={homepageVideo}
-                   alt="BalPro Premium Protein Splash"
-                   className="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-1000"
-                   autoPlay
-                   muted
-                   loop
-                   playsInline
-                />
-                {/* Overlay Gradient for Text Readability if needed, but image is dark */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent pointer-events-none"></div>
-             </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-6 pt-4">
+            <button
+              className="group relative px-10 py-5 font-bold uppercase tracking-wider text-sm rounded-xl transition-all duration-500 hover:scale-105"
+              style={{backgroundColor: '#efbf70', color: '#432c00', fontFamily: 'Epilogue', boxShadow: '0 0 30px rgba(239, 191, 112, 0.2)'}}
+            >
+              Start Your Ritual
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            </button>
+            <button
+              className="px-10 py-5 font-bold uppercase tracking-wider text-sm rounded-xl transition-all duration-400 hover:opacity-100"
+              style={{color: '#d9c4a2', fontFamily: 'Epilogue', border: '1px solid rgba(217, 196, 162, 0.3)'}}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(217, 196, 162, 0.05)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+            >
+              Explore the Science
+            </button>
+          </div>
+        </div>
 
-             {/* Decorative Elements */}
-             <div className="hidden sm:block absolute -top-10 -right-10 w-64 h-64 rounded-full blur-3xl -z-10" style={{backgroundColor: 'rgba(31, 107, 58, 0.15)'}}></div>
-             <div className="hidden sm:block absolute -bottom-10 -left-10 w-64 h-64 rounded-full blur-3xl -z-10" style={{backgroundColor: 'rgba(244, 232, 211, 0.4)'}}></div>
+        {/* Right Content - Bottle Image */}
+        <div className="relative flex justify-center items-center">
+          <div className="relative z-20 w-full max-w-md aspect-[3/4] rounded-full absolute -inset-10 opacity-30 blur-3xl" style={{backgroundColor: 'rgba(239, 191, 112, 0.1)'}}></div>
+          
+          <img
+            alt="Velvet Cocoa Bottle"
+            className="relative z-30 w-full h-auto max-h-[716px] object-contain drop-shadow-2xl"
+            style={{filter: 'drop-shadow(0 35px 35px rgba(0,0,0,0.8)) brightness(1.1)', mixBlendMode: 'lighten'}}
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_burfxyEJaHUOHia8VkIm2AujuhnhVujLdHxSpZStPXIEWt22n-faTP2Zev0LqLj2i4wIs0LUbKlijQ-v2lsDJT_BHw8mVWAGmSgEcb4MJwj8gvCGxkwaOWBJRJNiO5eJKlzQO1nD2k6bbcN4F0fOUsPJSVX_NJA8nV-D3JozxdpvrXwowNyCVtnL3kuPNmkg39tMDi2QmYxGPxUDmZygG29d3M6S7al_tLbpotXETZLeBl0x1AuU-8_gWPUxBICh7m0A-j-uKdg"
+          />
+
+          {/* Floating Cards */}
+          <div
+            className="absolute top-20 right-0 z-40 p-6 rounded-2xl border border-[#efbf70]/10 shadow-2xl"
+            style={{backgroundColor: 'rgba(10, 8, 7, 0.6)', backdropFilter: 'blur(40px)'}}
+          >
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#efbf70] mb-1" style={{fontFamily: 'Manrope'}}>
+              Key Note
+            </p>
+            <p className="font-headline text-lg text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
+              Ecuadorian Cacao
+            </p>
+          </div>
+
+          <div
+            className="absolute bottom-20 left-0 z-40 p-6 rounded-2xl border border-[#efbf70]/10 shadow-2xl"
+            style={{backgroundColor: 'rgba(10, 8, 7, 0.6)', backdropFilter: 'blur(40px)'}}
+          >
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#efbf70] mb-1" style={{fontFamily: 'Manrope'}}>
+              Benefit
+            </p>
+            <p className="font-headline text-lg text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
+              Cognitive Flow
+            </p>
           </div>
         </div>
       </div>

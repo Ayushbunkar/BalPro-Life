@@ -4,96 +4,52 @@ const ProductsSection = ({ onAddToCart }) => {
   const products = [
     {
       id: 1,
-      name: 'Velvet Cocoa',
-      price: '$84',
-      description: 'Midnight cacao infused with lion\'s mane and ceremonial grade matcha.',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC1gNf-pVECfq2tcv98-JHn5S7TW906RDdutcmRRiOcJMQCFDqvAHfimTkiPmGRb51KsyR3Z39oVRXdgwrKFUJeMsYrUC1ABGF2c0cRUzMKN0avq8FvX8YuoykeUUia1TbZ2DUm1RgFKBdWX29XMq6N085kA_diPBRsYDXMHHYAiyzFTunz_-OXXbfRMlWclFebzil_KZQWsUHIublYPG6GMAznw7tLj2ZuleDftMIIWSxvsAnTgKAtEXR3NHIybNW9XHzrDMVhn50'
+      name: 'Signature Dark',
+      price: '$34.00 (12-Pack)',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDqzV5pup6qXD86Cv9T0gQJI2MOEQYe9C-A53uMTailPXiJ5xipJAVI37ylGNU9WLTkwcenK3l0-SfgJM3M5ZvrbeAzOZHrUmRVCs_zGo82KWUfusgKBsfsNCCWBGN8GzRirWtbRuFD3MHnnIriBGLIHzXdfCvqh8wHEDsueIQzEiFYGxFBxVChtmS6PQ0JKL_NlnO0vsaqcNFrSFbYa-vnXLif8p04spZY0RkyYP2a7StGnHMZBVBtUozcbFX3LWR7VRtzVBksfw'
     },
     {
       id: 2,
-      name: 'Amber Mist',
-      price: '$92',
-      description: 'Wild honey and adaptogenic turmeric for sustained afternoon clarity.',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkDbF9K4KDra9pIEQtQVhF7zLeVBhLVQ8bn-gb0sVm5P5JW2CDXGpjHoBReb64tcWAI7mu_u0UytSJT3xkvGvJkzmo1OPMTnaR98AWzjTEghrpI3kq-D6pg_UDaqp0Fhk6xyS766eX9FnIV20RBYwAynlO4DFAjscdoVivIL3PxKoH2T5tyzYWsljD2GQLAEGwhIXQREjmpGPnkSaXMhxlGO85h4GSifDmiM2S3idmU4OT4GEeL8lIhEOyy0mCcn_bhxdI9sk0a0Y'
+      name: 'Hazelnut Dream',
+      price: '$36.00 (12-Pack)',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrBQxmPcABjzc2YG_RqI4raKJLklL3weMQyB1qF12uqsu4QUTkHc7DFB-yWj4Gz3Zv86qIa7BZgg3PNLFSLkrJFwWsG0dzlozjClKcpNLoZzkoQYiIdG3GzTs-Xuk_JdqB0BtjEP8pUEePIbR3LRXWZgMUck5Frr-OeVba5x8QkDAS7JBZXE7eFaHiyQJ3EgCnq1MflsAZwmgA1enDM8_h4xYUBaPxjUmgB842ck_sANGZFK8UJo5IkGA1SmEsRF9ZZnyyDAl-Jw',
+      marginTop: true
     },
     {
       id: 3,
-      name: 'Obsidian Essence',
-      price: '$115',
-      description: 'Concentrated recovery blend with activated charcoal and sea minerals.',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBnM3d2Xocm_W3G9SOKnnpUyf1_htfGf0uJMo2Kjh9urrQTMiX42NIoXIrSgmcdlnj9XJp6Ow9pMyeSP5waxxogz4T4itTQVjGAw9gDtdMylJfNuaQ_l8IHGhhIDBiudMOJiAUjJm4QNEa76CJd4Oy8OnJgGwLKm5x9FMSHqxWtybwofAVcwDuAbRSqPhcdt67uNoIUqqbV_J8QR0DucZiglsaQZVTfq_63DXY3HUzttliDGHghlvbDKMhQZVmMpEKxVvpCLTCPmx8'
+      name: 'Golden Oat',
+      price: '$34.00 (12-Pack)',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDlXFX4MXYQhUphGKNjxk1ksTLNlQ9boxDJF9HuQaGmp6o-pEjIQyj5vDnYO7RQclEdqXPFzZqmT34QBU-MmiIAN3YwWSPL2VS3bYDOljiMrQR6SVEAmUeGC8FRFW00g3ckJweUJj1ydMZOj3zUnSfTTJsz5GEFkYsbP-rUE8s7SiAicv7tPmFg5YobG-scN5T2FTVOO1G7z0qbwCX-cIAWulnk6e9tnF-SnFY-n15SL9XfXW9okp9KUnBji2323FJswTT_WrlSgA'
     }
   ];
 
   return (
-    <section id="collections" className="py-40 relative overflow-hidden" style={{backgroundColor: '#151312'}}>
-      <div className="max-w-[1440px] mx-auto px-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-          <div className="space-y-4">
-            <span className="font-label text-[0.6875rem] uppercase tracking-[0.2rem]" style={{color: '#efbf70', fontFamily: 'Manrope'}}>
-              Curated Series
-            </span>
-            <h2 className="font-headline text-5xl md:text-6xl font-black tracking-tighter text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
-              The Collection
-            </h2>
-          </div>
-          <p className="font-body text-[#d9c4a2] max-w-sm text-right leading-relaxed font-light" style={{fontFamily: 'Manrope'}}>
-            Meticulously formulated elixirs designed for the modern architect of life.
-          </p>
-        </div>
-
-        {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <section className="py-32 bg-surface-container" id="shop">
+      <div className="container mx-auto px-6 text-center">
+        <h2 className="font-headline text-4xl md:text-5xl font-bold mb-20">The Indulgent Collection</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {products.map((product) => (
-            <div
+            <div 
               key={product.id}
-              className="group relative rounded-3xl p-10 transition-all duration-700 hover:-translate-y-4 hover:border-[#efbf70]/20 border border-[#373432]/10"
-              style={{backgroundColor: 'rgba(10, 8, 7, 0.6)', backdropFilter: 'blur(40px)'}}
+              className={`group cursor-pointer ${product.marginTop ? 'translate-y-8' : ''}`}
             >
-              {/* Product Image */}
-              <div className="aspect-square mb-10 overflow-hidden rounded-2xl bg-[#0F0D0C]">
+              <div className="aspect-[4/5] bg-surface-container-low rounded-xl overflow-hidden mb-6 relative border border-outline-variant/5 group-hover:border-tertiary/20 transition-all">
                 <img
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   src={product.image}
                 />
-              </div>
-
-              {/* Product Info */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-headline text-2xl text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
-                    {product.name}
-                  </h3>
-                  <span className="font-body text-[#efbf70] font-bold" style={{fontFamily: 'Manrope'}}>
-                    {product.price}
-                  </span>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-surface/40 backdrop-blur-sm">
+                  <button 
+                    onClick={() => onAddToCart?.(product)}
+                    className="gold-shimmer text-on-tertiary-fixed font-bold px-8 py-3 rounded-full"
+                  >
+                    Add to Cart
+                  </button>
                 </div>
-
-                <p className="text-[#d9c4a2] text-sm leading-relaxed font-light" style={{fontFamily: 'Manrope'}}>
-                  {product.description}
-                </p>
-
-                <button
-                  onClick={() => onAddToCart?.(product)}
-                  className="w-full py-4 font-headline text-[10px] uppercase tracking-widest font-bold rounded-xl transition-colors duration-500 group-hover:text-on-primary"
-                  style={{
-                    backgroundColor: '#2c2928',
-                    color: '#e8e1de'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#efbf70';
-                    e.target.style.color = '#432c00';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = '#2c2928';
-                    e.target.style.color = '#e8e1de';
-                  }}
-                >
-                  Add to Ritual
-                </button>
               </div>
+              <h3 className="text-xl font-bold">{product.name}</h3>
+              <p className="text-tertiary font-semibold">{product.price}</p>
             </div>
           ))}
         </div>

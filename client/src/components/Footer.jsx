@@ -2,146 +2,44 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer style={{backgroundColor: '#0A0807'}} className="w-full pt-24 pb-12">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-16 px-10 max-w-[1440px] mx-auto">
-        {/* Brand Section */}
-        <div className="space-y-8">
-          <div className="text-xl font-bold text-[#efbf70] font-headline" style={{fontFamily: 'Epilogue'}}>
-            BALPRO LIFE
-          </div>
-          <p className="font-body text-xs text-[#d9c4a2] leading-relaxed opacity-60" style={{fontFamily: 'Manrope'}}>
-            The intersection of science-driven performance and cinematic wellness luxury.
-          </p>
-          <div className="flex gap-4">
-            <span className="material-symbols-outlined text-[#efbf70] cursor-pointer hover:scale-110 transition-transform" style={{fontFamily: 'Material Symbols Outlined'}}>
-              share
-            </span>
-            <span className="material-symbols-outlined text-[#efbf70] cursor-pointer hover:scale-110 transition-transform" style={{fontFamily: 'Material Symbols Outlined'}}>
-              star
-            </span>
-            <span className="material-symbols-outlined text-[#efbf70] cursor-pointer hover:scale-110 transition-transform" style={{fontFamily: 'Material Symbols Outlined'}}>
-              public
-            </span>
-          </div>
+    <footer className="bg-[#221a17] dark:bg-[#221a17] w-full rounded-t-[3rem] mt-24 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto font-['Plus_Jakarta_Sans'] leading-relaxed">
+        <div className="md:col-span-1">
+          <div className="text-3xl font-bold text-[#efbf70] mb-6">BALPRO LIFE</div>
+          <p className="text-[#e2bfb2]/70 text-sm">CRAFTED FOR THE INDULGENT. Optimized for the human experience.</p>
         </div>
-
-        {/* Collections */}
-        <div className="space-y-6">
-          <h4 className="font-headline font-bold text-lg text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
-            Collections
-          </h4>
+        
+        <div>
+          <h4 className="text-[#efbf70] font-bold mb-6">Experience</h4>
           <ul className="space-y-4">
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Performance
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Recovery
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Limited Drop
-              </a>
-            </li>
+            <li><a href="#shop" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Shop All</a></li>
+            <li><a href="#ingredients" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Ingredients</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Subscriptions</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Wholesale</a></li>
           </ul>
         </div>
-
-        {/* Company */}
-        <div className="space-y-6">
-          <h4 className="font-headline font-bold text-lg text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
-            Company
-          </h4>
+        
+        <div>
+          <h4 className="text-[#efbf70] font-bold mb-6">Company</h4>
           <ul className="space-y-4">
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Our Story
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Wellness Journal
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Contact
-              </a>
-            </li>
+            <li><a href="#story" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Our Story</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Journal</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Contact</a></li>
           </ul>
         </div>
-
-        {/* Legal */}
-        <div className="space-y-6">
-          <h4 className="font-headline font-bold text-lg text-[#e8e1de]" style={{fontFamily: 'Epilogue'}}>
-            Legal
-          </h4>
+        
+        <div>
+          <h4 className="text-[#efbf70] font-bold mb-6">Support</h4>
           <ul className="space-y-4">
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Privacy
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Terms
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="font-label text-[0.6875rem] uppercase tracking-[0.1rem] text-[#d9c4a2] hover:text-[#efbf70] hover:translate-x-1 transition-transform duration-300 block"
-                style={{fontFamily: 'Manrope'}}
-              >
-                Shipping
-              </a>
-            </li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Shipping & Returns</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Privacy Policy</a></li>
+            <li><a href="#" className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block">Terms of Service</a></li>
           </ul>
         </div>
       </div>
-
-      {/* Bottom Section */}
-      <div className="mt-24 pt-12 border-t border-[#373432]/10 text-center max-w-[1440px] mx-auto px-10">
-        <p
-          className="font-label text-[0.6875rem] uppercase tracking-[0.2rem] text-[#d9c4a2] opacity-40"
-          style={{fontFamily: 'Manrope'}}
-        >
-          © 2024 BALPRO LIFE. THE CINEMATIC CURATOR.
-        </p>
+      
+      <div className="px-12 py-8 border-t border-[#4f4440]/20 text-center">
+        <p className="text-[#e2bfb2]/50 text-xs tracking-widest uppercase">© 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.</p>
       </div>
     </footer>
   );

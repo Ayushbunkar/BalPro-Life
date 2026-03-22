@@ -68,7 +68,7 @@ function AppContent() {
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">
 
       <Navbar
         cartCount={cartCount}

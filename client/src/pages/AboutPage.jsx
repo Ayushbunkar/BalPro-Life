@@ -1,254 +1,267 @@
 import React from 'react';
-import { ShieldCheck, Zap, Award, Leaf, Heart, Target, Star, CheckCircle, Users, Trophy } from 'lucide-react';
-import Button from '../components/Button';
-import FeaturesSection from '../components/FeaturesSection';
-import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
+import MobileBottomNav from '../components/MobileBottomNav';
 
 const AboutPage = () => {
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden section-below-navbar" style={{ backgroundColor: '#F8F2E9' }}>
-        <div className="content-container relative z-10">
-          <div className="text-center space-y-8">
-            <div className="inline-block text-xs font-bold px-5 py-2 uppercase tracking-[0.2em] rounded-full border" style={{ backgroundColor: '#7B4A22', color: '#F8F2E9', borderColor: '#6B3F1D' }}>
-              Premium Nutrition
-            </div>
-            <h1 className="text-6xl lg:text-8xl font-black leading-[0.9] tracking-tighter" style={{ color: '#1A1A1A' }}>
-              ABOUT <br/>
-              <span style={{ color: '#7B4A22' }}>BALPRO</span>{' '}
-              <span style={{ color: '#1D6B3A' }}>LIFE</span>
+    <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30">
+      <main>
+        {/* Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <img
+              alt="Luxury chocolate texture close-up"
+              className="w-full h-full object-cover opacity-30 grayscale"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW_3N0312zFXH8pE9H0x5JRLN-vLKsKS-sdS42VsmpgRRqB5FdIvyONT1LAFlpFmIHtYRfoxfXXng8O3R2xfdhHClYcDRN29MNzu9dNYwFghvptQKSUpmivJaDc-yURx9MLqcHnrT7USAm-F4xzxAEYbRoEV0mOWYN8re1yaEEiwFP0MTCZnxVnS-g2GZjzuNFpaN-_edwlqGP_blBx6gjDW1QB5AZXDUG3knNvo0HqVLNhlC9soLJIIo8tRe1oEJNZiTwPX_cXA"
+            />
+            <div className="absolute inset-0 bg-linear-to-b from-surface/0 via-surface/60 to-surface"></div>
+          </div>
+          <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <span className="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-6 block">The Liquid Curator</span>
+            <h1 className="font-headline text-5xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.9] mb-12">
+              Crafted for the <span className="italic text-tertiary">Indulgent</span> Mind.
             </h1>
-            <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: '#6B5E50' }}>
-              Discover the science behind our premium 20g Protein Shake – where nutrition meets innovation,
-              delivering pure performance fuel for your active lifestyle.
+            <p className="text-primary-fixed-dim text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-body">
+              We believe wellness should not be a chore. It should be a ritual, a moment of pure cocoa-infused
+              transcendence designed for the high-performer.
             </p>
           </div>
-        </div>
+        </section>
 
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-40 h-40 rounded-full blur-3xl opacity-20" style={{ backgroundColor: '#7B4A22' }}></div>
-        <div className="absolute bottom-20 right-10 w-48 h-48 rounded-full blur-3xl opacity-15" style={{ backgroundColor: '#1D6B3A' }}></div>
-      </section>
-
-      {/* Product Showcase */}
-      <section className="py-32" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="content-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Product Image/Mockup */}
-            <div className="relative">
-              <div className="relative z-10 p-8 rounded-3xl shadow-2xl transform rotate-3 hover:rotate-0 transition-all duration-500" style={{ background: 'linear-gradient(135deg, #F4E8D3 0%, #E8DCC8 100%)' }}>
-                <div className="bg-white p-6 rounded-2xl shadow-lg">
-                  <div className="text-center space-y-4">
-                    <div className="w-24 h-32 mx-auto rounded-lg flex flex-col items-center justify-center shadow-lg" style={{ background: 'linear-gradient(to bottom, #7B4A22, #5C3518)' }}>
-                      <span className="font-black text-2xl text-white">BALPRO</span>
-                      <span className="text-xs font-bold uppercase" style={{ color: '#F4E8D3' }}>LIFE</span>
-                    </div>
-                    <h3 className="font-bold text-lg" style={{ color: '#7B4A22' }}>20g Protein Shake</h3>
-                    <p className="text-sm" style={{ color: '#6B5E50' }}>Sugar-Free • 200ml</p>
-                    <div className="flex justify-center gap-2">
-                      <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: '#D4EDDA', color: '#1D6B3A' }}>Zero Added Sugar</span>
-                      <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: '#F4E8D3', color: '#7B4A22' }}>20g Protein</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-full h-full rounded-3xl -z-10" style={{ backgroundColor: '#EAD8C0' }}></div>
-            </div>
-
-            {/* Product Description */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-4xl font-black mb-6 uppercase tracking-tight" style={{ color: '#7B4A22' }}>
-                  Premium Protein Nutrition
+        {/* Story Timeline Section */}
+        <section className="py-32 bg-surface">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
+              <div className="md:sticky md:top-40">
+                <h2 className="font-headline text-4xl md:text-6xl font-bold text-on-surface mb-8">
+                  The Genesis of <br />Liquid Gold
                 </h2>
-                <p className="text-lg leading-relaxed mb-6" style={{ color: '#6B5E50' }}>
-                  BALPRO LIFE – 20g Protein Shake is a high-protein nutritional drink crafted for health-conscious
-                  individuals seeking premium nutrition. Each 200ml serving delivers 20g of pure protein from a perfect
-                  blend of soy protein isolate and low-fat milk, naturally sweetened with stevia and zero added sugar.
+                <p className="text-primary-fixed-dim text-lg leading-relaxed mb-8">
+                  Our journey was not born in a lab, but in a kitchen where the pursuit of the perfect functional
+                  beverage became an obsession.
                 </p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl border" style={{ backgroundColor: '#FBF7F0', borderColor: '#EAD8C0' }}>
-                    <div className="text-3xl font-black mb-1" style={{ color: '#7B4A22' }}>20g</div>
-                    <div className="text-sm font-bold uppercase tracking-wider" style={{ color: '#6B5E50' }}>Protein</div>
-                  </div>
-                  <div className="p-4 rounded-xl border" style={{ backgroundColor: '#F0F8F1', borderColor: '#C8E6C9' }}>
-                    <div className="text-3xl font-black mb-1" style={{ color: '#1D6B3A' }}>0g</div>
-                    <div className="text-sm font-bold uppercase tracking-wider" style={{ color: '#6B5E50' }}>Added Sugar</div>
-                  </div>
-                  <div className="p-4 rounded-xl border" style={{ backgroundColor: '#FBF7F0', borderColor: '#EAD8C0' }}>
-                    <div className="text-3xl font-black mb-1" style={{ color: '#7B4A22' }}>215</div>
-                    <div className="text-sm font-bold uppercase tracking-wider" style={{ color: '#6B5E50' }}>Calories</div>
-                  </div>
-                  <div className="p-4 rounded-xl border" style={{ backgroundColor: '#F0F8F1', borderColor: '#C8E6C9' }}>
-                    <div className="text-3xl font-black mb-1" style={{ color: '#1D6B3A' }}>200ml</div>
-                    <div className="text-sm font-bold uppercase tracking-wider" style={{ color: '#6B5E50' }}>Serving Size</div>
-                  </div>
-                </div>
+                <div className="h-0.5 w-24 bg-tertiary/30"></div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Benefits - Stacked Scroll Animation */}
-      <FeaturesSection />
-
-      {/* Nutrition Facts */}
-      <section className="py-32" style={{ backgroundColor: '#F8F2E9' }}>
-        <div className="content-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Nutrition Facts Panel */}
-            <div className="text-white p-8 rounded-2xl" style={{ backgroundColor: '#2C1810' }}>
-              <h3 className="text-3xl font-black mb-8 uppercase tracking-wide">Nutrition Facts</h3>
-              <div className="space-y-4">
-                <div className="pb-4" style={{ borderBottom: '1px solid #4A3228' }}>
-                  <div className="text-sm mb-2" style={{ color: '#A08070' }}>Serving Size</div>
-                  <div className="text-2xl font-bold">200 ml (1 Bottle)</div>
-                </div>
-
-                <div className="pb-4" style={{ borderBottom: '1px solid #4A3228' }}>
-                  <div className="text-sm mb-2" style={{ color: '#A08070' }}>Calories</div>
-                  <div className="text-3xl font-bold" style={{ color: '#D4A017' }}>215</div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid #4A3228' }}>
-                    <span className="font-bold">Total Fat</span>
-                    <span>2.5g</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid #4A3228' }}>
-                    <span className="font-bold">Protein</span>
-                    <span className="font-bold" style={{ color: '#D4A017' }}>20g</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid #4A3228' }}>
-                    <span className="font-bold">Total Carbohydrates</span>
-                    <span>15g</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid #4A3228' }}>
-                    <span className="font-bold">Dietary Fiber</span>
-                    <span>3g</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid #4A3228' }}>
-                    <span className="font-bold">Sugars</span>
-                    <span style={{ color: '#4FAF5A' }}>0g Added</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="font-bold">Calcium</span>
-                    <span>30% DV</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Ingredients */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-3xl font-black mb-6 uppercase tracking-wide" style={{ color: '#7B4A22' }}>Ingredients</h3>
-                <div className="p-6 rounded-xl border" style={{ backgroundColor: '#FFFFFF', borderColor: '#EAD8C0' }}>
-                  <p className="leading-relaxed mb-4" style={{ color: '#6B5E50' }}>
-                    <strong style={{ color: '#7B4A22' }}>Premium Blend:</strong> Low-fat milk, soy protein isolate, banana pulp, chia seeds,
-                    natural stevia extract, natural flavors, and essential vitamins & minerals.
+              <div className="space-y-32">
+                <div className="relative pl-12 border-l border-outline-variant/30">
+                  <span className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></span>
+                  <span className="text-tertiary font-headline text-2xl font-bold mb-4 block">2020: The Spark</span>
+                  <p className="text-on-surface-variant font-body leading-relaxed">
+                    Searching for a way to balance high-stress executive life with nutritional density, our founder began
+                    experimenting with raw ceremonial cacao and adaptogens.
                   </p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" style={{ color: '#1D6B3A' }} />
-                      <span className="text-sm" style={{ color: '#6B5E50' }}>No Artificial Colors</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" style={{ color: '#1D6B3A' }} />
-                      <span className="text-sm" style={{ color: '#6B5E50' }}>No Artificial Flavors</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" style={{ color: '#1D6B3A' }} />
-                      <span className="text-sm" style={{ color: '#6B5E50' }}>No Preservatives</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-5 h-5" style={{ color: '#1D6B3A' }} />
-                      <span className="text-sm" style={{ color: '#6B5E50' }}>Gluten-Free</span>
-                    </div>
-                  </div>
                 </div>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold mb-4" style={{ color: '#7B4A22' }}>Key Features</h3>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <Star className="w-6 h-6 mt-0.5" style={{ color: '#D4A017' }} />
-                    <div>
-                      <div className="font-bold" style={{ color: '#7B4A22' }}>Complete Protein Profile</div>
-                      <div className="text-sm" style={{ color: '#6B5E50' }}>All essential amino acids for optimal muscle synthesis</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Star className="w-6 h-6 mt-0.5" style={{ color: '#D4A017' }} />
-                    <div>
-                      <div className="font-bold" style={{ color: '#7B4A22' }}>Omega-3 Rich</div>
-                      <div className="text-sm" style={{ color: '#6B5E50' }}>Chia seeds provide heart-healthy omega-3 fatty acids</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Star className="w-6 h-6 mt-0.5" style={{ color: '#D4A017' }} />
-                    <div>
-                      <div className="font-bold" style={{ color: '#7B4A22' }}>Calcium Fortified</div>
-                      <div className="text-sm" style={{ color: '#6B5E50' }}>Supports bone health and muscle function</div>
-                    </div>
-                  </div>
+                <div className="relative pl-12 border-l border-outline-variant/30">
+                  <span className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></span>
+                  <span className="text-tertiary font-headline text-2xl font-bold mb-4 block">2022: The Breakthrough</span>
+                  <p className="text-on-surface-variant font-body leading-relaxed">
+                    After 400+ iterations, we perfected the Liquid Silk formula, a blend that tastes like luxury dessert
+                    but fuels the brain like a biohacker secret weapon.
+                  </p>
+                </div>
+                <div className="relative pl-12 border-l border-outline-variant/30">
+                  <span className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></span>
+                  <span className="text-tertiary font-headline text-2xl font-bold mb-4 block">2024: Balpro Life</span>
+                  <p className="text-on-surface-variant font-body leading-relaxed">
+                    Launching a brand that treats beverages as editorial pieces. We do not just sell drinks; we curate an
+                    elevated way of living.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Science & Quality */}
-      <section className="py-32 text-white relative overflow-hidden" style={{ backgroundColor: '#2C1810' }}>
-        <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
-        <div className="content-container relative z-10">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-4 mb-8" style={{ color: '#D4A017' }}>
-              <ShieldCheck size={48} strokeWidth={1.5} />
-              <span className="text-sm font-bold uppercase tracking-[0.3em]">The Science</span>
+        {/* Mission and Vision */}
+        <section className="py-24 bg-surface-container-low">
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="rounded-xl p-12 hover:scale-[1.02] transition-all duration-500 bg-[rgba(60,51,47,0.4)] backdrop-blur-[20px]">
+              <span className="material-symbols-outlined text-tertiary text-4xl mb-6 block">auto_awesome</span>
+              <h3 className="font-headline text-3xl font-bold text-on-surface mb-6">Our Mission</h3>
+              <p className="text-on-surface-variant leading-relaxed text-lg">
+                To redefine functional nutrition through the lens of luxury, proving that the most beneficial choices can
+                also be the most delicious ones.
+              </p>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-              NOTHING TO HIDE.<br/>EVERYTHING TO GAIN.
-            </h2>
-            <p className="text-xl mb-12 leading-relaxed font-light max-w-4xl mx-auto" style={{ color: '#A08070' }}>
-              In an industry full of proprietary blends and hidden ingredients, we stand naked. Every batch is tested,
-              every ingredient is listed, and every serving is guaranteed to be pure. Our commitment to transparency
-              ensures you get exactly what you expect – premium nutrition you can trust.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: '#7B4A22' }}>
-                <Trophy className="w-12 h-12 text-white" />
-              </div>
-              <h3 className="text-3xl font-black text-white mb-4">Lab Tested</h3>
-              <p style={{ color: '#A08070' }}>Every batch undergoes rigorous third-party testing for purity and potency.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: '#1D6B3A' }}>
-                <Users className="w-12 h-12 text-white" />
-              </div>
-              <h3 className="text-3xl font-black text-white mb-4">Trusted by Athletes</h3>
-              <p style={{ color: '#A08070' }}>Professional athletes and fitness enthusiasts choose BALPRO LIFE for performance.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: '#D4A017' }}>
-                <Award className="w-12 h-12 text-white" />
-              </div>
-              <h3 className="text-3xl font-black text-white mb-4">Quality Certified</h3>
-              <p style={{ color: '#A08070' }}>ISO certified manufacturing with GMP standards for consistent quality.</p>
+            <div className="rounded-xl p-12 hover:scale-[1.02] transition-all duration-500 bg-[rgba(60,51,47,0.4)] backdrop-blur-[20px]">
+              <span className="material-symbols-outlined text-tertiary text-4xl mb-6 block">visibility</span>
+              <h3 className="font-headline text-3xl font-bold text-on-surface mb-6">Our Vision</h3>
+              <p className="text-on-surface-variant leading-relaxed text-lg">
+                To become the global standard for high-performance indulgence, where every Balpro moment is a celebration
+                of self-optimization.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Founder Story */}
+        <section className="py-32 bg-surface">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center gap-20">
+              <div className="w-full md:w-1/2 relative group">
+                <div className="absolute -inset-4 bg-tertiary/10 rounded-lg blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                <img
+                  alt="Founder portrait"
+                  className="relative w-full aspect-4/5 object-cover rounded-lg shadow-2xl"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-Wkl-EYbi7ToGlfKdfms7AV2hk6Zn2IUf_kklZpCntWUY3PDBROQcyKa7WgOcf89ougEjscSHWHuP6WFG2ySZtcRsweMC7YaqEeN1UGTHOGoKYhhgSapLeaYhgPmE8iG2Xl6Pj8ln8UV0f56_d8C_ritoP9xf3VxsuTxp9PzhMkKfJe178bSF3VkxSkDgYcHpg9SBoWoIzuA-XJvTmj074ACSmKXkaxUSOMeVcjvM64Zz2SpaHD4xM7pUD9N0-_FkQKwExiWCfA"
+                />
+                <div className="absolute bottom-8 left-8 bg-surface/80 backdrop-blur-md px-6 py-4 rounded-md">
+                  <p className="font-headline font-bold text-tertiary">Marcus Sterling</p>
+                  <p className="text-xs tracking-widest uppercase text-primary-fixed-dim">Founder and Curator</p>
+                </div>
+              </div>
+              <div className="w-full md:w-1/2">
+                <span className="text-tertiary font-label tracking-widest uppercase text-xs mb-4 block">Note from the Curator</span>
+                <h2 className="font-headline text-4xl md:text-5xl font-bold text-on-surface mb-8 leading-tight">
+                  Luxury is the ultimate performance enhancer.
+                </h2>
+                <div className="space-y-6 text-on-surface-variant leading-relaxed text-lg italic">
+                  <p>
+                    I spent years in the boardroom feeling drained. The health options were chalky and uninspiring.
+                    Balpro was born from the belief that when you treat your body to something truly exquisite, your mind
+                    follows suit.
+                  </p>
+                  <p>
+                    We sourced the finest cacao from volcanic soils and paired it with clinically-dosed adaptogens. The
+                    result is a drink that respects your palate as much as it respects your biology.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Brand Philosophy */}
+        <section className="py-32 bg-surface-container-low overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-24">
+              <h2 className="font-headline text-4xl md:text-6xl font-bold text-on-surface mb-6">The Balpro Promise</h2>
+              <p className="text-primary-fixed-dim max-w-2xl mx-auto">
+                Uncompromising standards. Unrivaled taste. Unmatched clarity.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
+                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">eco</span>
+                </div>
+                <h4 className="font-headline text-xl font-bold mb-4">Ethical Sourcing</h4>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Direct-trade cacao from regenerative farms that honor the earth and the hands that harvest.
+                </p>
+              </div>
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
+                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">science</span>
+                </div>
+                <h4 className="font-headline text-xl font-bold mb-4">Purity First</h4>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  No fillers. No refined sugars. No compromise. Just pure functional botanical power.
+                </p>
+              </div>
+              <div className="text-center group">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
+                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">workspace_premium</span>
+                </div>
+                <h4 className="font-headline text-xl font-bold mb-4">Artisanal Quality</h4>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Small-batch production ensures that every single drop meets our Gold Standard of excellence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-40 bg-surface">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <div className="relative inline-block mb-12">
+              <div className="absolute inset-0 blur-3xl opacity-20 animate-pulse bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]"></div>
+              <h2 className="relative font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tighter leading-tight">
+                Experience the <br />Curated Life.
+              </h2>
+            </div>
+            <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+              <Link
+                className="text-on-tertiary-fixed px-12 py-5 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl shadow-tertiary/10 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]"
+                to="/"
+              >
+                Shop the Collection
+              </Link>
+              <a
+                className="px-12 py-5 rounded-full border border-outline-variant/30 text-on-surface hover:bg-surface-container-highest transition-all duration-300"
+                href="/#ingredients"
+              >
+                Explore Ingredients
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
 
       {/* Footer */}
-      <Footer />
+      <footer className="w-full rounded-t-[3rem] mt-24 bg-[#221a17] shadow-[0_-20px_50px_rgba(0,0,0,0.2)] pb-28 md:pb-0">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto">
+          <div className="md:col-span-2">
+            <Link className="text-3xl font-bold text-[#efbf70] mb-6 block font-headline" to="/">
+              BALPRO LIFE
+            </Link>
+            <p className="text-[#e2bfb2]/70 max-w-sm mb-8 leading-relaxed">
+              Elevating the human ritual through functional cacao. Crafted for those who demand excellence in every sip.
+            </p>
+            <div className="flex gap-4">
+              <span className="material-symbols-outlined text-[#efbf70] p-2 rounded-full border border-[#efbf70]/20 hover:bg-[#efbf70]/10 transition-colors cursor-pointer">
+                brand_awareness
+              </span>
+              <span className="material-symbols-outlined text-[#efbf70] p-2 rounded-full border border-[#efbf70]/20 hover:bg-[#efbf70]/10 transition-colors cursor-pointer">
+                star
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-[#efbf70] font-headline font-bold mb-6">Menu</h4>
+            <div className="flex flex-col gap-4">
+              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/">
+                Shop
+              </Link>
+              <a className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" href="/#ingredients">
+                Ingredients
+              </a>
+              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/">
+                Reviews
+              </Link>
+              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/about">
+                Our Story
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-[#efbf70] font-headline font-bold mb-6">Legal</h4>
+            <div className="flex flex-col gap-4">
+              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+                Privacy Policy
+              </button>
+              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+                Terms of Service
+              </button>
+              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+                Shipping and Returns
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-[#4f4440]/20 py-8 text-center">
+          <p className="text-[#e2bfb2]/30 text-xs tracking-widest font-['Plus_Jakarta_Sans'] uppercase">
+            © 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.
+          </p>
+        </div>
+      </footer>
+
+      {/* BottomNavBar (Mobile Only) */}
+      <MobileBottomNav />
     </div>
   );
 };

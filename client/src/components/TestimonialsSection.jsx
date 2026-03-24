@@ -24,7 +24,7 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-32 overflow-hidden">
+    <section className="py-32 overflow-hidden" id="testimonials">
       <div className="container mx-auto px-6">
         <h2 className="font-headline text-4xl font-bold text-center mb-24">The Verdict.</h2>
         <div className="flex flex-col md:flex-row gap-8">

@@ -1,0 +1,338 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const IngredientsPage = () => {
+  return (
+    <div className="bg-background text-on-background font-body selection:bg-tertiary selection:text-on-tertiary pb-28 md:pb-0">
+      <main className="relative overflow-hidden">
+        {/* Floating particles */}
+        <div className="absolute top-40 left-10 w-1 h-1 bg-tertiary rounded-full opacity-30"></div>
+        <div className="absolute top-80 right-20 w-1 h-1 bg-tertiary rounded-full opacity-30"></div>
+        <div className="absolute bottom-40 left-1/4 w-1 h-1 bg-tertiary rounded-full opacity-30"></div>
+        <div className="absolute top-1/2 right-10 w-1 h-1 bg-tertiary rounded-full opacity-30"></div>
+
+        {/* Hero */}
+        <section className="relative min-h-screen flex items-center px-8 overflow-hidden">
+          <div className="max-w-[1440px] mx-auto w-full grid md:grid-cols-2 gap-16 items-center">
+            <div className="relative z-10">
+              <span className="text-tertiary font-bold tracking-widest text-sm mb-4 block uppercase">Functional Alchemy</span>
+              <h1 className="text-5xl md:text-7xl font-headline font-extrabold text-on-surface leading-[1.1] tracking-tighter mb-8">
+                The Science of <br />
+                <span className="text-tertiary italic">Indulgent</span> Nutrition.
+              </h1>
+              <p className="text-lg md:text-xl text-on-surface-variant max-w-lg mb-12 leading-relaxed">
+                Beyond basic supplements. Balpro Life is a meticulously engineered bio-available formula designed to bridge
+                the gap between hedonistic cocoa and clinical human performance.
+              </p>
+              <div className="flex flex-wrap gap-6">
+                <button
+                  type="button"
+                  className="bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary-fixed font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform active:scale-95 shadow-xl"
+                >
+                  Explore Formula
+                </button>
+                <button
+                  type="button"
+                  className="border border-outline-variant/30 text-on-surface font-semibold py-4 px-10 rounded-full hover:bg-surface-container-highest transition-colors active:scale-95"
+                >
+                  Clinical Studies
+                </button>
+              </div>
+            </div>
+
+            <div className="relative w-full max-w-[560px] mx-auto md:mx-0 md:ml-auto">
+              <div className="absolute inset-0 bg-linear-to-tr from-tertiary/10 to-transparent rounded-full blur-3xl"></div>
+              <img
+                className="w-full h-auto object-cover rounded-xl relative z-10 transform rotate-0 md:-rotate-2 hover:rotate-0 transition-transform duration-700"
+                alt="High quality cocoa powder spilling elegantly in mid-air"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6C7SIU6Nen1lDrRsPR8M-GatzpJUP4w5Rfnh-GnF1UTrlvzg-T9EnUMzARtrErZZUT8xlwPXv06ECbE7njRc2t-B6CoUoJIz9y0OPxkX9HrQ38WmabISyAJHflatwrbZvENbLwcSAq10TUoyrsSX8hlCPTkBNnWml54sQoiTO6eIYvBN8HAhCJRIJVsY9EwAf4-gGw3j9bFI6ROnSvV0QQNwZ6fab6VNoR6aqEs4uAMpL1MzhLjez44FUb5CUzThDPm2K54yRkQ"
+              />
+              <div className="absolute bottom-4 right-4 md:-bottom-8 md:-right-6 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] p-6 md:p-8 rounded-lg shadow-2xl z-20 max-w-60 md:max-w-xs">
+                <p className="text-tertiary font-bold mb-2">Purity GuardTM</p>
+                <p className="text-xs text-on-surface-variant leading-relaxed">
+                  Third-party lab tested for heavy metals and purity. Only the essence of performance remains.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Ingredient spotlight */}
+        <section className="py-32 px-8 bg-surface-container-low">
+          <div className="max-w-[1440px] mx-auto">
+            <div className="text-center mb-24">
+              <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6">The Quartet of Power</h2>
+              <p className="text-on-surface-variant max-w-2xl mx-auto">
+                Four pillars of nutrition, balanced for synergy. We do not just add ingredients; we orchestrate them.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              <div className="md:col-span-7 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] rounded-xl p-12 hover:bg-surface-container-highest transition-all duration-500 group">
+                <div className="flex flex-col md:flex-row gap-10 items-start">
+                  <div className="shrink-0 w-24 h-24 rounded-full bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] flex items-center justify-center">
+                    <span className="material-symbols-outlined text-4xl text-on-tertiary-fixed">restaurant</span>
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">Heirloom Cacao</h3>
+                    <p className="text-on-surface-variant mb-6 text-lg">
+                      Rich in polyphenols and theobromine. Our cacao is sourced from volcanic soil for maximum mineral
+                      density and a flavor profile that rivals artisanal chocolatiers.
+                    </p>
+                    <div className="flex gap-3 flex-wrap">
+                      <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
+                        Anti-Inflammatory
+                      </span>
+                      <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
+                        Natural Mood Elevator
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-5 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] rounded-xl p-10 hover:bg-surface-container-highest transition-all duration-500 group">
+                <div className="mb-6 w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center group-hover:bg-tertiary transition-colors">
+                  <span className="material-symbols-outlined text-2xl group-hover:text-on-tertiary-fixed">fitness_center</span>
+                </div>
+                <h3 className="text-2xl font-headline font-bold mb-4">Bio-Protein Matrix</h3>
+                <p className="text-on-surface-variant mb-6">
+                  A 24g blend of sprouted peas and fermented hemp, ensuring 98% bioavailability without the bloating of
+                  whey.
+                </p>
+                <ul className="space-y-2 text-sm text-on-surface font-semibold">
+                  <li className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+                    Complete Amino Acid Profile
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+                    Grass-Fed Standards
+                  </li>
+                </ul>
+              </div>
+
+              <div className="md:col-span-5 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] rounded-xl p-10 hover:bg-surface-container-highest transition-all duration-500 group order-last md:order-0">
+                <div className="mb-6 w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center group-hover:bg-tertiary transition-colors">
+                  <span className="material-symbols-outlined text-2xl group-hover:text-on-tertiary-fixed">science</span>
+                </div>
+                <h3 className="text-2xl font-headline font-bold mb-4">Chelated Minerals</h3>
+                <p className="text-on-surface-variant mb-6">
+                  Magnesium and Zinc bound to organic acids for effortless absorption by the gut lining.
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-surface-container rounded-lg">
+                    <p className="text-tertiary font-bold text-xl">400mg</p>
+                    <p className="text-[10px] uppercase text-on-surface-variant tracking-tighter">Magnesium</p>
+                  </div>
+                  <div className="text-center p-3 bg-surface-container rounded-lg">
+                    <p className="text-tertiary font-bold text-xl">15mg</p>
+                    <p className="text-[10px] uppercase text-on-surface-variant tracking-tighter">Zinc Glycinate</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-7 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] rounded-xl p-12 hover:bg-surface-container-highest transition-all duration-500 group">
+                <div className="flex flex-col md:flex-row-reverse gap-10 items-start">
+                  <div className="shrink-0 w-24 h-24 rounded-full bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] flex items-center justify-center">
+                    <span className="material-symbols-outlined text-4xl text-on-tertiary-fixed">bolt</span>
+                  </div>
+                  <div className="text-left md:text-right">
+                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">Adaptogenic Complex</h3>
+                    <p className="text-on-surface-variant mb-6 text-lg">
+                      Lions Mane and KSM-66 Ashwagandha extract. These work in tandem to modulate cortisol while
+                      providing cognitive clarity during demanding days.
+                    </p>
+                    <div className="flex gap-3 flex-wrap justify-start md:justify-end">
+                      <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
+                        Nootropic Focus
+                      </span>
+                      <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
+                        Stress Support
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Nutrition facts section */}
+        <section className="py-32 px-8">
+          <div className="max-w-[1440px] mx-auto grid md:grid-cols-2 gap-24 items-start">
+            <div className="space-y-12">
+              <h2 className="text-4xl font-headline font-bold">What's Inside Matters.</h2>
+              <div className="relative pl-12 border-l-2 border-outline-variant/20">
+                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
+                <h4 className="text-xl font-bold mb-2">0g Added Sugar</h4>
+                <p className="text-on-surface-variant">
+                  Sweetened with monk fruit and a hint of vanilla bean. No glucose spikes, no midday crashes.
+                </p>
+              </div>
+              <div className="relative pl-12 border-l-2 border-outline-variant/20">
+                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
+                <h4 className="text-xl font-bold mb-2">High Fiber Pre-biotics</h4>
+                <p className="text-on-surface-variant">
+                  Chicory root fiber feeds your microbiome, improving nutrient absorption from every scoop.
+                </p>
+              </div>
+              <div className="relative pl-12 border-l-2 border-outline-variant/20">
+                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
+                <h4 className="text-xl font-bold mb-2">Cold-Pressed Process</h4>
+                <p className="text-on-surface-variant">
+                  Our ingredients never see temperatures above 40 C, preserving delicate enzymes and anti-oxidants.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-on-surface text-surface p-10 rounded-lg shadow-2xl font-body max-w-md mx-auto transform rotate-1 md:rotate-2">
+              <h2 className="text-4xl font-headline font-black border-b-8 border-surface pb-1 mb-2">Nutrition Facts</h2>
+              <p className="text-sm font-bold border-b border-surface pb-1 mb-2">15 servings per container</p>
+              <div className="flex justify-between items-end border-b-8 border-surface pb-1 mb-4">
+                <div className="font-bold">
+                  <p className="text-lg">Serving size</p>
+                </div>
+                <p className="font-black text-xl">1 Scoop (45g)</p>
+              </div>
+              <div className="flex justify-between items-baseline border-b-4 border-surface mb-2">
+                <p className="text-lg font-black leading-none">Amount per serving</p>
+              </div>
+              <div className="flex justify-between items-baseline border-b-4 border-surface mb-4">
+                <p className="text-4xl font-black leading-none">Calories</p>
+                <p className="text-4xl font-black leading-none">160</p>
+              </div>
+              <div className="text-right text-sm font-black border-b border-surface pb-1 mb-1">% Daily Value*</div>
+
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2">
+                <p><span className="font-black">Total Fat</span> 4g</p>
+                <p className="font-black text-sm">5%</p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2 pl-4">
+                <p>Saturated Fat 2g</p>
+                <p className="font-black text-sm">10%</p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2">
+                <p><span className="font-black">Sodium</span> 120mg</p>
+                <p className="font-black text-sm">5%</p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2">
+                <p><span className="font-black">Total Carbohydrate</span> 12g</p>
+                <p className="font-black text-sm">4%</p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2 pl-4">
+                <p>Dietary Fiber 8g</p>
+                <p className="font-black text-sm">29%</p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2 pl-4">
+                <p>Total Sugars 0g</p>
+                <p className="font-black text-sm"></p>
+              </div>
+              <div className="grid grid-cols-[1fr_auto] border-b border-surface/30 py-2">
+                <p><span className="font-black">Protein</span> 24g</p>
+                <p className="font-black text-sm">48%</p>
+              </div>
+
+              <div className="pt-4 text-[10px] leading-tight italic">
+                *The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet.
+                2,000 calories a day is used for general nutrition advice.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-[#221a17] w-full rounded-t-[3rem] mt-24 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto font-['Plus_Jakarta_Sans'] leading-relaxed">
+          <div className="md:col-span-1">
+            <div className="text-3xl font-bold text-[#efbf70] mb-6">BALPRO LIFE</div>
+            <p className="text-[#e2bfb2]/70 text-sm">
+              Indulgence without compromise. Performance without chemicals. The future of functional nutrition is here.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h4 className="text-[#efbf70] font-bold uppercase tracking-widest text-xs mb-2">Shop</h4>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              The Original Blend
+            </button>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Trial Packs
+            </button>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Merchandise
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h4 className="text-[#efbf70] font-bold uppercase tracking-widest text-xs mb-2">Support</h4>
+            <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/about">
+              Journal
+            </Link>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Privacy Policy
+            </button>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Terms of Service
+            </button>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Shipping and Returns
+            </button>
+            <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
+              Wholesale
+            </button>
+            <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/contact">
+              Contact
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h4 className="text-[#efbf70] font-bold uppercase tracking-widest text-xs mb-2">Newsletter</h4>
+            <p className="text-[#e2bfb2]/70 text-xs mb-4">Join the list for exclusive drops and wellness rituals.</p>
+            <div className="flex gap-2">
+              <input
+                className="bg-surface-container-highest border-none rounded-full px-4 text-sm w-full focus:ring-1 focus:ring-tertiary"
+                placeholder="Email"
+                type="email"
+              />
+              <button className="material-symbols-outlined bg-tertiary text-on-tertiary-fixed p-2 rounded-full" type="button">
+                arrow_forward
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center pb-12 text-[10px] text-[#e2bfb2]/40 tracking-[0.2em] uppercase">
+          © 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.
+        </div>
+      </footer>
+
+      {/* Bottom nav (mobile) */}
+      <nav className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <div className="flex justify-around items-center h-20 pb-safe px-6">
+          <Link to="/" className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90">
+            <span className="material-symbols-outlined">local_mall</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Shop</span>
+          </Link>
+          <Link to="/ingredients" className="flex flex-col items-center justify-center text-[#efbf70] bg-[#3c332f] rounded-full py-2 px-4 transition-transform active:scale-90">
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+              auto_awesome
+            </span>
+            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Benefits</span>
+          </Link>
+          <button className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90" type="button">
+            <span className="material-symbols-outlined">shopping_cart</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Cart</span>
+          </button>
+          <Link to="/login" className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90">
+            <span className="material-symbols-outlined">person</span>
+            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Account</span>
+          </Link>
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+export default IngredientsPage;

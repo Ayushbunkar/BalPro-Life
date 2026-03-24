@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import IngredientsPage from './pages/IngredientsPage';
+import ProductsPage from './pages/ProductsPage';
+import ReviewsPage from './pages/ReviewsPage';
+import WhyChooseUsPage from './pages/WhyChooseUsPage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -23,6 +29,8 @@ import CartSidebar from './components/CartSidebar';
 import CheckoutModal from './components/CheckoutModal';
 
 function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [cart, setCart] = useState([]);
@@ -55,7 +63,7 @@ function AppContent() {
 
   const handleCheckout = () => {
     setIsCartOpen(false);
-    setIsCheckoutOpen(true);
+    navigate('/checkout');
   };
 
   const handlePlaceOrder = () => {
@@ -66,22 +74,30 @@ function AppContent() {
 
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
+  const isAuthShellRoute = location.pathname === '/register';
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">
 
-      <Navbar
-        cartCount={cartCount}
-        onCartClick={() => setIsCartOpen(true)}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
+      {!isAuthShellRoute && (
+        <Navbar
+          cartCount={cartCount}
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
+      )}
 
       {/* Main content starts below navbar (navbar is fixed). Pages control their own container/full-bleed behavior. */}
-      <main className="pt-24">
+      <main className={isAuthShellRoute ? '' : 'pt-24'}>
         <Routes>
           <Route path="/" element={<HomePage onAddToCart={addToCart} />} />
+          <Route path="/products" element={<ProductsPage onAddToCart={addToCart} />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/why-choose-us" element={<WhyChooseUsPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/ingredients" element={<IngredientsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -144,21 +160,25 @@ function AppContent() {
         </Routes>
       </main>
 
-      <CartSidebar
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cart={cart}
-        onRemove={removeFromCart}
-        onUpdateQty={updateQty}
-        onCheckout={handleCheckout}
-      />
+      {!isAuthShellRoute && (
+        <CartSidebar
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cart={cart}
+          onRemove={removeFromCart}
+          onUpdateQty={updateQty}
+          onCheckout={handleCheckout}
+        />
+      )}
 
-      <CheckoutModal
-        isOpen={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        total={cartTotal}
-        onPlaceOrder={handlePlaceOrder}
-      />
+      {!isAuthShellRoute && (
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          onClose={() => setIsCheckoutOpen(false)}
+          total={cartTotal}
+          onPlaceOrder={handlePlaceOrder}
+        />
+      )}
 
       {notification && (
         <div className="fixed top-24 right-8 bg-white border border-slate-100 text-slate-900 px-6 py-4 shadow-2xl z-80 flex items-center gap-4 animate-in slide-in-from-right-10 border-l-4 border-l-orange-500">

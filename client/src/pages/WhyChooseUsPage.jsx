@@ -147,43 +147,6 @@ const WhyChooseUsPage = () => {
         </div>
       </section>
 
-      <footer className="bg-[#221a17] w-full rounded-t-[3rem] mt-24 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto font-['Plus_Jakarta_Sans'] leading-relaxed">
-          <div className="col-span-1 md:col-span-1">
-            <div className="text-3xl font-bold text-[#efbf70] mb-6">BALPRO LIFE</div>
-            <p className="text-[#e2bfb2]/70 text-sm max-w-xs mb-8">Crafted for those who refuse to choose between health and indulgence.</p>
-          </div>
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Explore</h4>
-            <ul className="space-y-4">
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" to="/products">Shop All</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" to="/ingredients">The Ritual</Link></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Bulk Orders</button></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Subscription</button></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Support</h4>
-            <ul className="space-y-4">
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" to="/contact">Contact</Link></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Wholesale</button></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Shipping and Returns</button></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">FAQ</button></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Legal</h4>
-            <ul className="space-y-4">
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Privacy Policy</button></li>
-              <li><button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 inline-block" type="button">Terms of Service</button></li>
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-[#4f4440]/20 py-8 px-12 text-center text-[#e2bfb2]/50 text-xs tracking-widest uppercase">
-          © 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.
-        </div>
-      </footer>
-
       <nav className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
         <div className="flex justify-around items-center h-20 pb-safe px-6">
           <Link className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 scale-95 active:scale-90 transition-transform active:bg-[#3c332f] rounded-full" to="/products">

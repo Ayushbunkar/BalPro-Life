@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import { Check } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import IngredientsPage from './pages/IngredientsPage';
@@ -14,6 +15,10 @@ import CheckoutPage from './pages/CheckoutPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import WinFreeDrinkPage from './pages/WinFreeDrinkPage';
+import CodeEntryPage from './pages/CodeEntryPage';
+import HowItWorksPage from './pages/HowItWorksPage';
+import RedemptionPage from './pages/RedemptionPage';
 import AdminDashboard from './pages/dashboard/admin/AdminDashboard';
 import UserDashboard from './pages/dashboard/user/UserDashboard';
 import AdminUsers from './pages/dashboard/admin/AdminUsers';
@@ -75,6 +80,7 @@ function AppContent() {
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
   const isAuthShellRoute = location.pathname === '/register';
+  const showGlobalFooter = location.pathname !== '/cart';
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">
@@ -101,6 +107,10 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/win-free-drink" element={<WinFreeDrinkPage />} />
+          <Route path="/enter-code" element={<CodeEntryPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/redemption" element={<RedemptionPage />} />
 
           {/* User dashboard and nested pages - protected (logged in users) */}
           <Route path="/dashboard" element={
@@ -159,6 +169,8 @@ function AppContent() {
           
         </Routes>
       </main>
+
+      {showGlobalFooter && <Footer />}
 
       {!isAuthShellRoute && (
         <CartSidebar

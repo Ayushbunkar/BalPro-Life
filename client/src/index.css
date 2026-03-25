@@ -51,7 +51,32 @@ h1, h2, h3, h4, h5, h6 {
 	background-clip: text;
 }
 
+.footer-link-hover {
+	position: relative;
+}
+
+.footer-link-hover::after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 1px;
+	bottom: -2px;
+	left: 0;
+	background-color: #efbf70;
+	transition: width 0.3s ease;
+}
+
+.footer-link-hover:hover::after {
+	width: 100%;
+}
+
 .dashboard-card {
 	border-radius: 12px;
 	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+/* Gold shimmer gradient for premium CTAs */
+.gold-shimmer {
+	background: linear-gradient(135deg, #efbf70 0%, #a77e36 100%);
+	box-shadow: 0 8px 32px rgba(239, 191, 112, 0.2);
 }

@@ -21,6 +21,9 @@ const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
           <Link to="/why-choose-us" className="text-[#e2bfb2] hover:text-[#efbf70] transition-colors font-['Epilogue'] tracking-tight hover:scale-105 duration-300">Why Choose Us</Link>
           <Link to="/about" className="text-[#e2bfb2] hover:text-[#efbf70] transition-colors font-['Epilogue'] tracking-tight hover:scale-105 duration-300">About Us</Link>
           <Link to="/contact" className="text-[#e2bfb2] hover:text-[#efbf70] transition-colors font-['Epilogue'] tracking-tight hover:scale-105 duration-300">Contact Us</Link>
+          <Link to="/win-free-drink" className="ml-4 px-6 py-2 gold-shimmer text-[#432c00] font-bold rounded-lg font-['Epilogue'] hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg">
+            Win Free Drink
+          </Link>
         </div>
 
         {/* Right Icons */}
@@ -61,6 +64,9 @@ const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
           <Link to="/why-choose-us" className="block text-[#e2bfb2] hover:text-[#efbf70]" onClick={() => setMobileMenuOpen(false)}>Why Choose Us</Link>
           <Link to="/about" className="block text-[#e2bfb2] hover:text-[#efbf70]" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
           <Link to="/contact" className="block text-[#e2bfb2] hover:text-[#efbf70]" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+          <Link to="/win-free-drink" className="w-full mt-4 px-6 py-2 gold-shimmer text-[#432c00] font-bold rounded-lg font-['Epilogue'] hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg block text-center" onClick={() => setMobileMenuOpen(false)}>
+            Win Free Drink
+          </Link>
         </div>
       )}
     </nav>

@@ -308,61 +308,6 @@ const ProductsPage = ({ onAddToCart }) => {
           <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans']">Account</span>
         </Link>
       </nav>
-
-      <footer className="w-full rounded-t-[3rem] mt-24 bg-[#221a17] shadow-[0_-20px_50px_rgba(0,0,0,0.2)] font-['Plus_Jakarta_Sans'] leading-relaxed">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto">
-          <div className="md:col-span-1">
-            <div className="text-3xl font-bold text-[#efbf70] mb-6">BALPRO LIFE</div>
-            <p className="text-[#e2bfb2]/70">Elevating the daily ritual through conscious curation and Belgian mastery.</p>
-          </div>
-
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Explore</h4>
-            <div className="flex flex-col space-y-4">
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/about">
-                Our Story
-              </Link>
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/ingredients">
-                Ingredients
-              </Link>
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Wholesale
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Support</h4>
-            <div className="flex flex-col space-y-4">
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Shipping and Returns
-              </button>
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/contact">
-                Contact
-              </Link>
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Terms of Service
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-[#efbf70] font-bold mb-6">Manifesto</h4>
-            <p className="text-[#e2bfb2]/70 italic">
-              The liquid curator selects only what serves the soul and the vessel.
-            </p>
-            <div className="mt-8 flex space-x-4">
-              <span className="material-symbols-outlined text-[#efbf70]">public</span>
-              <span className="material-symbols-outlined text-[#efbf70]">filter_vintage</span>
-              <span className="material-symbols-outlined text-[#efbf70]">auto_fix_high</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-outline-variant/10 py-10 text-center">
-          <p className="text-[10px] tracking-[0.3em] text-[#e2bfb2]/40">© 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.</p>
-        </div>
-      </footer>
     </div>
   );
 };

@@ -199,67 +199,6 @@ const AboutPage = () => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full rounded-t-[3rem] mt-24 bg-[#221a17] shadow-[0_-20px_50px_rgba(0,0,0,0.2)] pb-28 md:pb-0">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto">
-          <div className="md:col-span-2">
-            <Link className="text-3xl font-bold text-[#efbf70] mb-6 block font-headline" to="/">
-              BALPRO LIFE
-            </Link>
-            <p className="text-[#e2bfb2]/70 max-w-sm mb-8 leading-relaxed">
-              Elevating the human ritual through functional cacao. Crafted for those who demand excellence in every sip.
-            </p>
-            <div className="flex gap-4">
-              <span className="material-symbols-outlined text-[#efbf70] p-2 rounded-full border border-[#efbf70]/20 hover:bg-[#efbf70]/10 transition-colors cursor-pointer">
-                brand_awareness
-              </span>
-              <span className="material-symbols-outlined text-[#efbf70] p-2 rounded-full border border-[#efbf70]/20 hover:bg-[#efbf70]/10 transition-colors cursor-pointer">
-                star
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-[#efbf70] font-headline font-bold mb-6">Menu</h4>
-            <div className="flex flex-col gap-4">
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/">
-                Shop
-              </Link>
-              <a className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" href="/#ingredients">
-                Ingredients
-              </a>
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/">
-                Reviews
-              </Link>
-              <Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" to="/about">
-                Our Story
-              </Link>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-[#efbf70] font-headline font-bold mb-6">Legal</h4>
-            <div className="flex flex-col gap-4">
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Privacy Policy
-              </button>
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Terms of Service
-              </button>
-              <button className="text-left text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1" type="button">
-                Shipping and Returns
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-[#4f4440]/20 py-8 text-center">
-          <p className="text-[#e2bfb2]/30 text-xs tracking-widest font-['Plus_Jakarta_Sans'] uppercase">
-            © 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.
-          </p>
-        </div>
-      </footer>
-
       {/* BottomNavBar (Mobile Only) */}
       <MobileBottomNav />
     </div>

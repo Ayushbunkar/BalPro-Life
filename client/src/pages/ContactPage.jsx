@@ -140,49 +140,6 @@ const ContactPage = () => {
         </section>
       </main>
 
-      <footer className="w-full rounded-t-[3rem] mt-24 bg-[#221a17] shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-7xl mx-auto font-['Plus_Jakarta_Sans'] leading-relaxed">
-          <div className="md:col-span-2">
-            <div className="text-3xl font-bold text-[#efbf70] mb-6">BALPRO LIFE</div>
-            <p className="text-[#e2bfb2]/70 max-w-md mb-8">
-              CRAFTED FOR THE INDULGENT. A fusion of ancient botanical wisdom and modern sensory ritual. Elevate your
-              daily pause.
-            </p>
-            <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-tertiary hover:border-tertiary transition-colors cursor-pointer">
-                <span className="material-symbols-outlined text-sm">public</span>
-              </div>
-              <div className="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-tertiary hover:border-tertiary transition-colors cursor-pointer">
-                <span className="material-symbols-outlined text-sm">share</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-on-surface font-bold mb-6">Brand</h4>
-            <ul className="space-y-4">
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/about">Our Story</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/ingredients">Ingredients</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/about">The Journal</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-on-surface font-bold mb-6">Client Care</h4>
-            <ul className="space-y-4">
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/contact">Privacy Policy</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/contact">Terms of Service</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/contact">Wholesale</Link></li>
-              <li><Link className="text-[#e2bfb2]/70 hover:text-[#efbf70] transition-all duration-300 hover:translate-x-1 block" to="/contact">Contact</Link></li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-outline-variant/10 px-12 py-8 max-w-7xl mx-auto">
-          <p className="text-[10px] tracking-[0.2em] text-[#e2bfb2]/40 uppercase">© 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.</p>
-        </div>
-      </footer>
-
       <div className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
         <div className="flex justify-around items-center h-20 pb-safe px-6">
           <Link to="/products" className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90">

@@ -17,8 +17,11 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import WinFreeDrinkPage from './pages/WinFreeDrinkPage';
 import CodeEntryPage from './pages/CodeEntryPage';
+import BetterLuckPage from './pages/BetterLuckPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import RedemptionPage from './pages/RedemptionPage';
+import GamePage from './pages/GamePage';
+import GameResultPage from './pages/GameResultPage';
 import AdminDashboard from './pages/dashboard/admin/AdminDashboard';
 import UserDashboard from './pages/dashboard/user/UserDashboard';
 import AdminUsers from './pages/dashboard/admin/AdminUsers';
@@ -111,6 +114,11 @@ function AppContent() {
           <Route path="/enter-code" element={<CodeEntryPage />} />
           <Route path="/how-it-works" element={<HowItWorksPage />} />
           <Route path="/redemption" element={<RedemptionPage />} />
+          <Route path="/better-luck" element={<BetterLuckPage />} />
+
+           {/* Hybrid Game Routes */}
+           <Route path="/play-game" element={<GamePage />} />
+           <Route path="/game-result" element={<GameResultPage />} />
 
           {/* User dashboard and nested pages - protected (logged in users) */}
           <Route path="/dashboard" element={

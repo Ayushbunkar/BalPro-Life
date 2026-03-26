@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { MapPin, Qr, Celebration, Share2, Wallet } from 'lucide-react';
+import { MapPin, QrCode, PartyPopper, Share2, Wallet } from 'lucide-react';
 
 const RedemptionPage = () => {
   const location = useLocation();
@@ -137,7 +137,7 @@ const RedemptionPage = () => {
 
             <div className="text-center group">
               <div className="w-16 h-16 rounded-full bg-[#3c332f] flex items-center justify-center mx-auto mb-6 border border-[#4f4440]/20 group-hover:border-[#efbf70]/40 transition-colors">
-                <Qr size={28} className="text-[#efbf70]" />
+                <QrCode size={28} className="text-[#efbf70]" />
               </div>
               <h4 className="font-bold mb-4">Present Code</h4>
               <p className="text-sm text-[#d3c3be] leading-relaxed">Show your unique QR code to the staff during checkout.</p>
@@ -145,7 +145,7 @@ const RedemptionPage = () => {
 
             <div className="text-center group">
               <div className="w-16 h-16 rounded-full bg-[#3c332f] flex items-center justify-center mx-auto mb-6 border border-[#4f4440]/20 group-hover:border-[#efbf70]/40 transition-colors">
-                <Celebration size={28} className="text-[#efbf70]" />
+                <PartyPopper size={28} className="text-[#efbf70]" />
               </div>
               <h4 className="font-bold mb-4">Enjoy the Ritual</h4>
               <p className="text-sm text-[#d3c3be] leading-relaxed">Receive your premium Cacao Gold Tetra Pack and elevate your wellness.</p>

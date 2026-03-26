@@ -1,20 +1,22 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
+const extractToken = (req) => {
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    return req.headers.authorization.split(' ')[1];
+  }
+
+  if (req.cookies && req.cookies.token) {
+    return req.cookies.token;
+  }
+
+  return null;
+};
+
 // Protect routes - require authentication
 export const protect = async (req, res, next) => {
   try {
-    let token;
-
-    // Check for token in header
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
-
-    // Check for token in cookies (if using cookies)
-    else if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-    }
+    const token = extractToken(req);
 
     // Make sure token exists
     if (!token) {
@@ -51,6 +53,32 @@ export const protect = async (req, res, next) => {
       success: false,
       message: 'Server error'
     });
+  }
+};
+
+// Optional auth - attach user if token is valid, otherwise continue anonymously
+export const optionalAuth = async (req, res, next) => {
+  try {
+    const token = extractToken(req);
+
+    if (!token) {
+      return next();
+    }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id);
+      if (user) {
+        req.user = user;
+      }
+    } catch (err) {
+      // Ignore invalid token for optional auth and continue as guest.
+    }
+
+    return next();
+  } catch (error) {
+    console.error('Optional auth middleware error:', error);
+    return next();
   }
 };
 

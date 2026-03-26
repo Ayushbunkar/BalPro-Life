@@ -20,15 +20,34 @@ connectDB();
 app.use(helmet());
 // CORS configuration
 // In development allow all origins (so HMR, Vite dev server, etc. work without strict matching).
-// In production keep a stricter allowlist based on CLIENT_URL.
-if (process.env.NODE_ENV === 'development') {
+// In production keep a stricter allowlist from CLIENT_URL/CLIENT_URLS plus local dev origins.
+const corsAllowAll = (process.env.CORS_ALLOW_ALL || '').toLowerCase() === 'true';
+
+if (corsAllowAll) {
+  app.use(cors({ origin: true, credentials: true, optionSuccessStatus: 200 }));
+} else if (process.env.NODE_ENV === 'development') {
   app.use(cors({ origin: true, credentials: true, optionSuccessStatus: 200 }));
 } else {
-  const allowedOrigins = [process.env.CLIENT_URL].filter(Boolean);
+  const normalizeOrigin = (value) => (value || '').trim().replace(/\/+$/, '');
+
+  const envOrigins = [
+    process.env.CLIENT_URL,
+    ...(process.env.CLIENT_URLS || '').split(',').map((origin) => origin.trim())
+  ]
+    .filter(Boolean)
+    .map(normalizeOrigin);
+
+  const allowedOrigins = Array.from(new Set([
+    ...envOrigins,
+    normalizeOrigin('http://localhost:5173'),
+    normalizeOrigin('http://127.0.0.1:5173')
+  ]));
+
   const corsOptions = {
     origin(origin, callback) {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      const normalizedOrigin = normalizeOrigin(origin);
+      if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
         return callback(null, true);
       }
       return callback(new Error('CORS policy: This origin is not allowed.'), false);
@@ -40,10 +59,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)
-// In development we disable the limiter to avoid accidental 429s from HMR/dev tooling.
-// Rate limiting (apply after CORS so preflight and CORS headers are returned)
-// Controlled by `RATE_LIMIT_ENABLED` env var or enabled automatically in production.
-const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true' || process.env.NODE_ENV === 'production';
+// Controlled only by `RATE_LIMIT_ENABLED` env var.
+const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true';
 if (rateLimitEnabled) {
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -62,7 +79,7 @@ if (rateLimitEnabled) {
   }
 } else {
   if (process.env.QUIET_STARTUP !== 'true') {
-    console.log('⚠️ Rate limiter is disabled. To enable set RATE_LIMIT_ENABLED=true or run with NODE_ENV=production.');
+    console.log('⚠️ Rate limiter is disabled. To enable set RATE_LIMIT_ENABLED=true.');
   }
 }
 
@@ -83,6 +100,9 @@ try {
   app.use('/api/orders', (await import('./routes/orders.js')).default);
   app.use('/api/users', (await import('./routes/users.js')).default);
   app.use('/api/admin', (await import('./routes/admin.js')).default);
+  app.use('/api/codes', (await import('./routes/codes.js')).default);
+  app.use('/api/rewards', (await import('./routes/rewards.js')).default);
+    app.use('/api/game', (await import('./routes/game.js')).default);
 } catch (error) {
   console.error('Error loading routes:', error);
   process.exit(1);

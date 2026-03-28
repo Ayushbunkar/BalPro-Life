@@ -27,7 +27,7 @@ const faqs = [
 const WhyChooseUsPage = () => {
   return (
     <div className="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary-fixed pb-28 md:pb-0">
-      <header className="relative pt-20 pb-24 overflow-hidden bg-[radial-gradient(circle_at_center,#221a17_0%,#19120f_100%)]">
+      <header className="relative pt-0 md:pt-10 pb-24 overflow-hidden bg-[radial-gradient(circle_at_center,#221a17_0%,#19120f_100%)]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative z-10">
             <span className="text-tertiary font-label tracking-[0.2em] text-xs uppercase mb-6 block">The Superior Standard</span>

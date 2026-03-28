@@ -267,29 +267,6 @@ const ProductsPage = ({ onAddToCart }) => {
         </section>
       </main>
 
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-lg hidden md:block">
-        <div className="bg-surface-container-highest/90 backdrop-blur-2xl p-4 rounded-full border border-tertiary/20 shadow-2xl flex items-center justify-between px-8 gap-4">
-          <div className="flex items-center gap-4">
-            <img
-              alt="Mini product"
-              className="w-10 h-10 object-contain"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJiveFdCNZuz6gMADu4lTsmoLGv-3G5bT497Ngj_C_TDr1hwKWKOEjkxIhLhIERpb3b45HEQfAiRAnKJVzhM5vfnqYxohvsByJFow0SmS-0JC22Vw9zN0N6BPNgRut2VnlK1V3lVpsPJQcr7QN398aEugJkHDNNS08VfgThzaXHD_Dw9BdotuBUWiFnSyj1lP1_YAApHPRrl3YTET6A6DhmfjKMl3_y1LPlVIiXaZbysve_OxeOfL2Uic7ghG_hIZvwt18kkhKLA"
-            />
-            <div>
-              <p className="text-xs font-bold text-tertiary">BALPRO CACAO</p>
-              <p className="font-bold">$39.00</p>
-            </div>
-          </div>
-          <button
-            className="bg-[linear-gradient(135deg,#efbf70,#a77e36)] px-8 py-3 rounded-full text-on-tertiary-fixed font-bold text-sm"
-            type="button"
-            onClick={handleAddToCart}
-          >
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
       <nav className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] h-20 pb-safe px-6 flex justify-around items-center">
         <Link className="flex flex-col items-center justify-center text-[#efbf70] bg-[#3c332f] rounded-full py-2 px-4 scale-95 active:scale-90 transition-transform" to="/products">
           <span className="material-symbols-outlined">local_mall</span>

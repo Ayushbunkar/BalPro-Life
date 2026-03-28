@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
-import Button from '../components/Button';
-import InputField from '../components/InputField';
+import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -14,6 +12,7 @@ const LoginPage = () => {
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -49,94 +48,169 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full mx-auto space-y-8">
-        <div className="text-center">
-         
-          <h2 className="text-3xl font-black text-slate-900">Welcome back</h2>
-          <p className="mt-2 text-slate-600">Sign in to your account</p>
+    <main className="min-h-screen flex items-center justify-center relative overflow-hidden bg-surface font-body text-on-surface selection:bg-tertiary/30">
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-linear-to-r from-surface via-surface/80 to-transparent z-10"></div>
+        <img
+          className="w-full h-full object-cover object-[center_72%] opacity-40 scale-100"
+          alt="Cinematic dark chocolate backdrop"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0swvhU1L7zYH3rqw-SCEFpjXIjj7iZSWFfdbrvJZ53KCriAraohYZskbn2UcBW9GKcQtZnnUx-e223JUftL5aY5MhWOXMVOr9rGvQOzpyhiBd66Aa2QwPpvurMCFwz_5kP_BWM9WbcUUpeeCKq6mgKFIYGi9MJ_7wAOKv7csezbmvoJo4IFWCXIEc4VwkyI1bnW2sBQAW9WcaAM5HtPfHlJseyEGF57O0bia3a9XuKoP4PhYgExoh17WUq5IJmN_d4lc8uuZn1Q"
+        />
+      </div>
+
+      <section className="relative z-20 w-full max-w-[1200px] px-6 py-12 flex flex-col md:flex-row items-center gap-16">
+        <div className="hidden md:block flex-1 space-y-8">
+          <div className="inline-block px-4 py-1 rounded-full bg-tertiary-container border border-tertiary/20 text-tertiary text-xs font-bold tracking-widest uppercase">
+            The Liquid Curator
+          </div>
+
+          <h1 className="font-headline text-6xl lg:text-7xl font-extrabold text-on-surface leading-[1.1] tracking-tighter">
+            Indulgence <br />
+            <span className="text-tertiary [text-shadow:0_0_20px_rgba(239,191,112,0.3)]">Refined.</span>
+          </h1>
+
+          <p className="text-primary-fixed-dim text-lg max-w-md leading-relaxed">
+            Access your personalized wellness journey and track your functional cacao rituals. Elevate every sip.
+          </p>
+
+          <div className="flex gap-6 items-center pt-4">
+            <div className="flex -space-x-4">
+              <img
+                className="w-12 h-12 rounded-full border-2 border-surface object-cover"
+                alt="Member avatar"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuABzpmjCpYOc2BsaVOaYfzSGtmIkCwdzCmNNMI37Q1jMznPG-p74Z6LjCDy_cG58-HIfUkZu6jq-WNOLVeV8Hm9v6cpFzeWOXVlvFAPtbet1xCsIPbqMXIfshydeml-CIK5ktExPlYotRh_drLqqSa7xcH-esjJutcDoR-889rd-VDRjIaY8Rce8wsUDXDosSk75VA1C8mPE8P0FbZWPLybNhY8Q72uTRt7e5fNvieY5Lvs6znTpjrw6cVr6vebsEOqWrUjOpRlGg"
+              />
+              <img
+                className="w-12 h-12 rounded-full border-2 border-surface object-cover"
+                alt="Member avatar"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyaTDbFAReWp8vs1e1A2PGwu0c31C7umWAdAUBxx9VrJSIosM7xdPFc_Mmw19DA8dQ-f2fJlxZzhUslfNrwxfhKY8BkXlwP9J9qM6zilsCpbLhZ7vgUALfwyMrYraHLBVO4C3s3iO0bvxzm4Ax8p1IT3Zj7YgaYSrLQSTGxPn1Uz5KGoaSw9kmvLJvQuvi8CakDYSi8zv33uKZvp2yGqAU5qV3vyVUqSAnmYnHuZAtxAko7H36-aE8AQD0b7AznvOhMmhvJTGPkw"
+              />
+              <div className="w-12 h-12 rounded-full border-2 border-surface bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-tertiary">
+                12K+
+              </div>
+            </div>
+
+            <span className="text-sm text-on-surface-variant font-medium">Joined the Cacao Revolution</span>
+          </div>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
-              {error}
-            </div>
-          )}
+        <div className="w-full max-w-md">
+          <div className="bg-[rgba(34,26,23,0.7)] backdrop-blur-3xl p-10 md:p-12 rounded-xl shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-outline-variant/10">
+            <header className="mb-10 text-center md:text-left">
+              <h2 className="font-headline text-3xl font-bold text-on-surface mb-2">Welcome Back</h2>
+              <p className="text-on-surface-variant">Enter your credentials to continue.</p>
+            </header>
 
-          <div className="space-y-4">
-            <InputField
-              label="Email address"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              icon={Mail}
-              placeholder="Enter your email"
-            />
+            {error && (
+              <div className="mb-6 rounded-lg border border-error/40 bg-error/10 px-4 py-3 text-sm text-error">
+                {error}
+              </div>
+            )}
 
-            <div className="relative">
-              <InputField
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                icon={Lock}
-                placeholder="Enter your password"
-              />
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <label className="block text-xs font-bold uppercase tracking-widest text-tertiary/80 ml-1" htmlFor="email">
+                  Email Address
+                </label>
+                <div className="relative group">
+                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
+                    mail
+                  </span>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="curator@balpro.life"
+                    className="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-tertiary/50 rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-outline/70 transition-all outline-none"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center ml-1">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-tertiary/80" htmlFor="password">
+                    Password
+                  </label>
+                  <a className="text-xs font-semibold text-primary hover:text-tertiary transition-colors" href="#">
+                    Forgot Password?
+                  </a>
+                </div>
+
+                <div className="relative group">
+                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
+                    lock
+                  </span>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="........"
+                    className="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 focus:ring-2 focus:ring-tertiary/50 rounded-lg py-4 pl-12 pr-12 text-on-surface placeholder:text-outline/70 transition-all outline-none"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-4 flex items-center text-outline hover:text-on-surface transition-colors"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center px-1">
+                <label className="flex items-center cursor-pointer group">
+                  <div className="relative">
+                    <input
+                      className="peer sr-only"
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <div className="w-5 h-5 bg-surface-container-lowest border border-outline-variant/30 rounded-md peer-checked:bg-tertiary peer-checked:border-tertiary transition-all"></div>
+                    <span
+                      className="material-symbols-outlined absolute inset-0 text-on-tertiary text-[14px] flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity"
+                      style={{ fontVariationSettings: "'wght' 700" }}
+                    >
+                      check
+                    </span>
+                  </div>
+                  <span className="ml-3 text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Remember Me</span>
+                </label>
+              </div>
+
               <button
-                type="button"
-                className="absolute right-3 top-9 text-slate-400 hover:text-slate-600"
-                onClick={() => setShowPassword(!showPassword)}
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] hover:scale-[1.02] active:scale-95 py-5 rounded-full text-on-tertiary font-bold tracking-widest uppercase text-sm shadow-[0_20px_40px_rgba(239,191,112,0.2)] transition-all duration-300 overflow-hidden relative group disabled:opacity-70 disabled:hover:scale-100"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                <span className="relative z-10">{loading ? 'Signing in...' : 'Login'}</span>
+                <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12"></div>
               </button>
-            </div>
+
+              <div className="pt-6 text-center">
+                <p className="text-on-surface-variant text-sm">
+                  Don&apos;t have an account?
+                  <Link className="text-tertiary font-bold hover:underline underline-offset-4 ml-1" to="/register">
+                    Sign up
+                  </Link>
+                </p>
+              </div>
+            </form>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="#" className="text-orange-600 hover:text-orange-500 font-medium">
-                Forgot your password?
-              </a>
-            </div>
-          </div>
+        </div>
+      </section>
 
-          <div className="mt-4 flex items-center justify-center">
-            <div className="inline-flex rounded-md shadow-sm" role="group" aria-label="OAuth providers">
-              <a href={`${import.meta.env.VITE_API_BASE || 'http://localhost:4500'}/api/auth/google`} className="inline-flex items-center gap-3 px-4 py-2 rounded-md border border-gray-200 bg-white text-sm text-slate-800 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-400">
-                <svg className="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <path fill="#EA4335" d="M24 9.5c3.9 0 7 1.5 9.2 3.5l6.8-6.8C35.6 2.6 30.1 0 24 0 14.7 0 6.9 5.6 3 13.6l7.9 6.2C12.9 14.2 18 9.5 24 9.5z"/>
-                  <path fill="#34A853" d="M46.5 24.5c0-1.6-.1-2.6-.5-3.8H24v7.2h12.9c-.6 3.2-2.8 5.6-6.1 7.3l9.3 7.2C44.6 37.5 46.5 31.5 46.5 24.5z"/>
-                  <path fill="#4A90E2" d="M10.9 29.8A14.9 14.9 0 0 1 9 24.5c0-1.9.3-3.7.9-5.3L3.9 13C1.3 17 0 20.5 0 24.5s1.3 7.5 3.9 11l7-5.7z"/>
-                  <path fill="#FBBC05" d="M24 48c6.1 0 11.6-2 15.6-5.4l-7.4-5.8c-2 1.4-4.6 2.3-8.3 2.3-6 0-11.1-4.7-12.2-10.9l-7.9 6.2C6.9 42.4 14.7 48 24 48z"/>
-                </svg>
-                <span>Continue with Google</span>
-              </a>
-            </div>
-          </div>
-
-          <Button
-            type="submit"
-            variant="primary"
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? 'Signing in...' : 'Sign in'}
-          </Button>
-
-          <div className="text-center">
-            <span className="text-slate-600">Don't have an account? </span>
-            <Link to="/register" className="text-orange-600 hover:text-orange-500 font-medium">
-              Sign up
-            </Link>
-          </div>
-        </form>
-      </div>
-    </div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-tertiary/5 blur-[120px] rounded-full -mb-64 -mr-32 pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-primary/5 blur-[100px] rounded-full -mt-32 -ml-16 pointer-events-none"></div>
+    </main>
   );
 };
 

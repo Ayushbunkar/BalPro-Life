@@ -1,10 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef(null);
+
+  const dashboardPath = user?.role === 'admin' ? '/admin' : '/dashboard';
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target)) {
+        setAccountMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setAccountMenuOpen(false);
+    setMobileMenuOpen(false);
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl dark:bg-[#19120f]/80 transition-all duration-500 ease-in-out">
@@ -38,15 +61,58 @@ const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
               </span>
             )}
           </div>
-          <User
-            size={20}
-            className="cursor-pointer transition-transform active:scale-95 hover:scale-105"
-            onClick={() => {
-              if (!isAuthenticated) {
-                window.location.href = '/login';
-              }
-            }}
-          />
+          {!isAuthenticated && (
+            <div className="hidden md:flex items-center gap-3">
+              <button
+                type="button"
+                className="px-4 py-2 rounded-lg border border-[#efbf70]/40 text-[#efbf70] font-semibold hover:bg-[#3c332f]/70 transition-colors"
+                onClick={() => navigate('/register')}
+              >
+                Sign Up
+              </button>
+              <button
+                type="button"
+                className="px-4 py-2 rounded-lg border border-[#4f4440]/40 text-[#e2bfb2] hover:bg-[#3c332f]/70 transition-colors"
+                onClick={() => navigate('/login')}
+              >
+                Login
+              </button>
+            </div>
+          )}
+          {isAuthenticated && (
+            <div className="relative" ref={accountMenuRef}>
+              <button
+                type="button"
+                className="cursor-pointer transition-transform active:scale-95 hover:scale-105"
+                onClick={() => setAccountMenuOpen((prev) => !prev)}
+                aria-label="Open account menu"
+              >
+                <User size={20} />
+              </button>
+
+              {accountMenuOpen && (
+                <div className="absolute right-0 mt-3 w-44 rounded-xl border border-[#4f4440]/30 bg-[#19120f]/95 backdrop-blur-xl shadow-xl p-2 z-60">
+                  <button
+                    type="button"
+                    className="w-full text-left px-3 py-2 rounded-lg text-[#efbf70] font-semibold hover:bg-[#3c332f]/70 transition-colors"
+                    onClick={() => {
+                      setAccountMenuOpen(false);
+                      navigate(dashboardPath);
+                    }}
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full text-left px-3 py-2 rounded-lg text-[#e2bfb2] hover:bg-[#3c332f]/70 transition-colors"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           <button
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -67,6 +133,51 @@ const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
           <Link to="/win-free-drink" className="w-full mt-4 px-6 py-2 gold-shimmer text-[#432c00] font-bold rounded-lg font-['Epilogue'] hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg block text-center" onClick={() => setMobileMenuOpen(false)}>
             Win Free Drink
           </Link>
+
+          {!isAuthenticated ? (
+            <>
+              <button
+                type="button"
+                className="block w-full mt-2 px-6 py-2 rounded-lg border border-[#efbf70]/40 text-[#efbf70] text-left"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate('/register');
+                }}
+              >
+                Sign Up
+              </button>
+              <button
+                type="button"
+                className="block w-full px-6 py-2 rounded-lg border border-[#4f4440]/40 text-[#e2bfb2] text-left"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate('/login');
+                }}
+              >
+                Login
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="block w-full mt-2 px-6 py-2 rounded-lg border border-[#efbf70]/40 text-[#efbf70] text-left"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate(dashboardPath);
+                }}
+              >
+                Dashboard
+              </button>
+              <button
+                type="button"
+                className="block w-full px-6 py-2 rounded-lg border border-[#4f4440]/40 text-[#e2bfb2] text-left"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       )}
     </nav>

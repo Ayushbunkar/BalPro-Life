@@ -147,25 +147,18 @@ const RegisterPage = () => {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="mb-8">
             <a
               href={googleAuthUrl}
               className="flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
             >
-              <svg className="w-5 h-5 fill-on-surface group-hover:fill-tertiary transition-colors" viewBox="0 0 24 24" aria-hidden>
-                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.9 3.14-2.12 4.14-1.22 1-2.92 1.6-5.72 1.6-4.94 0-8.98-4-8.98-8.94s4.04-8.94 8.98-8.94c2.6 0 4.54 1.02 5.94 2.38l2.32-2.32C18.66 1.1 15.86 0 12.48 0 5.62 0 0 5.62 0 12.5s5.62 12.5 12.48 12.5c3.74 0 6.58-1.24 8.76-3.5 2.24-2.24 2.94-5.4 2.94-8.1 0-.78-.06-1.52-.18-2.2H12.48z"></path>
-              </svg>
+              <img
+                src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
+                alt="Google"
+                className="w-5 h-5 object-contain"
+              />
               <span className="text-sm font-semibold">Google</span>
             </a>
-            <button
-              className="flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
-              type="button"
-            >
-              <svg className="w-5 h-5 fill-on-surface group-hover:fill-tertiary transition-colors" viewBox="0 0 24 24" aria-hidden>
-                <path d="M17.05 20.28c-.96.95-2.13 1.72-3.41 1.72-1.38 0-1.84-.84-3.41-.84-1.57 0-2.11.83-3.41.83-1.26 0-2.45-.77-3.41-1.72-2.02-2.01-3.13-5.2-3.13-7.96 0-3.69 2.31-5.63 4.52-5.63 1.14 0 2.2.71 2.87.71.64 0 1.84-.71 3.11-.71 1.07 0 2.34.34 3.13 1.29-2.5 1.5-2.11 5.37.52 6.55-.58 1.44-1.37 2.88-2.4 3.76zM12.03 5.48c-.06-1.63 1.28-3.19 2.8-3.48.33 1.83-1.27 3.42-2.8 3.48z"></path>
-              </svg>
-              <span className="text-sm font-semibold">Apple</span>
-            </button>
           </div>
 
           <div className="flex items-center gap-4 mb-8">
@@ -178,9 +171,9 @@ const RegisterPage = () => {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Full Name</label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl">person</span>
+                <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">person</span>
                 <input
-                  className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
+                  className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                   placeholder="Julian Vane"
                   type="text"
                   name="name"
@@ -194,9 +187,9 @@ const RegisterPage = () => {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Email Address</label>
               <div className="relative group">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl">mail</span>
+                <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">mail</span>
                 <input
-                  className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
+                  className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                   placeholder="julian@luxury.com"
                   type="email"
                   name="email"
@@ -211,9 +204,9 @@ const RegisterPage = () => {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Password</label>
                 <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl">lock</span>
+                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">lock</span>
                   <input
-                    className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
+                    className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                     placeholder="••••••••"
                     type="password"
                     name="password"
@@ -226,9 +219,9 @@ const RegisterPage = () => {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Confirm</label>
                 <div className="relative group">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl">verified_user</span>
+                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">verified_user</span>
                   <input
-                    className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
+                    className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                     placeholder="••••••••"
                     type="password"
                     name="confirmPassword"
@@ -274,11 +267,6 @@ const RegisterPage = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-8 text-[10px] uppercase tracking-[0.2em] text-on-surface-variant/40 font-bold z-20">
-        <a className="hover:text-tertiary transition-colors" href="#">Support</a>
-        <Link className="hover:text-tertiary transition-colors" to="/ingredients">Ingredients</Link>
-        <a className="hover:text-tertiary transition-colors" href="#">Sourcing</a>
-      </div>
     </main>
   );
 };

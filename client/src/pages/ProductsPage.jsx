@@ -42,14 +42,14 @@ const ProductsPage = ({ onAddToCart }) => {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30 pb-28 md:pb-0">
       <main className="pt-8">
-        <section className="relative min-h-[840px] flex flex-col md:flex-row items-center justify-between px-8 md:px-24 mb-24 overflow-hidden">
+        <section className="relative min-h-[calc(100svh-6rem)] flex flex-col md:flex-row items-center justify-between px-8 md:px-24 py-4 md:py-6 mb-16 overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-tertiary/5 rounded-full blur-[120px]"></div>
 
-          <div className="w-full md:w-1/2 z-10 space-y-8">
+          <div className="w-full md:w-1/2 z-10 space-y-5 lg:space-y-6">
             <div className="inline-block px-4 py-1 rounded-full bg-surface-container-highest text-tertiary text-xs font-bold tracking-[0.2em] mb-4">
               FUNCTIONAL CACAO
             </div>
-            <h1 className="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter leading-[0.9] [text-shadow:0_10px_30px_rgba(0,0,0,0.5)]">
+            <h1 className="font-headline text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] [text-shadow:0_10px_30px_rgba(0,0,0,0.5)]">
               Velvet <br /> <span className="text-tertiary">Recovery.</span>
             </h1>
             <p className="max-w-md text-primary-fixed-dim text-lg leading-relaxed">
@@ -57,7 +57,7 @@ const ProductsPage = ({ onAddToCart }) => {
               silk-smooth pour.
             </p>
 
-            <div className="flex flex-col space-y-6 pt-8">
+            <div className="flex flex-col space-y-4 pt-3">
               <div className="flex items-baseline space-x-4">
                 <span className="text-4xl font-headline font-bold text-on-surface">$39.00</span>
                 <span className="text-outline line-through">$48.00</span>
@@ -100,8 +100,8 @@ const ProductsPage = ({ onAddToCart }) => {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 relative flex justify-center mt-20 md:mt-0">
-            <div className="relative z-20 w-[280px] md:w-[420px] transform hover:rotate-3 transition-transform duration-700">
+          <div className="w-full md:w-1/2 relative flex justify-center mt-10 md:mt-0">
+            <div className="relative z-20 w-60 md:w-[360px] lg:w-[420px] transform hover:rotate-3 transition-transform duration-700">
               <img
                 alt="Premium Chocolate Tetra Pack"
                 className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"

@@ -35,6 +35,7 @@ import Settings from './pages/dashboard/user/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartSidebar from './components/CartSidebar';
 import CheckoutModal from './components/CheckoutModal';
+import MobileBottomNav from './components/MobileBottomNav';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -82,9 +83,8 @@ function AppContent() {
 
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
-  const isRegisterRoute = location.pathname === '/register';
   const isImmersiveRoute = location.pathname === '/enter-code';
-  const hideGlobalChrome = isRegisterRoute || isImmersiveRoute;
+  const hideGlobalChrome = isImmersiveRoute;
   const showGlobalFooter = !hideGlobalChrome && location.pathname !== '/cart';
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function AppContent() {
       )}
 
       {/* Main content starts below navbar (navbar is fixed). Pages control their own container/full-bleed behavior. */}
-      <main className={hideGlobalChrome ? '' : 'pt-24'}>
+      <main className={`${hideGlobalChrome ? '' : 'pt-24'} pb-24 md:pb-0`}>
         <Routes>
           <Route path="/" element={<HomePage onAddToCart={addToCart} />} />
           <Route path="/products" element={<ProductsPage onAddToCart={addToCart} />} />
@@ -186,6 +186,8 @@ function AppContent() {
       </main>
 
       {showGlobalFooter && <Footer />}
+
+      <MobileBottomNav />
 
       {!hideGlobalChrome && (
         <CartSidebar

@@ -6,7 +6,7 @@ const AboutPage = () => {
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30">
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-screen flex items-start md:items-center justify-center overflow-hidden pt-16 md:pt-0">
           <div className="absolute inset-0 z-0">
             <img
               alt="Luxury chocolate texture close-up"
@@ -16,11 +16,11 @@ const AboutPage = () => {
             <div className="absolute inset-0 bg-linear-to-b from-surface/0 via-surface/60 to-surface"></div>
           </div>
           <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <span className="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-6 block">The Liquid Curator</span>
-            <h1 className="font-headline text-5xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.9] mb-12">
+            <span className="text-tertiary font-label tracking-[0.3em] uppercase text-[11px] md:text-sm mb-4 md:mb-6 block">The Liquid Curator</span>
+            <h1 className="font-headline text-4xl sm:text-5xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.95] md:leading-[0.9] mb-6 md:mb-12">
               Crafted for the <span className="italic text-tertiary">Indulgent</span> Mind.
             </h1>
-            <p className="text-primary-fixed-dim text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-body">
+            <p className="text-primary-fixed-dim text-base sm:text-lg md:text-xl max-w-md md:max-w-2xl mx-auto leading-relaxed font-body">
               We believe wellness should not be a chore. It should be a ritual, a moment of pure cocoa-infused
               transcendence designed for the high-performer.
             </p>

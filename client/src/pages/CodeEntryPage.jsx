@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Keyboard, Gift, AlertCircle, Loader } from 'lucide-react';
+import { AlertCircle, Loader } from 'lucide-react';
 import { codesAPI } from '../utils/rewardApi.js';
 
 const CodeEntryPage = () => {
@@ -10,26 +10,25 @@ const CodeEntryPage = () => {
   const navigate = useNavigate();
 
   const formatCode = (value) => {
-    const cleaned = value.replace(/\D/g, '').substring(0, 12);
+    const cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 12);
     if (cleaned.length <= 4) return cleaned;
     if (cleaned.length <= 8) return `${cleaned.slice(0, 4)}-${cleaned.slice(4)}`;
     return `${cleaned.slice(0, 4)}-${cleaned.slice(4, 8)}-${cleaned.slice(8)}`;
   };
 
   const handleInputChange = (e) => {
-    // Only allow digits - remove ALL non-digit characters
+    // Allow letters and digits, then normalize to XXXX-XXXX-XXXX format.
     const value = e.target.value;
-    const digitsOnly = value.replace(/\D/g, '').substring(0, 12);
-    setCodeInput(formatCode(digitsOnly));
+    setCodeInput(formatCode(value));
     setError('');
   };
 
   const handleKeyDown = (e) => {
-    // Block non-numeric keys except for Backspace, Delete, Tab, Enter
+    // Allow alphanumeric keys and basic editing/navigation keys.
     const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight'];
-    const isNumberKey = /[0-9]/.test(e.key);
+    const isAlphaNumericKey = /^[a-zA-Z0-9]$/.test(e.key);
     
-    if (!isNumberKey && !allowedKeys.includes(e.key)) {
+    if (!isAlphaNumericKey && !allowedKeys.includes(e.key)) {
       e.preventDefault();
     }
     
@@ -43,21 +42,22 @@ const CodeEntryPage = () => {
     setLoading(true);
 
     try {
-      const cleanedCode = codeInput.replace(/\D/g, '');
+      const cleanedCode = codeInput.toUpperCase().replace(/[^A-Z0-9]/g, '');
 
       if (cleanedCode.length !== 12) {
-        setError('Please enter a valid 12-digit code');
+        setError('Please enter a valid 12-character code');
         return;
       }
 
-      const response = await codesAPI.verifyCode(codeInput);
+      const formattedCode = formatCode(cleanedCode);
+      const response = await codesAPI.verifyCode(formattedCode);
 
       if (response.success) {
        // Code verified! Redirect to game screen
        if (response.code === 'CODE_VERIFIED') {
          navigate('/play-game', {
            state: {
-             code: codeInput,
+             code: formattedCode,
            },
          });
        } else {
@@ -77,118 +77,124 @@ const CodeEntryPage = () => {
   };
 
   return (
-    <div className="bg-[#140d0a] text-[#efdfd9] font-body selection:bg-tertiary selection:text-on-tertiary overflow-x-hidden">
-      {/* Main Entry Portal Canvas */}
-      <main className="relative min-h-screen flex items-center justify-center pt-24 pb-12 px-6 bg-gradient-to-b from-[#3c332f] via-[#140d0a] to-[#140d0a] overflow-hidden">
-        <div className="w-full max-w-5xl space-y-8 relative z-10">
-          {/* Hero Container: Glassmorphism Card */}
-          <section className="glass-panel w-full rounded-xl p-8 md:p-16 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] text-center relative overflow-hidden bg-[#261e1a]/60 backdrop-blur-[20px] border border-[#efbf70]/15">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#efbf70] to-[#a77e36] opacity-50"></div>
+    <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30">
+      <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 py-16">
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-tertiary/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <header className="mb-10 space-y-4">
-              <span className="text-[#efbf70] font-['Epilogue'] font-bold tracking-[0.2em] text-xs uppercase block">Access The Treasury</span>
-              <h1 className="text-4xl md:text-6xl font-['Epilogue'] font-extrabold tracking-tight text-[#efdfd9] leading-tight">
-                Enter Your <span className="text-[#efbf70]">Ritual Code</span>
-              </h1>
-              <p className="text-[#d3c3be] max-w-xl mx-auto text-lg font-light leading-relaxed">
-                Peel back the label of your Cacao Gold elixir to reveal your unique 12-digit sequence.
-              </p>
-            </header>
+        <div className="mb-12 text-center z-10">
+          <span className="text-tertiary font-label text-xs tracking-[0.3em] uppercase mb-4 block">Access the Ritual</span>
+          <h1 className="font-headline text-5xl md:text-7xl font-black text-on-surface tracking-tighter leading-none mb-2">
+            BALPRO <span className="text-tertiary">LIFE</span>
+          </h1>
+          <p className="font-body text-primary-fixed-dim/70 text-lg md:text-xl max-w-md mx-auto">
+            Enter your unique code to unlock the sanctuary.
+          </p>
+        </div>
 
-            <div className="max-w-md mx-auto space-y-8">
-              {/* Input Field */}
-              <div className="group relative">
+        <section className="w-full max-w-xl rounded-xl p-8 md:p-16 relative z-10 shadow-2xl overflow-hidden bg-[rgba(34,26,23,0.6)] backdrop-blur-xl border border-outline-variant/20">
+          <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(90deg,transparent,rgba(239,191,112,0.1),transparent)] bg-size-[200%_100%] animate-[shimmer_2s_linear_infinite]"></div>
+
+          <div className="relative z-20 flex flex-col items-center">
+            <div className="text-center mb-10">
+              <h2 className="font-headline text-2xl font-bold text-on-surface mb-2">Unique Ritual Code</h2>
+              <div className="flex items-center justify-center gap-2 group/tooltip cursor-help relative">
+                <span className="text-primary-fixed-dim/60 text-sm">Where is my code?</span>
+                <span className="material-symbols-outlined text-sm text-tertiary">help</span>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[110%] w-64 p-6 bg-[rgba(34,26,23,0.95)] backdrop-blur-xl border border-outline-variant/20 rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-all duration-300 pointer-events-none text-left">
+                  <p className="text-on-surface text-sm leading-relaxed">
+                    Your unique 12-digit ritual code can be found inside the foil lid of any limited edition <span className="text-tertiary">Balpro Cacao</span> canister.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full mb-4">
+              <div className="relative group">
                 <input
                   value={codeInput}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  className="w-full bg-[#3c332f] border-2 border-[#4f4440] rounded-lg py-6 px-4 text-lg md:text-xl text-center font-['Epilogue'] font-bold tracking-wider text-[#efbf70] placeholder:text-[#9c8e89]/30 focus:outline-none focus:border-[#efbf70] focus:ring-4 focus:ring-[#efbf70]/10 transition-all duration-500 uppercase overflow-hidden"
+                  className="w-full bg-surface-container-lowest/50 border-0 border-b-2 border-outline-variant/30 text-center text-3xl md:text-4xl font-headline font-bold text-tertiary py-6 tracking-[0.2em] focus:ring-0 focus:border-tertiary transition-all placeholder:text-outline-variant/30 uppercase"
                   maxLength="14"
-                  placeholder="XXXX-XXXX-XXXX"
+                  placeholder="BPR-XXXX-XXXX"
                   type="text"
-                  inputMode="numeric"
-                  pattern="[0-9\-]*"
+                  inputMode="text"
+                  pattern="[A-Za-z0-9\-]*"
                 />
-                <div className="absolute -inset-1 rounded-lg bg-[#efbf70]/20 blur opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 h-0.5 w-0 group-focus-within:w-full bg-linear-to-r from-transparent via-tertiary to-transparent transition-all duration-500"></div>
               </div>
+            </div>
 
-              <p className="text-sm text-[#d3c3be]">{codeInput.replace(/\D/g, '').length}/12 digits entered</p>
+            <p className="w-full text-center text-sm text-primary-fixed-dim/60 mb-6">
+              {codeInput.toUpperCase().replace(/[^A-Z0-9]/g, '').length}/12 characters entered
+            </p>
 
-              {error && (
-                <div className="flex items-center justify-center gap-2 text-red-300 text-sm bg-red-950/40 border border-red-500/30 rounded-lg py-3 px-4">
-                  <AlertCircle size={16} />
-                  <span>{error}</span>
-                </div>
+            {error && (
+              <div className="w-full mb-6 flex items-center justify-center gap-2 text-red-300 text-sm bg-red-950/40 border border-red-500/30 rounded-lg py-3 px-4">
+                <AlertCircle size={16} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button
+              onClick={handleReveal}
+              disabled={loading}
+              className="w-full bg-[#efbf70] text-[#2a170f] font-headline font-extrabold py-5 rounded-full text-lg tracking-widest hover:bg-[#f5ca81] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#efbf70]/20 border border-[#a77e36]/40 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <span className="inline-flex items-center gap-2">
+                  <Loader size={20} className="animate-spin" />
+                  VERIFYING...
+                </span>
+              ) : (
+                'VERIFY MY CODE'
               )}
+            </button>
 
-              {/* Primary Action */}
-              <button
-                onClick={handleReveal}
-                disabled={loading}
-                className="gold-shimmer w-full py-5 rounded-full font-['Epilogue'] font-bold text-[#432c00] text-xl tracking-wide shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <span className="inline-flex items-center gap-2">
-                    <Loader size={20} className="animate-spin" />
-                    Verifying...
-                  </span>
-                ) : (
-                  'Reveal My Reward'
-                )}
-              </button>
-
-              {/* Secondary Action */}
-              <a className="inline-block text-[#d3c3be] hover:text-[#efbf70] transition-colors text-sm underline underline-offset-4 cursor-pointer">
-                I can't read my code
-              </a>
+            <div className="mt-8 flex items-center gap-6 text-xs text-outline font-label tracking-widest uppercase">
+              <a className="hover:text-tertiary transition-colors" href="#">Help Center</a>
+              <div className="w-1 h-1 bg-outline-variant rounded-full"></div>
+              <a className="hover:text-tertiary transition-colors" href="#">Buy Balpro</a>
             </div>
-          </section>
+          </div>
 
-          {/* Quick Guide Bento Grid */}
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl">
-            <div className="bg-[#221a17] p-6 rounded-lg flex flex-col items-center text-center gap-4 transition-all hover:bg-[#261e1a]">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70]">
-                <Search size={24} />
-              </div>
-              <div>
-                <h3 className="font-['Epilogue'] font-bold text-[#efdfd9]">Find Code</h3>
-                <p className="text-sm text-[#d3c3be] mt-1">Check beneath the golden wax seal</p>
-              </div>
-            </div>
+          <div className="absolute -bottom-12 -right-12 w-32 h-32 opacity-10 rotate-12 pointer-events-none">
+            <span className="material-symbols-outlined text-[120px] text-tertiary">auto_awesome</span>
+          </div>
+        </section>
 
-            <div className="bg-[#221a17] p-6 rounded-lg flex flex-col items-center text-center gap-4 transition-all hover:bg-[#261e1a]">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70]">
-                <Keyboard size={24} />
-              </div>
-              <div>
-                <h3 className="font-['Epilogue'] font-bold text-[#efdfd9]">Enter Code</h3>
-                <p className="text-sm text-[#d3c3be] mt-1">Submit your unique 12-digit key</p>
-              </div>
-            </div>
-
-            <div className="bg-[#221a17] p-6 rounded-lg flex flex-col items-center text-center gap-4 transition-all hover:bg-[#261e1a]">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70]">
-                <Gift size={24} />
-              </div>
-              <div>
-                <h3 className="font-['Epilogue'] font-bold text-[#efdfd9]">Win Rare Cacao</h3>
-                <p className="text-sm text-[#d3c3be] mt-1">Unlock exclusive ritual blends</p>
-              </div>
-            </div>
-          </section>
+        <div className="mt-16 text-center max-w-xs z-10">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-px bg-outline-variant/30"></div>
+            <p className="font-body text-primary-fixed-dim/40 text-xs leading-relaxed">
+              Designed for the intentional consumer.
+              <br />
+              Experience the pour, embrace the ritual.
+            </p>
+          </div>
         </div>
 
-        {/* Background Imagery (Asymmetric) */}
-        <div className="absolute -right-24 bottom-0 w-96 h-[600px] pointer-events-none hidden lg:block opacity-40 mix-blend-screen">
+        <div className="fixed inset-0 z-[-1] opacity-30 grayscale contrast-125 mix-blend-overlay pointer-events-none">
           <img
-            alt="Premium Dark Chocolate"
-            className="w-full h-full object-cover rounded-tl-[10rem]"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2RwT0FtIUnqiva_TfsgK19lAYI7O0qeqLymCs9oE3KiQ9DYPqYRmKuWWC3_XAmu3gYUi8Beb0wjxHPEQBeFgJPtuIu_9yEYeTf_5mjjsSzfKR_EAOdlPgDoQc2teTm7bRncVwc-oJuDSRS5VF9Mbe4FFoVXpx7sGzoGxg2Xf9mF6Y4017tuo6pdd1l77fUfgOvnc22PuPhX4zzxarf7HIpDqyMyUvrCXKtJTXNT-dMsxzyPUQ6QnHKYmMyNDF1wG_wq0HVaxChw"
+            alt="Luxury dark chocolate texture"
+            className="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3QjCQjjfzunJN-polI2W6P5k7-8glyjm2OVG2xfSatL8g5HfsHEzLD3yqpT1byFuaku-CcFoJS0SrP_vsYW0MpjBmfIDO1fwjgJIBJHwhqGASBGgVaZGW8xsIJXM7J0xMMT_sSAqDe4EwWnCrcxvDcCfX1ouhEntNRIX2qSj32kk5EfZX9y_LhGdfH2eMt1C9JUoylinUlU12cGx98GPi2fTIRZnCbdd0-sHazn4AH5ZcWroR4LBcUABPHMzUlgfEMp-r4DUoEA"
           />
         </div>
-
-        <div className="absolute -left-24 top-24 w-64 h-64 pointer-events-none opacity-20 blur-2xl bg-[#efbf70] rounded-full"></div>
       </main>
+
+      <footer className="w-full py-12 px-8 bg-surface-container-low grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-t border-outline-variant/15">
+        <div>
+          <p className="text-lg font-bold text-primary-fixed-dim uppercase tracking-tighter">Balpro Life</p>
+          <p className="font-body text-sm text-outline mt-2">© 2024 Balpro Life. The Liquid Curator.</p>
+        </div>
+        <div className="flex flex-wrap gap-6 md:justify-end">
+          <a className="text-sm font-body text-outline hover:text-tertiary transition-colors" href="#">Privacy Policy</a>
+          <a className="text-sm font-body text-outline hover:text-tertiary transition-colors" href="#">Terms of Play</a>
+          <a className="text-sm font-body text-outline hover:text-tertiary transition-colors" href="#">Ingredients</a>
+        </div>
+      </footer>
     </div>
   );
 };

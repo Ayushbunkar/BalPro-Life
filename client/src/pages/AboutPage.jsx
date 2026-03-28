@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MobileBottomNav from '../components/MobileBottomNav';
 
 const AboutPage = () => {
   return (
@@ -198,9 +197,6 @@ const AboutPage = () => {
           </div>
         </section>
       </main>
-
-      {/* BottomNavBar (Mobile Only) */}
-      <MobileBottomNav />
     </div>
   );
 };

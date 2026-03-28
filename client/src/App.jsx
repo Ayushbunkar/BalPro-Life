@@ -82,13 +82,15 @@ function AppContent() {
 
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
-  const isAuthShellRoute = location.pathname === '/register';
-  const showGlobalFooter = location.pathname !== '/cart';
+  const isRegisterRoute = location.pathname === '/register';
+  const isImmersiveRoute = location.pathname === '/enter-code';
+  const hideGlobalChrome = isRegisterRoute || isImmersiveRoute;
+  const showGlobalFooter = !hideGlobalChrome && location.pathname !== '/cart';
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">
 
-      {!isAuthShellRoute && (
+      {!hideGlobalChrome && (
         <Navbar
           cartCount={cartCount}
           mobileMenuOpen={mobileMenuOpen}
@@ -97,7 +99,7 @@ function AppContent() {
       )}
 
       {/* Main content starts below navbar (navbar is fixed). Pages control their own container/full-bleed behavior. */}
-      <main className={isAuthShellRoute ? '' : 'pt-24'}>
+      <main className={hideGlobalChrome ? '' : 'pt-24'}>
         <Routes>
           <Route path="/" element={<HomePage onAddToCart={addToCart} />} />
           <Route path="/products" element={<ProductsPage onAddToCart={addToCart} />} />
@@ -180,7 +182,7 @@ function AppContent() {
 
       {showGlobalFooter && <Footer />}
 
-      {!isAuthShellRoute && (
+      {!hideGlobalChrome && (
         <CartSidebar
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
@@ -191,7 +193,7 @@ function AppContent() {
         />
       )}
 
-      {!isAuthShellRoute && (
+      {!hideGlobalChrome && (
         <CheckoutModal
           isOpen={isCheckoutOpen}
           onClose={() => setIsCheckoutOpen(false)}

@@ -8,7 +8,6 @@ import IngredientsSection from '../components/IngredientsSection';
 import BenefitsSection from '../components/BenefitsSection';
 import ProductsSection from '../components/ProductsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
-import MobileBottomNav from '../components/MobileBottomNav';
 
 const HomePage = ({ onAddToCart }) => {
   const handleShopClick = () => {
@@ -27,7 +26,6 @@ const HomePage = ({ onAddToCart }) => {
       <BenefitsSection />
       <ProductsSection onAddToCart={onAddToCart} />
       <TestimonialsSection />
-      <MobileBottomNav />
     </>
   );
 };

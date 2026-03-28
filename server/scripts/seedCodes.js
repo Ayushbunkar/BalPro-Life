@@ -11,6 +11,10 @@ import {
 
 dotenv.config();
 
+const cliTotal = Number(process.argv[2]);
+const cliWinning = process.argv[3];
+const cliRewardType = process.argv[4];
+
 const seedCodes = async () => {
   try {
     // Connect to database
@@ -18,9 +22,9 @@ const seedCodes = async () => {
     console.log('✅ Connected to MongoDB');
 
     // Configuration
-    const TOTAL_CODES = 1000; // Generate 1000 test codes
-    const WINNING_PERCENTAGE = '30'; // 30% winning codes
-    const REWARD_TYPE = 'mixed'; // mixed reward types
+    const TOTAL_CODES = Number.isFinite(cliTotal) && cliTotal > 0 ? cliTotal : 1000;
+    const WINNING_PERCENTAGE = cliWinning || '30';
+    const REWARD_TYPE = cliRewardType || 'mixed';
 
     console.log(`\n🎲 Generating ${TOTAL_CODES} codes (${WINNING_PERCENTAGE}% winning)...`);
 

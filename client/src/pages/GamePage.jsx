@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Dices, ArrowRight, AlertCircle, Loader } from 'lucide-react';
+import { AlertCircle, Loader } from 'lucide-react';
 import { codesAPI } from '../utils/rewardApi.js';
 
 const GamePage = () => {
@@ -11,8 +11,6 @@ const GamePage = () => {
   const [userNumber, setUserNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [hoveredNumber, setHoveredNumber] = useState(null);
-  const numberGridRef = useRef(null);
 
   // Redirect if no code
   useEffect(() => {
@@ -75,150 +73,131 @@ const GamePage = () => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && userNumber && !loading) {
-      handlePlayGame();
-    }
-  };
-
   // Generate number grid (1-100)
   const numbers = Array.from({ length: 100 }, (_, i) => i + 1);
 
   return (
-    <div className="bg-[#140d0a] text-[#efdfd9] font-body selection:bg-tertiary selection:text-on-tertiary min-h-screen pt-24 pb-12">
-      <main className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <section className="text-center mb-16 space-y-4">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-[#3c332f]/50 border border-[#4f4440]/15 mb-4">
-            <span className="text-[#efbf70] font-label text-xs uppercase tracking-widest font-bold">
-              Step 2: Play the Game
+    <div className="bg-surface text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary min-h-screen">
+      <main className="relative min-h-screen pt-8 pb-24 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[60%] bg-tertiary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[60%] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <span className="inline-block px-4 py-1 rounded-full bg-surface-container-high text-tertiary font-bold text-xs tracking-[0.2em] mb-6 uppercase">
+              The Ritual Game
             </span>
-          </div>
-
-          <h1 className="font-['Epilogue'] text-5xl md:text-6xl font-black tracking-tighter">
-            Spin the <span className="text-[#efbf70]">Lucky Wheel</span>
-          </h1>
-
-          <p className="text-[#d3c3be] max-w-2xl mx-auto text-lg">
-            Select a number between 1 and 100. If your number matches the winning number, you'll win a premium reward! 🎯
-          </p>
-
-          {/* Code verification badge */}
-          <div className="bg-green-950/30 border border-green-500/30 rounded-lg py-3 px-4 inline-block mt-4">
-            <p className="text-green-300 text-sm font-bold">
-              ✅ Code Verified: <span className="font-mono">{code}</span>
+            <h1 className="font-headline text-5xl md:text-7xl font-black text-on-surface tracking-tighter leading-none mb-8">
+              Pick Your <span className="text-tertiary">Lucky Number</span>
+            </h1>
+            <p className="text-primary-fixed-dim text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+              Manifest your indulgence. Select the digit that speaks to your soul and reveal if the gods of cacao are in your favor today.
             </p>
+            <div className="mt-6 inline-flex bg-emerald-950/30 border border-emerald-500/30 rounded-lg py-3 px-4">
+              <p className="text-emerald-300 text-sm font-bold">Code Verified: <span className="font-mono">{code}</span></p>
+            </div>
           </div>
-        </section>
 
-        {/* Number Grid */}
-        <div className="mb-12 bg-[#261e1a]/70 backdrop-blur-[20px] rounded-xl p-8 border border-[#4f4440]/15">
-          <p className="text-center text-[#d3c3be] text-sm uppercase tracking-wider font-bold mb-8">
-            Select Your Lucky Number
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-7xl mx-auto">
+            <div className="lg:col-span-4 flex flex-col gap-8">
+              <div className="bg-surface-container-low rounded-xl p-2 relative group overflow-hidden h-full min-h-[400px]">
+                <img
+                  alt="Luxury chocolate drink being poured"
+                  className="w-full h-full object-cover rounded-lg saturate-125 contrast-110 brightness-105 transition-all duration-700 scale-110 group-hover:scale-100"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9Qji6Q_J_K7pKkGIQXN_Ve97lwU_dijyPHO8pwVQ6HUnORPVgyDYZinfbhCP7XK4hHy72xrasgnRVj20qrQJDIcQFgZ9eoLNcsZ37eOFvgNxb_blS87yu2U3DHWoJzxleA4QfqrmNIjAUhmTJhI1zHeINg2PCiYdpHiSSqF5mxWfXRMbbj_tujtDQtNp_990aS4ogrzV7Va63yZ0KSDG6OGq6yFsZyeXjDtyiNuZrCoT1UGAYadD4JSR4OC7kPNi6mVYzTrQ0nw"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-surface to-transparent opacity-60"></div>
+                <div className="absolute bottom-8 left-8 right-8">
+                  <h3 className="font-headline text-2xl font-bold text-tertiary mb-2">The Liquid Cure</h3>
+                  <p className="text-on-surface-variant text-sm">Winning unlocks our exclusive 85% Dark Reserve batch.</p>
+                </div>
+              </div>
+            </div>
 
-          <div
-            ref={numberGridRef}
-            className="grid grid-cols-5 md:grid-cols-10 gap-3 md:gap-4 mb-8"
-          >
-            {numbers.map((num) => (
-              <button
-                key={num}
-                onClick={() => handleNumberSelect(num)}
-                onMouseEnter={() => setHoveredNumber(num)}
-                onMouseLeave={() => setHoveredNumber(null)}
-                className={`relative group aspect-square rounded-lg font-bold text-lg transition-all duration-300 ${
-                  userNumber === num.toString()
-                    ? 'bg-[#efbf70] text-[#432c00] ring-4 ring-[#efbf70]/50 shadow-lg'
-                    : hoveredNumber === num
-                    ? 'bg-[#4f4440] text-[#efbf70] ring-2 ring-[#efbf70]/30'
-                    : 'bg-[#3c332f] text-[#efdfd9] border border-[#4f4440]/30'
-                }`}
-              >
-                {num}
-                {userNumber === num.toString() && (
-                  <div className="absolute inset-0 rounded-lg bg-[#efbf70]/20 blur-md -z-10"></div>
+            <div className="lg:col-span-8">
+              <div className="bg-surface-container-low rounded-xl p-8 md:p-12 border border-outline-variant/15 relative">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                  <div>
+                    <h2 className="font-headline text-3xl font-bold text-on-surface">Choose Wisely</h2>
+                    <p className="text-on-surface-variant text-sm mt-1">Select 1 number from 100 available slots.</p>
+                  </div>
+                  <div className="flex items-center gap-2 bg-surface-container-high px-4 py-2 rounded-full border border-outline-variant/30">
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>stars</span>
+                    <span className="text-tertiary font-bold text-sm tracking-widest uppercase">Premium Entry</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-5 sm:grid-cols-10 gap-3 md:gap-4 max-h-[400px] overflow-y-auto pr-2 [scrollbar-width:thin] [scrollbar-color:#efbf70_#221a17]">
+                  {numbers.map((num) => {
+                    const isSelected = userNumber === num.toString();
+                    return (
+                      <button
+                        key={num}
+                        onClick={() => handleNumberSelect(num)}
+                        className={`aspect-square flex items-center justify-center rounded-lg text-lg transition-all duration-300 ${isSelected
+                          ? 'bg-tertiary text-on-tertiary scale-110 shadow-lg shadow-tertiary/20 font-black'
+                          : 'bg-surface-container-highest border border-outline-variant/20 hover:border-tertiary hover:bg-tertiary/10 hover:text-tertiary font-bold'
+                        }`}
+                      >
+                        {num.toString().padStart(2, '0')}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-8 pt-8 border-t border-outline-variant/20">
+                  <div className="flex items-center gap-4">
+                    <div className="text-4xl font-black font-headline text-tertiary">{userNumber ? userNumber.padStart(2, '0') : '--'}</div>
+                    <div className="h-10 w-px bg-outline-variant/30"></div>
+                    <div>
+                      <div className="text-xs text-on-primary-fixed uppercase tracking-widest font-bold">Selected Number</div>
+                      <div className="text-primary-fixed-dim text-sm italic">The Divine Alchemist</div>
+                    </div>
+                  </div>
+
+                  <button
+                    className="w-full sm:w-auto bg-linear-to-br from-[#efbf70] to-[#a77e36] text-[#432c00] px-12 py-5 rounded-full font-bold text-lg hover:scale-105 hover:brightness-110 transition-all duration-300 active:scale-95 uppercase tracking-tighter disabled:opacity-60 disabled:cursor-not-allowed"
+                    onClick={handlePlayGame}
+                    disabled={!userNumber || loading}
+                  >
+                    {loading ? (
+                      <span className="inline-flex items-center gap-2"><Loader size={18} className="animate-spin" /> Playing...</span>
+                    ) : (
+                      'Try Your Luck'
+                    )}
+                  </button>
+                </div>
+
+                {error && (
+                  <div className="mt-6 flex items-center justify-center gap-2 text-red-300 text-sm bg-red-950/40 border border-red-500/30 rounded-lg py-3 px-4">
+                    <AlertCircle size={16} />
+                    <span>{error}</span>
+                  </div>
                 )}
-              </button>
-            ))}
+              </div>
+            </div>
           </div>
 
-          {/* Selected Number Display */}
-          <div className="text-center space-y-4">
-            <div className="bg-[#1a1410] rounded-lg p-6 border border-[#4f4440]/30">
-              <p className="text-[#d3c3be] text-sm uppercase tracking-wider mb-2">Your Selected Number</p>
-              <p className="font-['Epilogue'] text-5xl md:text-6xl font-black text-[#efbf70]">
-                {userNumber || '--'}
-              </p>
+          <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="bg-surface-container p-8 rounded-xl flex flex-col gap-4">
+              <span className="material-symbols-outlined text-4xl text-tertiary">refresh</span>
+              <h4 className="font-headline text-xl font-bold">Daily Rituals</h4>
+              <p className="text-on-surface-variant leading-relaxed">Play once every 24 hours to claim rewards ranging from free samples to exclusive glassware.</p>
             </div>
-
-            {error && (
-              <div className="flex items-center justify-center gap-2 text-red-300 text-sm bg-red-950/40 border border-red-500/30 rounded-lg py-3 px-4">
-                <AlertCircle size={16} />
-                <span>{error}</span>
-              </div>
-            )}
+            <div className="bg-surface-container p-8 rounded-xl flex flex-col gap-4">
+              <span className="material-symbols-outlined text-4xl text-tertiary">workspace_premium</span>
+              <h4 className="font-headline text-xl font-bold">Luxury Stakes</h4>
+              <p className="text-on-surface-variant leading-relaxed">Grand prizes include a full year of Balpro Life's signature Obsidian Cacao subscription.</p>
+            </div>
+            <div className="bg-surface-container p-8 rounded-xl flex flex-col gap-4">
+              <span className="material-symbols-outlined text-4xl text-tertiary">diversity_3</span>
+              <h4 className="font-headline text-xl font-bold">Live Lobby</h4>
+              <p className="text-on-surface-variant leading-relaxed">See what other curators are picking in real-time. Join the global Balpro collective.</p>
+            </div>
           </div>
         </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            onClick={() => navigate('/enter-code')}
-            disabled={loading}
-            className="rounded-full border border-[#4f4440]/30 py-5 px-8 text-[#e2bfb2] font-bold text-lg uppercase tracking-widest hover:bg-white/5 active:scale-95 transition-all duration-300"
-          >
-            Go Back
-          </button>
-
-          <button
-            onClick={handlePlayGame}
-            disabled={!userNumber || loading}
-            className="rounded-full gold-shimmer py-5 px-12 text-[#432c00] font-bold text-lg uppercase tracking-widest shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          >
-            {loading ? (
-              <>
-                <Loader size={20} className="animate-spin" />
-                Playing...
-              </>
-            ) : (
-              <>
-                <Dices size={20} />
-                Play & Reveal Result
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Info Section */}
-        <section className="mt-20 bg-[#221a17] rounded-xl p-8 md:p-12">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70] mx-auto mb-4">
-                🎯
-              </div>
-              <h3 className="font-bold mb-2">50/50 Chance</h3>
-              <p className="text-sm text-[#d3c3be]">Every number has equal probability of winning</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70] mx-auto mb-4">
-                🏆
-              </div>
-              <h3 className="font-bold mb-2">Limited Rewards</h3>
-              <p className="text-sm text-[#d3c3be]">Only matching numbers win premium rewards</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[#3c332f] flex items-center justify-center text-[#efbf70] mx-auto mb-4">
-                ⏱️
-              </div>
-              <h3 className="font-bold mb-2">One Try Per Code</h3>
-              <p className="text-sm text-[#d3c3be]">Each bottle code can only be played once</p>
-            </div>
-          </div>
-        </section>
       </main>
+
     </div>
   );
 };

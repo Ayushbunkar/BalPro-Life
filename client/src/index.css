@@ -80,3 +80,12 @@ h1, h2, h3, h4, h5, h6 {
 	background: linear-gradient(135deg, #efbf70 0%, #a77e36 100%);
 	box-shadow: 0 8px 32px rgba(239, 191, 112, 0.2);
 }
+
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}

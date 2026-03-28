@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const WinFreeDrinkPage = () => {
   const navigate = useNavigate();
@@ -14,25 +14,7 @@ const WinFreeDrinkPage = () => {
 
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary">
-      <nav className="fixed top-0 w-full z-50 bg-[#19120f]/80 backdrop-blur-xl flex justify-between items-center px-8 py-4 max-w-full">
-        <div className="text-2xl font-black text-[#efbf70] uppercase tracking-tighter font-['Epilogue']">Balpro Life</div>
-        <div className="hidden md:flex items-center gap-8 tracking-tight font-bold font-['Epilogue']">
-          <a className="text-[#e2bfb2] hover:text-[#efbf70] hover:scale-105 hover:brightness-110 transition-all duration-300" href="#experience">Experience</a>
-          <a className="text-[#efbf70] border-b-2 border-[#efbf70] pb-1 hover:scale-105 hover:brightness-110 transition-all duration-300" href="#rewards">Rewards</a>
-          <a className="text-[#e2bfb2] hover:text-[#efbf70] hover:scale-105 hover:brightness-110 transition-all duration-300" href="#community">Community</a>
-        </div>
-        <div className="flex items-center gap-6">
-          <button
-            onClick={() => navigate('/enter-code')}
-            className="hidden lg:block text-[#efbf70] font-bold tracking-tight hover:scale-105 transition-all"
-          >
-            Win Free Drinks
-          </button>
-          <span className="material-symbols-outlined text-[#efbf70] text-3xl cursor-pointer hover:scale-110 transition-transform">account_circle</span>
-        </div>
-      </nav>
-
-      <main className="relative overflow-hidden min-h-screen pt-20">
+      <main className="relative overflow-hidden min-h-screen">
         <section id="experience" className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#19120f] to-[#19120f] z-10"></div>
@@ -186,18 +168,6 @@ const WinFreeDrinkPage = () => {
         </section>
       </main>
 
-      <footer className="w-full py-12 px-8 mt-24 bg-[#221a17] grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-t border-[#4f4440]/15">
-        <div className="flex flex-col gap-4">
-          <div className="text-lg font-bold text-[#e2bfb2] font-['Epilogue'] uppercase">Balpro Life</div>
-          <p className="text-[#4f4440] text-sm tracking-wide leading-relaxed">Copyright 2024 Balpro Life. The Liquid Curator.</p>
-        </div>
-        <div className="flex flex-wrap gap-x-8 gap-y-4 md:justify-end">
-          <a className="text-[#4f4440] hover:text-[#efbf70] transition-colors text-sm tracking-wide" href="#">Privacy Policy</a>
-          <a className="text-[#4f4440] hover:text-[#efbf70] transition-colors text-sm tracking-wide" href="#">Terms of Play</a>
-          <a className="text-[#4f4440] hover:text-[#efbf70] transition-colors text-sm tracking-wide" href="#">Contact Support</a>
-          <Link className="text-[#4f4440] hover:text-[#efbf70] transition-colors text-sm tracking-wide" to="/ingredients">Ingredients</Link>
-        </div>
-      </footer>
     </div>
   );
 };

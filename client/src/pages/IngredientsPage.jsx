@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const IngredientsPage = () => {
   return (
-    <div className="bg-background text-on-background font-body selection:bg-tertiary selection:text-on-tertiary pb-28 md:pb-0">
+    <div className="bg-background text-on-background font-body selection:bg-tertiary selection:text-on-tertiary">
       <main className="relative overflow-hidden">
         {/* Floating particles */}
         <div className="absolute top-40 left-10 w-1 h-1 bg-tertiary rounded-full opacity-30"></div>
@@ -241,30 +240,6 @@ const IngredientsPage = () => {
           </div>
         </section>
       </main>
-
-      {/* Bottom nav (mobile) */}
-      <nav className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
-        <div className="flex justify-around items-center h-20 pb-safe px-6">
-          <Link to="/" className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90">
-            <span className="material-symbols-outlined">local_mall</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Shop</span>
-          </Link>
-          <Link to="/ingredients" className="flex flex-col items-center justify-center text-[#efbf70] bg-[#3c332f] rounded-full py-2 px-4 transition-transform active:scale-90">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-              auto_awesome
-            </span>
-            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Benefits</span>
-          </Link>
-          <button className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90" type="button">
-            <span className="material-symbols-outlined">shopping_cart</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Cart</span>
-          </button>
-          <Link to="/login" className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 transition-transform active:scale-90">
-            <span className="material-symbols-outlined">person</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest font-['Plus_Jakarta_Sans'] mt-1">Account</span>
-          </Link>
-        </div>
-      </nav>
     </div>
   );
 };

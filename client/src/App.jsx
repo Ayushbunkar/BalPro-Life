@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
@@ -86,6 +86,11 @@ function AppContent() {
   const isImmersiveRoute = location.pathname === '/enter-code';
   const hideGlobalChrome = isRegisterRoute || isImmersiveRoute;
   const showGlobalFooter = !hideGlobalChrome && location.pathname !== '/cart';
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">

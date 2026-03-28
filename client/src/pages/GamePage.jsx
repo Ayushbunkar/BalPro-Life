@@ -156,7 +156,7 @@ const GamePage = () => {
                   </div>
 
                   <button
-                    className="w-full sm:w-auto bg-linear-to-br from-[#efbf70] to-[#a77e36] text-[#432c00] px-12 py-5 rounded-full font-bold text-lg hover:scale-105 hover:brightness-110 transition-all duration-300 active:scale-95 uppercase tracking-tighter disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto bg-[#efbf70] text-[#2a170f] px-12 py-5 rounded-full font-bold text-lg hover:bg-[#f5ca81] hover:scale-105 transition-all duration-300 active:scale-95 uppercase tracking-tighter border border-[#a77e36]/40 shadow-xl shadow-[#efbf70]/20 disabled:bg-[#efbf70]/70 disabled:text-[#2a170f]/80 disabled:opacity-100 disabled:cursor-not-allowed"
                     onClick={handlePlayGame}
                     disabled={!userNumber || loading}
                   >

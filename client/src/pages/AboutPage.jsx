@@ -6,7 +6,7 @@ const AboutPage = () => {
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30">
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-start md:items-center justify-center overflow-hidden pt-16 md:pt-0">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
               alt="Luxury chocolate texture close-up"

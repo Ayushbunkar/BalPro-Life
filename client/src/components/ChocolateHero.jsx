@@ -21,9 +21,6 @@ const ChocolateHero = ({ onShopClick }) => {
             >
               Shop Now
             </button>
-            <button className="bg-transparent border border-outline-variant/30 text-on-surface font-semibold px-10 py-5 rounded-full hover:bg-surface-container-highest transition-colors active:scale-95">
-              The Science
-            </button>
           </div>
         </div>
 

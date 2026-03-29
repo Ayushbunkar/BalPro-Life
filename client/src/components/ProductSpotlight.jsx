@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductSpotlight = () => {
   return (
@@ -36,9 +37,12 @@ const ProductSpotlight = () => {
                 <span>Keto & Vegan Friendly</span>
               </li>
             </ul>
-            <button className="gold-shimmer text-on-tertiary-fixed font-bold px-10 py-4 rounded-full w-full lg:w-fit transition-all hover:shadow-[0_0_30px_rgba(239,191,112,0.3)]">
+            <Link
+              to="/products"
+              className="gold-shimmer text-on-tertiary-fixed font-bold px-10 py-4 rounded-full w-full lg:w-fit transition-all hover:shadow-[0_0_30px_rgba(239,191,112,0.3)] inline-flex items-center justify-center"
+            >
               Explore Signature
-            </button>
+            </Link>
           </div>
         </div>
       </div>

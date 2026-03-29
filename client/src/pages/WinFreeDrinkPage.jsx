@@ -137,35 +137,6 @@ const WinFreeDrinkPage = () => {
           </div>
         </section>
 
-        <section id="community" className="py-32 container mx-auto px-6">
-          <div className="relative rounded-xl bg-surface-container-high overflow-hidden p-12 md:p-24 text-center">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #efbf70 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-            </div>
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <h2 className="font-['Epilogue'] text-4xl md:text-6xl font-extrabold mb-8">Claim Your Fortune</h2>
-              <p className="text-primary-fixed-dim text-lg mb-12">The ritual awaits. Every bottle is a doorway to excellence. Will you step through?</p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input
-                  value={codeInput}
-                  onChange={(e) => setCodeInput(e.target.value.replace(/\D/g, '').slice(0, 12))}
-                  onKeyDown={(e) => e.key === 'Enter' && handleReveal()}
-                  className="grow bg-surface border-none rounded-full px-8 py-5 w-full sm:w-80 text-center font-bold tracking-widest text-tertiary focus:ring-2 focus:ring-tertiary transition-all"
-                  placeholder="ENTER 12-DIGIT CODE"
-                  type="text"
-                  maxLength="12"
-                />
-                <button
-                  onClick={handleReveal}
-                  className="gold-shimmer text-on-tertiary rounded-full px-12 py-5 font-bold hover:scale-105 active:scale-95 transition-all w-full sm:w-auto"
-                >
-                  Verify Ritual
-                </button>
-              </div>
-              <p className="mt-8 text-xs text-outline-variant uppercase tracking-widest">No purchase necessary. Terms of Play apply.</p>
-            </div>
-          </div>
-        </section>
       </main>
 
     </div>

@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import IngredientsPage from './pages/IngredientsPage';
+import ClinicalStudiesPage from './pages/ClinicalStudiesPage';
 import ProductsPage from './pages/ProductsPage';
 import ReviewsPage from './pages/ReviewsPage';
 import WhyChooseUsPage from './pages/WhyChooseUsPage';
@@ -114,6 +115,7 @@ function AppContent() {
           <Route path="/why-choose-us" element={<WhyChooseUsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/ingredients" element={<IngredientsPage />} />
+          <Route path="/clinical-studies" element={<ClinicalStudiesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const IngredientsPage = () => {
   return (
@@ -24,18 +25,18 @@ const IngredientsPage = () => {
                 the gap between hedonistic cocoa and clinical human performance.
               </p>
               <div className="flex flex-wrap gap-6">
-                <button
-                  type="button"
-                  className="bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary-fixed font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform active:scale-95 shadow-xl"
+                <Link
+                  to="/about"
+                  className="inline-flex items-center bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary-fixed font-bold py-4 px-10 rounded-full hover:scale-105 transition-transform active:scale-95 shadow-xl"
                 >
                   Explore Formula
-                </button>
-                <button
-                  type="button"
-                  className="border border-outline-variant/30 text-on-surface font-semibold py-4 px-10 rounded-full hover:bg-surface-container-highest transition-colors active:scale-95"
+                </Link>
+                <Link
+                  to="/clinical-studies"
+                  className="inline-flex items-center border border-outline-variant/30 text-on-surface font-semibold py-4 px-10 rounded-full hover:bg-surface-container-highest transition-colors active:scale-95"
                 >
                   Clinical Studies
-                </button>
+                </Link>
               </div>
             </div>
 

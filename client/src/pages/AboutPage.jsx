@@ -5,7 +5,6 @@ const AboutPage = () => {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30">
       <main>
-        {/* Hero Section */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
@@ -16,18 +15,17 @@ const AboutPage = () => {
             <div className="absolute inset-0 bg-linear-to-b from-surface/0 via-surface/60 to-surface"></div>
           </div>
           <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-            <span className="text-tertiary font-label tracking-[0.3em] uppercase text-[11px] md:text-sm mb-4 md:mb-6 block">The Liquid Curator</span>
-            <h1 className="font-headline text-4xl sm:text-5xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.95] md:leading-[0.9] mb-6 md:mb-12">
+            <span className="text-tertiary font-label tracking-[0.3em] uppercase text-sm mb-6 block">The Liquid Curator</span>
+            <h1 className="font-headline text-5xl md:text-8xl font-extrabold text-on-surface tracking-tighter leading-[0.9] mb-12 text-balance">
               Crafted for the <span className="italic text-tertiary">Indulgent</span> Mind.
             </h1>
-            <p className="text-primary-fixed-dim text-base sm:text-lg md:text-xl max-w-md md:max-w-2xl mx-auto leading-relaxed font-body">
+            <p className="text-primary-fixed-dim text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-body">
               We believe wellness should not be a chore. It should be a ritual, a moment of pure cocoa-infused
               transcendence designed for the high-performer.
             </p>
           </div>
         </section>
 
-        {/* Story Timeline Section */}
         <section className="py-32 bg-surface">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-start">
@@ -71,7 +69,6 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Mission and Vision */}
         <section className="py-24 bg-surface-container-low">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="rounded-xl p-12 hover:scale-[1.02] transition-all duration-500 bg-[rgba(60,51,47,0.4)] backdrop-blur-[20px]">
@@ -93,7 +90,6 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Founder Story */}
         <section className="py-32 bg-surface">
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row items-center gap-20">
@@ -130,7 +126,6 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Brand Philosophy */}
         <section className="py-32 bg-surface-container-low overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-24">
@@ -171,7 +166,6 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* CTA */}
         <section className="py-40 bg-surface">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <div className="relative inline-block mb-12">
@@ -183,16 +177,16 @@ const AboutPage = () => {
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
               <Link
                 className="text-on-tertiary-fixed px-12 py-5 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl shadow-tertiary/10 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]"
-                to="/"
+                to="/products"
               >
                 Shop the Collection
               </Link>
-              <a
+              <Link
                 className="px-12 py-5 rounded-full border border-outline-variant/30 text-on-surface hover:bg-surface-container-highest transition-all duration-300"
-                href="/#ingredients"
+                to="/ingredients"
               >
                 Explore Ingredients
-              </a>
+              </Link>
             </div>
           </div>
         </section>

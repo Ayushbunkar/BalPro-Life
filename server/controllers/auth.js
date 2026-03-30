@@ -17,6 +17,10 @@ const GOOGLE_CLIENT_ID = normalizeGoogleClientId(process.env.GOOGLE_CLIENT_ID);
 const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
 const getRequestBaseUrl = (req) => {
+  if (process.env.SERVER_ROOT_URL) {
+    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
+  }
+
   const forwardedProto = req.headers['x-forwarded-proto'];
   const forwardedHost = req.headers['x-forwarded-host'];
   if (forwardedProto && forwardedHost) {
@@ -27,15 +31,19 @@ const getRequestBaseUrl = (req) => {
     return `${req.protocol}://${req.get('host')}`;
   }
 
-  if (process.env.SERVER_ROOT_URL) {
-    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
-  }
-
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
 
   return `http://localhost:${process.env.PORT || 5000}`;
+};
+
+const getGoogleRedirectUri = (req) => {
+  const explicit = String(process.env.GOOGLE_REDIRECT_URI || '').trim();
+  if (explicit) {
+    return explicit;
+  }
+  return `${getRequestBaseUrl(req)}/api/auth/google/callback`;
 };
 
 // @desc    Register user
@@ -436,7 +444,7 @@ export const oauthLogin = async (req, res) => {
 export const googleAuthRedirect = (req, res) => {
   const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) return res.status(500).json({ success: false, message: 'Google OAuth not configured on server' });
-  const redirectUri = `${getRequestBaseUrl(req)}/api/auth/google/callback`;
+  const redirectUri = getGoogleRedirectUri(req);
   console.log('Google redirect URI:', redirectUri);
   const scope = 'openid email profile';
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`;
@@ -449,7 +457,7 @@ export const googleCallback = async (req, res) => {
     if (!googleClient) return res.status(500).send('Google client not configured on server');
     const code = req.query.code;
     if (!code) return res.status(400).json({ success: false, message: 'Missing authorization code from Google' });
-    const redirectUri = `${getRequestBaseUrl(req)}/api/auth/google/callback`;
+    const redirectUri = getGoogleRedirectUri(req);
     const tokenRes = await axios.post('https://oauth2.googleapis.com/token', new URLSearchParams({
       code,
       client_id: GOOGLE_CLIENT_ID,

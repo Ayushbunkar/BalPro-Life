@@ -14,17 +14,9 @@ const OAuthCallback = () => {
       try {
         const isLocalHost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
         const envApiBase = import.meta.env.VITE_API_BASE;
-        let useEnvApiBase = false;
-        if (envApiBase && !isLocalHost) {
-          try {
-            const envHost = new URL(envApiBase).hostname;
-            const currentHost = window.location.hostname;
-            useEnvApiBase = !(currentHost.endsWith('vercel.app') && envHost.endsWith('onrender.com'));
-          } catch {
-            useEnvApiBase = false;
-          }
-        }
-        const apiBase = isLocalHost ? 'http://localhost:5000' : (useEnvApiBase ? envApiBase : window.location.origin);
+        const apiBase = isLocalHost
+          ? 'http://localhost:5000'
+          : (envApiBase || window.location.origin);
         const res = await fetch(`${apiBase.replace(/\/$/, '')}/api/auth/me`, {
           credentials: 'include'
         });

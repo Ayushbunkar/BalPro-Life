@@ -1,22 +1,18 @@
 // API utility functions for BalPro Life app
 // On localhost always call local backend to avoid CORS issues during development.
-const isLocalHost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
-const envApiBase = import.meta.env.VITE_API_BASE;
-const shouldUseEnvApiBase = () => {
-  if (!envApiBase || isLocalHost || typeof window === 'undefined') return false;
-  try {
-    const envHost = new URL(envApiBase).hostname;
-    const currentHost = window.location.hostname;
-    if (currentHost.endsWith('vercel.app') && envHost.endsWith('onrender.com')) return false;
-  } catch {
-    return false;
-  }
-  return true;
+const getApiBaseUrl = () => {
+  if (typeof window === 'undefined') return 'http://localhost:5000/api';
+
+  const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  if (isLocalHost) return 'http://localhost:5000/api';
+
+  const envApiBase = import.meta.env.VITE_API_BASE;
+  if (envApiBase) return envApiBase.replace(/\/$/, '') + (envApiBase.endsWith('/api') ? '' : '/api');
+
+  console.warn('VITE_API_BASE is not set. Falling back to current origin. This may cause CORS errors in production.');
+  return window.location.origin + '/api';
 };
-const resolvedApiBase = isLocalHost
-  ? 'http://localhost:5000'
-  : (shouldUseEnvApiBase() ? envApiBase : window.location.origin);
-const API_BASE_URL = resolvedApiBase.replace(/\/$/, '') + '/api';
+const API_BASE_URL = getApiBaseUrl();
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {

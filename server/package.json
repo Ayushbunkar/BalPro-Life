@@ -2,6 +2,7 @@
   "name": "balpro-life-server",
   "version": "1.0.0",
   "description": "Backend server for BalPro Life e-commerce application",
+  "packageManager": "npm@10.9.0",
   "type": "module",
   "main": "server.js",
   "scripts": {

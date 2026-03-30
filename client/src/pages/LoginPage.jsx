@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-import { getGoogleSignInPreflightWarning, requestGoogleIdToken } from '../utils/googleIdentity';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -15,14 +14,21 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  const googlePreflightWarning = getGoogleSignInPreflightWarning({
-    clientId: googleClientId,
-    allowedOriginsCsv: import.meta.env.VITE_GOOGLE_ALLOWED_ORIGINS,
-  });
+  const getApiRootUrl = () => {
+    if (typeof window === 'undefined') return 'http://localhost:5000';
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalHost) return 'http://localhost:5000';
+
+    const envApiBase = import.meta.env.VITE_API_BASE;
+    if (envApiBase) {
+      const trimmed = String(envApiBase).replace(/\/$/, '');
+      return trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
+    }
+
+    return window.location.origin;
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -57,23 +63,8 @@ const LoginPage = () => {
 
   const handleGoogleSignIn = async () => {
     setError('');
-    setGoogleLoading(true);
-
-    try {
-      const idToken = await requestGoogleIdToken(googleClientId);
-      const response = await authAPI.oauth({ provider: 'google', idToken });
-      login(response.data.user, response.data.token);
-
-      if (response.data.user?.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (googleError) {
-      setError(googleError.message || 'Google sign-in failed');
-    } finally {
-      setGoogleLoading(false);
-    }
+    const apiRoot = getApiRootUrl();
+    window.location.assign(`${apiRoot}/api/auth/google`);
   };
 
   return (
@@ -136,25 +127,18 @@ const LoginPage = () => {
               </div>
             )}
 
-            {googlePreflightWarning && (
-              <div className="mb-6 rounded-lg border border-yellow-400/40 bg-yellow-400/10 px-4 py-3 text-sm text-yellow-100">
-                {googlePreflightWarning}
-              </div>
-            )}
-
             <div className="mb-8">
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
-                disabled={googleLoading}
-                className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group disabled:opacity-70"
+                className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
               >
                 <img
                   src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
                   alt="Google"
                   className="w-5 h-5 object-contain"
                 />
-                <span className="text-sm font-semibold">{googleLoading ? 'Connecting Google...' : 'Continue with Google'}</span>
+                <span className="text-sm font-semibold">Continue with Google</span>
               </button>
             </div>
 

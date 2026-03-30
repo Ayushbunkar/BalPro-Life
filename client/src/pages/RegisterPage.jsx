@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-import { getGoogleSignInPreflightWarning, requestGoogleIdToken } from '../utils/googleIdentity';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -16,14 +15,21 @@ const RegisterPage = () => {
   });
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  const googlePreflightWarning = getGoogleSignInPreflightWarning({
-    clientId: googleClientId,
-    allowedOriginsCsv: import.meta.env.VITE_GOOGLE_ALLOWED_ORIGINS,
-  });
+  const getApiRootUrl = () => {
+    if (typeof window === 'undefined') return 'http://localhost:5000';
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalHost) return 'http://localhost:5000';
+
+    const envApiBase = import.meta.env.VITE_API_BASE;
+    if (envApiBase) {
+      const trimmed = String(envApiBase).replace(/\/$/, '');
+      return trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
+    }
+
+    return window.location.origin;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,23 +108,8 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = async () => {
     setError('');
-    setGoogleLoading(true);
-
-    try {
-      const idToken = await requestGoogleIdToken(googleClientId);
-      const response = await authAPI.oauth({ provider: 'google', idToken });
-      login(response.data.user, response.data.token);
-
-      if (response.data.user?.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (googleError) {
-      setError(googleError.message || 'Google sign-in failed');
-    } finally {
-      setGoogleLoading(false);
-    }
+    const apiRoot = getApiRootUrl();
+    window.location.assign(`${apiRoot}/api/auth/google`);
   };
 
   return (
@@ -174,17 +165,10 @@ const RegisterPage = () => {
             </div>
           )}
 
-          {googlePreflightWarning && (
-            <div className="mb-6 rounded-lg border border-yellow-400/40 bg-yellow-400/10 px-4 py-3 text-sm text-yellow-100">
-              {googlePreflightWarning}
-            </div>
-          )}
-
           <div className="mb-8">
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={googleLoading}
               className="flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
             >
               <img
@@ -192,7 +176,7 @@ const RegisterPage = () => {
                 alt="Google"
                 className="w-5 h-5 object-contain"
               />
-              <span className="text-sm font-semibold">{googleLoading ? 'Connecting Google...' : 'Google'}</span>
+              <span className="text-sm font-semibold">Google</span>
             </button>
           </div>
 

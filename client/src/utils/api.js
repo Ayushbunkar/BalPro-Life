@@ -1,9 +1,21 @@
 // API utility functions for BalPro Life app
 // On localhost always call local backend to avoid CORS issues during development.
 const isLocalHost = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+const envApiBase = import.meta.env.VITE_API_BASE;
+const shouldUseEnvApiBase = () => {
+  if (!envApiBase || isLocalHost || typeof window === 'undefined') return false;
+  try {
+    const envHost = new URL(envApiBase).hostname;
+    const currentHost = window.location.hostname;
+    if (currentHost.endsWith('vercel.app') && envHost.endsWith('onrender.com')) return false;
+  } catch {
+    return false;
+  }
+  return true;
+};
 const resolvedApiBase = isLocalHost
-  ? 'http://localhost:4500'
-  : (import.meta.env.VITE_API_BASE || 'http://localhost:4500');
+  ? 'http://localhost:5000'
+  : (shouldUseEnvApiBase() ? envApiBase : window.location.origin);
 const API_BASE_URL = resolvedApiBase.replace(/\/$/, '') + '/api';
 
 // Helper function to get auth token from localStorage
@@ -54,6 +66,9 @@ const apiRequest = async (endpoint, options = {}) => {
       if (data.errors && Array.isArray(data.errors)) {
         const errorMessages = data.errors.map(err => err.msg || err.message).join(', ');
         throw new Error(`${data.message}: ${errorMessages}`);
+      }
+      if (data.details) {
+        throw new Error(`${data.message}: ${data.details}`);
       }
       throw new Error(data.message || response.statusText || 'API request failed');
     }

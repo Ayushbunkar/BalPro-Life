@@ -151,6 +151,24 @@ npm test
 4. Configure proper CORS origins
 5. Use a process manager like PM2 in production
 
+### Vercel Environment Variables
+
+Set these in your Vercel project (Production and Preview as needed):
+
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `JWT_EXPIRE` (example: `30d`)
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `CLIENT_URL` (your frontend URL, e.g. `https://your-app.vercel.app`)
+- `CLIENT_URLS` (comma-separated allowed origins)
+- `SERVER_ROOT_URL` (your backend public URL)
+- `NODE_ENV=production`
+
+Notes:
+- API routes are served from `/api/*` via `vercel.json`.
+- In Vercel runtime, `VERCEL_URL` is auto-used as fallback for Google callback base URL when `SERVER_ROOT_URL` is not set.
+
 ## 🤝 Contributing
 
 1. Fork the repository

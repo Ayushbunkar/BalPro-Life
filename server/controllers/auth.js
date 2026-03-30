@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import { OAuth2Client } from 'google-auth-library';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import crypto from 'crypto';
 import { validationResult } from 'express-validator';
 import fs from 'fs';
 import path from 'path';
@@ -9,7 +9,34 @@ import cloudinary from '../config/cloudinary.js';
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 
 // Initialize Google OAuth client if client ID is provided
-const googleClient = process.env.GOOGLE_CLIENT_ID ? new OAuth2Client(process.env.GOOGLE_CLIENT_ID) : null;
+const normalizeGoogleClientId = (value) => {
+  return String(value || '').trim().replace(/^"|"$/g, '');
+};
+
+const GOOGLE_CLIENT_ID = normalizeGoogleClientId(process.env.GOOGLE_CLIENT_ID);
+const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
+
+const getRequestBaseUrl = (req) => {
+  const forwardedProto = req.headers['x-forwarded-proto'];
+  const forwardedHost = req.headers['x-forwarded-host'];
+  if (forwardedProto && forwardedHost) {
+    return `${String(forwardedProto).split(',')[0]}://${String(forwardedHost).split(',')[0]}`;
+  }
+
+  if (req.get('host')) {
+    return `${req.protocol}://${req.get('host')}`;
+  }
+
+  if (process.env.SERVER_ROOT_URL) {
+    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  return `http://localhost:${process.env.PORT || 5000}`;
+};
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -27,9 +54,10 @@ export const register = async (req, res) => {
     }
 
     const { name, email, password } = req.body;
+    const normalizedEmail = String(email || '').toLowerCase().trim();
 
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -40,7 +68,7 @@ export const register = async (req, res) => {
     // Create user
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password
     });
 
@@ -51,7 +79,7 @@ export const register = async (req, res) => {
       success: true,
       message: 'User registered successfully',
       data: {
-        user,
+        user: user.toJSON(),
         token
       }
     });
@@ -80,9 +108,10 @@ export const login = async (req, res) => {
     }
 
     const { email, password } = req.body;
+    const normalizedEmail = String(email || '').toLowerCase().trim();
 
     // Check for user
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -111,7 +140,7 @@ export const login = async (req, res) => {
       success: true,
       message: 'Login successful',
       data: {
-        user,
+        user: user.toJSON(),
         token
       }
     });
@@ -265,7 +294,8 @@ export const changePassword = async (req, res) => {
 // @access  Public
 export const forgotPassword = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const normalizedEmail = String(req.body.email || '').toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(404).json({
@@ -274,9 +304,8 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    // Generate reset token (simplified - in production, use crypto.randomBytes)
-    const resetToken = Math.random().toString(36).substring(2, 15);
-    user.passwordResetToken = resetToken;
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    user.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
     user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
@@ -301,8 +330,9 @@ export const forgotPassword = async (req, res) => {
 // @access  Public
 export const resetPassword = async (req, res) => {
   try {
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
     const user = await User.findOne({
-      passwordResetToken: req.params.token,
+      passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() }
     });
 
@@ -346,7 +376,7 @@ export const oauthLogin = async (req, res) => {
     if (provider === 'google') {
       if (!googleClient) return res.status(500).json({ success: false, message: 'Google client not configured on server' });
       // Verify Google ID token
-      const ticket = await googleClient.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID });
+      const ticket = await googleClient.verifyIdToken({ idToken, audience: GOOGLE_CLIENT_ID });
       const payload = ticket.getPayload();
       profile = {
         email: payload.email,
@@ -394,15 +424,19 @@ export const oauthLogin = async (req, res) => {
     res.status(200).json({ success: true, message: 'OAuth login successful', data: { user, token } });
   } catch (error) {
     console.error('OAuth login error:', error);
-    res.status(500).json({ success: false, message: 'OAuth login failed' });
+    res.status(500).json({
+      success: false,
+      message: 'OAuth login failed',
+      details: error?.message || 'Unknown OAuth error'
+    });
   }
 };
 
 // Google redirect -> /api/auth/google
 export const googleAuthRedirect = (req, res) => {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) return res.status(500).json({ success: false, message: 'Google OAuth not configured on server' });
-  const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
+  const redirectUri = `${getRequestBaseUrl(req)}/api/auth/google/callback`;
   console.log('Google redirect URI:', redirectUri);
   const scope = 'openid email profile';
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`;
@@ -410,14 +444,15 @@ export const googleAuthRedirect = (req, res) => {
 };
 
 // Google callback -> exchange code for tokens and issue app JWT
-export const googleCallback = async (req, res, next) => {
+export const googleCallback = async (req, res) => {
   try {
     if (!googleClient) return res.status(500).send('Google client not configured on server');
     const code = req.query.code;
-    const redirectUri = `${process.env.SERVER_ROOT_URL || `http://localhost:${process.env.PORT || 4500}`}/api/auth/google/callback`;
+    if (!code) return res.status(400).json({ success: false, message: 'Missing authorization code from Google' });
+    const redirectUri = `${getRequestBaseUrl(req)}/api/auth/google/callback`;
     const tokenRes = await axios.post('https://oauth2.googleapis.com/token', new URLSearchParams({
       code,
-      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_id: GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
       grant_type: 'authorization_code',
       redirect_uri: redirectUri
@@ -427,8 +462,8 @@ export const googleCallback = async (req, res, next) => {
 
     const idToken = tokenRes.data.id_token;
     if (!idToken) return res.status(400).send('No id_token from Google');
-    // Decode the ID token (insecure for production, but for testing)
-    const payload = jwt.decode(idToken);
+    const ticket = await googleClient.verifyIdToken({ idToken, audience: GOOGLE_CLIENT_ID });
+    const payload = ticket.getPayload();
     if (!payload || !payload.email) return res.status(400).send('Invalid id_token payload');
     const profile = { email: payload.email, name: payload.name || payload.email.split('@')[0], avatar: payload.picture || '' };
     console.log('Profile from token:', profile);
@@ -462,11 +497,17 @@ export const googleCallback = async (req, res, next) => {
     }
 
     // Redirect back to client without token in URL
-    const clientUrl = process.env.NODE_ENV === 'production' ? (process.env.CLIENT_URL || 'http://localhost:5173') : 'http://localhost:5173';
+    const clientUrl = process.env.NODE_ENV === 'production'
+      ? (process.env.CLIENT_URL || getRequestBaseUrl(req))
+      : 'http://localhost:5173';
     console.log('Redirecting to:', clientUrl + '/auth/callback');
     return res.redirect(`${clientUrl}/auth/callback`);
   } catch (err) {
     console.error('Google callback error:', err.response?.data || err.message || err);
-    return res.status(500).json({ success: false, message: 'Google authentication failed' });
+    return res.status(500).json({
+      success: false,
+      message: 'Google authentication failed',
+      details: err.response?.data?.error_description || err.response?.data?.error || err.message
+    });
   }
 };

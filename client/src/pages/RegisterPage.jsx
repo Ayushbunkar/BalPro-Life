@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
+import { requestGoogleIdToken } from '../utils/googleIdentity';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const RegisterPage = () => {
   });
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -92,7 +94,27 @@ const RegisterPage = () => {
     }
   };
 
-  const googleAuthUrl = `${import.meta.env.VITE_API_BASE || 'http://localhost:4500'}/api/auth/google`;
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setGoogleLoading(true);
+
+    try {
+      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+      const idToken = await requestGoogleIdToken(clientId);
+      const response = await authAPI.oauth({ provider: 'google', idToken });
+      login(response.data.user, response.data.token);
+
+      if (response.data.user?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (googleError) {
+      setError(googleError.message || 'Google sign-in failed');
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
 
   return (
     <main className="min-h-screen flex items-center justify-center p-6 md:p-12 bg-surface text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary antialiased relative overflow-hidden bg-[radial-gradient(circle_at_20%_30%,#2b1810_0%,#19120f_100%)]">
@@ -148,8 +170,10 @@ const RegisterPage = () => {
           )}
 
           <div className="mb-8">
-            <a
-              href={googleAuthUrl}
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={googleLoading}
               className="flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
             >
               <img
@@ -157,8 +181,8 @@ const RegisterPage = () => {
                 alt="Google"
                 className="w-5 h-5 object-contain"
               />
-              <span className="text-sm font-semibold">Google</span>
-            </a>
+              <span className="text-sm font-semibold">{googleLoading ? 'Connecting Google...' : 'Google'}</span>
+            </button>
           </div>
 
           <div className="flex items-center gap-4 mb-8">

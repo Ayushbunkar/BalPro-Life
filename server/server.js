@@ -47,6 +47,9 @@ if (corsAllowAll) {
     origin(origin, callback) {
       if (!origin) return callback(null, true);
       const normalizedOrigin = normalizeOrigin(origin);
+      if (process.env.VERCEL && normalizedOrigin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
       if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
         return callback(null, true);
       }
@@ -137,10 +140,12 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 BalPro Life Server running on port ${PORT}`);
-  console.log(`📱 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 BalPro Life Server running on port ${PORT}`);
+    console.log(`📱 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
 
 export default app;

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
+import { requestGoogleIdToken } from '../utils/googleIdentity';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -44,6 +46,28 @@ const LoginPage = () => {
       setError(error.message || 'Login failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setGoogleLoading(true);
+
+    try {
+      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+      const idToken = await requestGoogleIdToken(clientId);
+      const response = await authAPI.oauth({ provider: 'google', idToken });
+      login(response.data.user, response.data.token);
+
+      if (response.data.user?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (googleError) {
+      setError(googleError.message || 'Google sign-in failed');
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -106,6 +130,22 @@ const LoginPage = () => {
                 {error}
               </div>
             )}
+
+            <div className="mb-8">
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={googleLoading}
+                className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group disabled:opacity-70"
+              >
+                <img
+                  src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
+                  alt="Google"
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="text-sm font-semibold">{googleLoading ? 'Connecting Google...' : 'Continue with Google'}</span>
+              </button>
+            </div>
 
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2">

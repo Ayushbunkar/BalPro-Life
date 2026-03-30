@@ -42,9 +42,14 @@ export const protect = async (req, res, next) => {
 
       next();
     } catch (err) {
+      const isExpired = err?.name === 'TokenExpiredError';
+      const isInvalid = err?.name === 'JsonWebTokenError';
       return res.status(401).json({
         success: false,
-        message: 'Not authorized to access this route'
+        message: isExpired
+          ? 'Token has expired. Please log in again.'
+          : (isInvalid ? 'Invalid token. Please log in again.' : 'Not authorized to access this route'),
+        code: isExpired ? 'TOKEN_EXPIRED' : (isInvalid ? 'INVALID_TOKEN' : 'AUTH_ERROR')
       });
     }
   } catch (error) {

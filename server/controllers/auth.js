@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import fs from 'fs';
 import path from 'path';
@@ -44,6 +45,40 @@ const getGoogleRedirectUri = (req) => {
     return explicit;
   }
   return `${getRequestBaseUrl(req)}/api/auth/google/callback`;
+};
+
+const upsertOAuthUser = async (profile) => {
+  const normalizedEmail = String(profile.email || '').toLowerCase().trim();
+  const normalizedName = String(profile.name || normalizedEmail.split('@')[0] || 'User').trim();
+  const normalizedAvatar = String(profile.avatar || '').trim();
+
+  const randomPassword = Math.random().toString(36).slice(2, 12);
+  const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+  // Use findOneAndUpdate with upsert so OAuth login doesn't depend on document save hooks.
+  const user = await User.findOneAndUpdate(
+    { email: normalizedEmail },
+    {
+      $set: {
+        name: normalizedName,
+        avatar: normalizedAvatar,
+        lastLogin: new Date()
+      },
+      $setOnInsert: {
+        email: normalizedEmail,
+        password: hashedPassword,
+        role: 'user'
+      }
+    },
+    {
+      new: true,
+      upsert: true,
+      setDefaultsOnInsert: true,
+      runValidators: true
+    }
+  );
+
+  return user;
 };
 
 // @desc    Register user
@@ -399,17 +434,8 @@ export const oauthLogin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Failed to obtain email from provider' });
     }
 
-    // Find or create user
-    let user = await User.findOne({ email: profile.email });
-    if (!user) {
-      // create user with random password
-      const randomPassword = Math.random().toString(36).slice(2, 12);
-      user = await User.create({ name: profile.name, email: profile.email, password: randomPassword, avatar: profile.avatar });
-    }
-
-    // Update last login
-    user.lastLogin = new Date();
-    await user.save();
+    // Find or create user without triggering save middleware chain.
+    const user = await upsertOAuthUser(profile);
 
     const token = user.getSignedJwtToken();
 
@@ -442,6 +468,7 @@ export const oauthLogin = async (req, res) => {
 
 // Google redirect -> /api/auth/google
 export const googleAuthRedirect = (req, res) => {
+  console.log('Google OAuth flow version: v2-upsert-no-save');
   const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) return res.status(500).json({ success: false, message: 'Google OAuth not configured on server' });
   const redirectUri = getGoogleRedirectUri(req);
@@ -454,6 +481,7 @@ export const googleAuthRedirect = (req, res) => {
 // Google callback -> exchange code for tokens and issue app JWT
 export const googleCallback = async (req, res) => {
   try {
+    console.log('Google callback handler version: v2-upsert-no-save');
     if (!googleClient) return res.status(500).send('Google client not configured on server');
     const code = req.query.code;
     if (!code) return res.status(400).json({ success: false, message: 'Missing authorization code from Google' });
@@ -476,16 +504,8 @@ export const googleCallback = async (req, res) => {
     const profile = { email: payload.email, name: payload.name || payload.email.split('@')[0], avatar: payload.picture || '' };
     console.log('Profile from token:', profile);
 
-    let user = await User.findOne({ email: profile.email });
-    if (!user) {
-      const randomPassword = Math.random().toString(36).slice(2, 12);
-      user = await User.create({ name: profile.name, email: profile.email, password: randomPassword, avatar: profile.avatar });
-      console.log('User created:', user.email);
-    } else {
-      console.log('User found:', user.email);
-    }
-    user.lastLogin = new Date();
-    await user.save();
+    const user = await upsertOAuthUser(profile);
+    console.log('OAuth user upserted:', user.email);
     const appToken = user.getSignedJwtToken();
     console.log('Token generated for user:', user.email);
 
@@ -512,6 +532,9 @@ export const googleCallback = async (req, res) => {
     return res.redirect(`${clientUrl}/auth/callback`);
   } catch (err) {
     console.error('Google callback error:', err.response?.data || err.message || err);
+    if (err?.stack) {
+      console.error('Google callback stack:', err.stack);
+    }
     return res.status(500).json({
       success: false,
       message: 'Google authentication failed',

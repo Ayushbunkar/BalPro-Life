@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-import { requestGoogleIdToken } from '../utils/googleIdentity';
+import { getGoogleSignInPreflightWarning, requestGoogleIdToken } from '../utils/googleIdentity';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -17,6 +17,12 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const googlePreflightWarning = getGoogleSignInPreflightWarning({
+    clientId: googleClientId,
+    allowedOriginsCsv: import.meta.env.VITE_GOOGLE_ALLOWED_ORIGINS,
+  });
 
   const handleChange = (e) => {
     setFormData({
@@ -54,8 +60,7 @@ const LoginPage = () => {
     setGoogleLoading(true);
 
     try {
-      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-      const idToken = await requestGoogleIdToken(clientId);
+      const idToken = await requestGoogleIdToken(googleClientId);
       const response = await authAPI.oauth({ provider: 'google', idToken });
       login(response.data.user, response.data.token);
 
@@ -128,6 +133,12 @@ const LoginPage = () => {
             {error && (
               <div className="mb-6 rounded-lg border border-error/40 bg-error/10 px-4 py-3 text-sm text-error">
                 {error}
+              </div>
+            )}
+
+            {googlePreflightWarning && (
+              <div className="mb-6 rounded-lg border border-yellow-400/40 bg-yellow-400/10 px-4 py-3 text-sm text-yellow-100">
+                {googlePreflightWarning}
               </div>
             )}
 

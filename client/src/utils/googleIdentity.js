@@ -1,5 +1,44 @@
 let scriptPromise = null;
 
+const parseAllowedOrigins = (allowedOriginsCsv) => {
+  return String(allowedOriginsCsv || '')
+    .split(',')
+    .map((origin) => origin.trim().toLowerCase())
+    .filter(Boolean);
+};
+
+const formatPromptReason = (reason) => {
+  if (!reason) return '';
+  return String(reason).replace(/_/g, ' ');
+};
+
+const toGoogleConfigError = (clientId, reason) => {
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'this origin';
+  const reasonText = formatPromptReason(reason);
+  const base = `Google Sign-In is blocked for ${origin}. Add this URL to Authorized JavaScript origins for OAuth client ${clientId} in Google Cloud Console.`;
+  return reasonText ? `${base} (Google reason: ${reasonText})` : base;
+};
+
+export const getGoogleSignInPreflightWarning = ({ clientId, allowedOriginsCsv }) => {
+  const normalizedClientId = String(clientId || '').trim().replace(/^"|"$/g, '');
+  if (!normalizedClientId) {
+    return 'Google Sign-In is disabled: missing VITE_GOOGLE_CLIENT_ID.';
+  }
+
+  if (typeof window === 'undefined') {
+    return '';
+  }
+
+  const currentOrigin = window.location.origin.toLowerCase();
+  const allowedOrigins = parseAllowedOrigins(allowedOriginsCsv);
+
+  if (allowedOrigins.length > 0 && !allowedOrigins.includes(currentOrigin)) {
+    return `Google Sign-In may fail here: ${currentOrigin} is not listed in VITE_GOOGLE_ALLOWED_ORIGINS.`;
+  }
+
+  return '';
+};
+
 export const loadGoogleIdentityScript = () => {
   if (typeof window === 'undefined') {
     return Promise.reject(new Error('Google Sign-In is only available in the browser.'));
@@ -67,6 +106,19 @@ export const requestGoogleIdToken = async (clientId) => {
       cancel_on_tap_outside: true
     });
 
-    window.google.accounts.id.prompt();
+    window.google.accounts.id.prompt((notification) => {
+      if (!notification || settled) return;
+
+      const blockedByConfig = notification.isNotDisplayed?.() && (
+        notification.getNotDisplayedReason?.() === 'unregistered_origin' ||
+        notification.getNotDisplayedReason?.() === 'invalid_client'
+      );
+
+      if (blockedByConfig) {
+        settled = true;
+        clearTimeout(timeoutId);
+        reject(toGoogleConfigError(normalizedClientId, notification.getNotDisplayedReason?.()));
+      }
+    });
   });
 };

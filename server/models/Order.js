@@ -115,10 +115,9 @@ const orderSchema = new mongoose.Schema({
 });
 
 // Calculate total price before saving
-orderSchema.pre('save', function(next) {
+orderSchema.pre('save', function() {
   this.totalPrice = this.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0) +
                    this.shippingPrice + this.taxPrice;
-  next();
 });
 
 export default mongoose.model('Order', orderSchema);

@@ -11,7 +11,7 @@ import {
 } from '../controllers/products.js';
 import { uploadProduct, handleUpload } from '../middleware/upload.js';
 import { protect, authorize } from '../middleware/auth.js';
-
+//jjh
 const router = express.Router();
 
 // Public routes

@@ -1,4 +1,4 @@
-import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 
 const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true';
 
@@ -6,7 +6,7 @@ const getRequestKey = (req) => {
   if (req.user?._id) {
     return req.user._id.toString();
   }
-  return ipKeyGenerator(req.ip);
+  return req.ip;
 };
 
 const passthroughLimiter = (req, res, next) => next();

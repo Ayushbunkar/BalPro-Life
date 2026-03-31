@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server.js",
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "scripts": {
     "start": "node server.js",
@@ -14,35 +14,30 @@
     "seed:codes": "node ./scripts/seedCodes.js",
     "test": "jest"
   },
-  "keywords": [
-    "ecommerce",
-    "fitness",
-    "protein",
-    "backend"
-  ],
+  "keywords": ["ecommerce", "fitness", "protein", "backend"],
   "author": "BalPro Life",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.13.2",
+    "axios": "^1.7.9",
     "bcryptjs": "^3.0.3",
-    "cloudinary": "^2.8.0",
+    "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
+    "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "express-rate-limit": "^8.2.1",
-    "express-validator": "^7.3.1",
-    "google-auth-library": "^9.7.0",
-    "helmet": "^8.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "google-auth-library": "^9.15.1",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "jwks-rsa": "^3.2.0",
-    "mongoose": "^9.0.0",
-    "multer": "^2.0.2",
-    "qrcode": "^1.5.3"
+    "jwks-rsa": "^3.1.0",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
-    "jest": "^30.2.0",
-    "nodemon": "^3.1.11",
-    "supertest": "^7.1.4"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
   }
 }

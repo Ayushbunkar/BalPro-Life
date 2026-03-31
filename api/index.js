@@ -9,6 +9,5 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../server/.env' });
 
 import app from '../server/server.js';
-import { createServer } from 'vercel-express';
 
-export default createServer(app);
+export default app;

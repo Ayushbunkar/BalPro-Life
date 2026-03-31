@@ -1,5 +1,5 @@
 import React from 'react';
-
+// No local assets needed for this section, using a direct image URL instead
 const BenefitsSection = () => {
   const benefits = [
     {

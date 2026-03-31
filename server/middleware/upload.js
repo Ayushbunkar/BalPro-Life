@@ -3,10 +3,13 @@ import fs from 'fs';
 import path from 'path';
 import cloudinary from '../config/cloudinary.js';
 
-const uploadsDir = path.join(process.cwd(), 'uploads', 'products');
 
-// Ensure uploads directory exists
-fs.mkdirSync(uploadsDir, { recursive: true });
+const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+let uploadsDir;
+if (!usingCloudinary) {
+  uploadsDir = path.join(process.cwd(), 'uploads', 'products');
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Cloudinary is configured in `config/cloudinary.js` if env vars provided
 
@@ -18,8 +21,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Choose storage based on Cloudinary availability
-const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 const storage = usingCloudinary ? multer.memoryStorage() : multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadsDir);

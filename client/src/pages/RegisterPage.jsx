@@ -18,7 +18,7 @@ const RegisterPage = () => {
   const [error, setError] = useState('');
 
   const getApiRootUrl = () => {
-    if (typeof window === 'undefined') return 'http://localhost:5000';
+    if (typeof window === 'undefined') return '';
     const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
     if (isLocalHost) return 'http://localhost:5000';
 
@@ -28,7 +28,7 @@ const RegisterPage = () => {
       return trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
     }
 
-    return window.location.origin;
+    return '';
   };
 
   const handleChange = (e) => {

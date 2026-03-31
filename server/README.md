@@ -162,11 +162,12 @@ Set these in your Vercel project (Production and Preview as needed):
 - `GOOGLE_CLIENT_SECRET`
 - `CLIENT_URL` (your frontend URL, e.g. `https://your-app.vercel.app`)
 - `CLIENT_URLS` (comma-separated allowed origins)
-- `SERVER_ROOT_URL` (your backend public URL)
+- `SERVER_ROOT_URL` (optional; for Vercel full-stack use your Vercel app URL)
 - `NODE_ENV=production`
 
 Notes:
 - API routes are served from `/api/*` via `vercel.json`.
+- For Vercel-only deployment, frontend and backend share the same domain and `/api/*` paths.
 - In Vercel runtime, `VERCEL_URL` is auto-used as fallback for Google callback base URL when `SERVER_ROOT_URL` is not set.
 
 ## 🤝 Contributing

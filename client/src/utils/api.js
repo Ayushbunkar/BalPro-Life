@@ -1,7 +1,7 @@
 // API utility functions for BalPro Life app
 // On localhost always call local backend to avoid CORS issues during development.
 const getApiBaseUrl = () => {
-  if (typeof window === 'undefined') return 'http://localhost:5000/api';
+  if (typeof window === 'undefined') return '/api';
 
   const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
   if (isLocalHost) return 'http://localhost:5000/api';
@@ -9,8 +9,7 @@ const getApiBaseUrl = () => {
   const envApiBase = import.meta.env.VITE_API_BASE;
   if (envApiBase) return envApiBase.replace(/\/$/, '') + (envApiBase.endsWith('/api') ? '' : '/api');
 
-  console.warn('VITE_API_BASE is not set. Falling back to current origin. This may cause CORS errors in production.');
-  return window.location.origin + '/api';
+  return '/api';
 };
 const API_BASE_URL = getApiBaseUrl();
 

@@ -16,7 +16,7 @@ const OAuthCallback = () => {
         const envApiBase = import.meta.env.VITE_API_BASE;
         const apiBase = isLocalHost
           ? 'http://localhost:5000'
-          : (envApiBase || window.location.origin);
+          : (envApiBase ? envApiBase.replace(/\/$/, '').replace(/\/api$/, '') : '');
         const res = await fetch(`${apiBase.replace(/\/$/, '')}/api/auth/me`, {
           credentials: 'include'
         });

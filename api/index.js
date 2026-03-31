@@ -4,9 +4,12 @@
  */
 
 // Load env vars first
+
 import dotenv from 'dotenv';
 dotenv.config({ path: '../server/.env' });
 
 import app from '../server/server.js';
 
-export default app;
+export default function handler(req, res) {
+	app(req, res);
+}

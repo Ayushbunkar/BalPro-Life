@@ -6,6 +6,14 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import path from 'path';
+import authRoutes from './routes/auth.js';
+import productRoutes from './routes/products.js';
+import orderRoutes from './routes/orders.js';
+import userRoutes from './routes/users.js';
+import adminRoutes from './routes/admin.js';
+import codeRoutes from './routes/codes.js';
+import rewardRoutes from './routes/rewards.js';
+import gameRoutes from './routes/game.js';
 
 // Load environment variables
 dotenv.config();
@@ -97,19 +105,14 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Routes
-try {
-  app.use('/api/auth', (await import('./routes/auth.js')).default);
-  app.use('/api/products', (await import('./routes/products.js')).default);
-  app.use('/api/orders', (await import('./routes/orders.js')).default);
-  app.use('/api/users', (await import('./routes/users.js')).default);
-  app.use('/api/admin', (await import('./routes/admin.js')).default);
-  app.use('/api/codes', (await import('./routes/codes.js')).default);
-  app.use('/api/rewards', (await import('./routes/rewards.js')).default);
-    app.use('/api/game', (await import('./routes/game.js')).default);
-} catch (error) {
-  console.error('Error loading routes:', error);
-  process.exit(1);
-}
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/codes', codeRoutes);
+app.use('/api/rewards', rewardRoutes);
+app.use('/api/game', gameRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

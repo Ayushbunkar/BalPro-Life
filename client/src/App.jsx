@@ -95,6 +95,14 @@ function AppContent() {
     window.scrollTo({ top: 0, left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   }, [location.pathname]);
 
+  useEffect(() => {
+    // Defensive cleanup: if any stale anchor link adds a hash-only fragment,
+    // normalize the URL back to the current route without '#'.
+    if (location.hash === '#') {
+      navigate(`${location.pathname}${location.search}`, { replace: true });
+    }
+  }, [location.hash, location.pathname, location.search, navigate]);
+
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">
 

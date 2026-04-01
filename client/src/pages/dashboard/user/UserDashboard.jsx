@@ -1,60 +1,11 @@
 import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../contexts/AuthContext';
-
-const navClass = ({ isActive }) =>
-  `flex items-center gap-4 mx-4 my-1 px-6 py-3 rounded-full transition-all ${
-    isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold'
-      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
-  }`;
+import { Link, NavLink } from 'react-router-dom';
+import UserSidebar from './UserSidebar';
 
 const UserDashboard = () => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
-
   return (
     <div className="bg-background text-on-background font-body antialiased min-h-screen">
-      <aside className="hidden md:flex flex-col h-screen py-8 bg-[#221a17] w-72 left-0 top-0 fixed shadow-2xl shadow-black/20 z-50 font-['Epilogue'] text-sm uppercase tracking-widest">
-        <div className="px-8 mb-12">
-          <h1 className="text-[#efbf70] font-black text-2xl tracking-tighter">Balpro Life</h1>
-          <p className="text-primary-fixed-dim text-[10px] tracking-[0.2em] mt-1">The Liquid Curator</p>
-        </div>
-
-        <nav className="flex-1 space-y-2">
-          <NavLink to="/dashboard" end className={navClass}>
-            <span className="material-symbols-outlined">home</span>
-            <span>Home</span>
-          </NavLink>
-          <NavLink to="/dashboard/rewards" className={navClass}>
-            <span className="material-symbols-outlined">workspace_premium</span>
-            <span>Rewards</span>
-          </NavLink>
-          <NavLink to="/dashboard/orders" className={navClass}>
-            <span className="material-symbols-outlined">inventory_2</span>
-            <span>Orders</span>
-          </NavLink>
-          <NavLink to="/dashboard/rituals" className={navClass}>
-            <span className="material-symbols-outlined">auto_awesome</span>
-            <span>Rituals</span>
-          </NavLink>
-          <NavLink to="/dashboard/settings" className={navClass}>
-            <span className="material-symbols-outlined">settings</span>
-            <span>Settings</span>
-          </NavLink>
-        </nav>
-
-        <div className="px-8 mt-auto">
-          <Link to="/products" className="w-full inline-block text-center bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-primary py-4 rounded-full font-bold text-xs tracking-widest shadow-lg shadow-tertiary/10 hover:scale-105 transition-transform">
-            Upgrade Ritual
-          </Link>
-        </div>
-      </aside>
+      <UserSidebar />
 
       <main className="md:ml-72 min-h-screen relative">
         <header className="flex justify-between items-center px-8 py-6 sticky top-0 z-40 bg-[#19120f]/70 backdrop-blur-xl">
@@ -215,14 +166,6 @@ const UserDashboard = () => {
           <span className="text-[10px] font-bold uppercase tracking-widest">Settings</span>
         </NavLink>
       </nav>
-
-      <button
-        type="button"
-        onClick={handleLogout}
-        className="fixed hidden md:block bottom-8 left-8 text-[#e2bfb2] hover:text-tertiary transition-colors text-xs uppercase tracking-widest font-['Epilogue']"
-      >
-        Sign Out
-      </button>
     </div>
   );
 };

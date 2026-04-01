@@ -1,49 +1,11 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-
-const navClass = ({ isActive }) =>
-  `mx-4 my-1 px-6 py-3 flex items-center gap-4 rounded-full transition-all font-headline text-sm uppercase tracking-widest ${
-    isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold'
-      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
-  }`;
+import UserSidebar from './UserSidebar';
 
 const UserOrders = () => {
   return (
     <div className="bg-[#19120f] text-[#efdfd9] font-body min-h-screen">
-      <aside className="hidden md:flex h-screen w-72 left-0 top-0 fixed bg-[#221a17] flex-col py-8 shadow-2xl shadow-black/20 z-50">
-        <div className="px-8 mb-12">
-          <h1 className="text-[#efbf70] font-black text-2xl tracking-tighter font-headline">Balpro Life</h1>
-          <p className="text-[#e2bfb2] text-xs uppercase tracking-[0.2em] mt-1 font-headline">The Liquid Curator</p>
-        </div>
-        <nav className="flex-1 space-y-2">
-          <NavLink to="/dashboard" end className={navClass}>
-            <span className="material-symbols-outlined">home</span>
-            Home
-          </NavLink>
-          <NavLink to="/dashboard/rewards" className={navClass}>
-            <span className="material-symbols-outlined">workspace_premium</span>
-            Rewards
-          </NavLink>
-          <NavLink to="/dashboard/orders" className={navClass}>
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>inventory_2</span>
-            Orders
-          </NavLink>
-          <NavLink to="/dashboard/rituals" className={navClass}>
-            <span className="material-symbols-outlined">auto_awesome</span>
-            Rituals
-          </NavLink>
-          <NavLink to="/dashboard/settings" className={navClass}>
-            <span className="material-symbols-outlined">settings</span>
-            Settings
-          </NavLink>
-        </nav>
-        <div className="px-8 mt-auto">
-          <Link to="/products" className="w-full inline-block text-center bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-[#19120f] py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:scale-105 transition-transform">
-            Upgrade Ritual
-          </Link>
-        </div>
-      </aside>
+      <UserSidebar />
 
       <main className="flex-1 md:ml-72 min-h-screen bg-surface">
         <header className="flex justify-between items-center px-8 py-6 w-full sticky top-0 bg-[#19120f]/70 backdrop-blur-xl z-40">

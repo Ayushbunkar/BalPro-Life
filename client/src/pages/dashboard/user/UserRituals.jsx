@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-
-const navClass = ({ isActive }) =>
-  `flex items-center text-[#e2bfb2] px-6 py-4 rounded-2xl transition-all group ${
-    isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold shadow-xl shadow-tertiary/20'
-      : 'hover:bg-[#3c332f]/50'
-  }`;
+import UserSidebar from './UserSidebar';
 
 const mobileClass = ({ isActive }) =>
   `flex flex-col items-center gap-1 ${isActive ? 'text-tertiary' : 'text-outline'}`;
@@ -14,55 +8,7 @@ const mobileClass = ({ isActive }) =>
 const UserRituals = () => {
   return (
     <div className="font-body selection:bg-tertiary selection:text-surface antialiased bg-[#140d0a] text-[#efdfd9] min-h-screen">
-      <aside className="hidden md:flex flex-col h-full py-10 bg-surface-container-lowest border-r border-outline-variant/10 w-72 left-0 top-0 fixed z-50">
-        <div className="px-8 mb-16">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-linear-to-br from-tertiary to-on-tertiary-container flex items-center justify-center shadow-lg shadow-tertiary/10">
-              <span className="material-symbols-outlined text-surface text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>fluid</span>
-            </div>
-            <div>
-              <h1 className="font-headline font-black text-2xl tracking-tighter text-[#efbf70]">Balpro Life</h1>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-primary-fixed-dim/50 font-bold">Liquid Curator</p>
-            </div>
-          </div>
-        </div>
-
-        <nav className="grow space-y-2 px-4">
-          <NavLink to="/dashboard" end className={navClass}>
-            <span className="material-symbols-outlined mr-4">home</span>
-            <span className="font-headline text-xs font-bold uppercase tracking-widest">Home</span>
-          </NavLink>
-          <NavLink to="/dashboard/rewards" className={navClass}>
-            <span className="material-symbols-outlined mr-4">workspace_premium</span>
-            <span className="font-headline text-xs font-bold uppercase tracking-widest">Rewards</span>
-          </NavLink>
-          <NavLink to="/dashboard/orders" className={navClass}>
-            <span className="material-symbols-outlined mr-4">inventory_2</span>
-            <span className="font-headline text-xs font-bold uppercase tracking-widest">Orders</span>
-          </NavLink>
-          <NavLink to="/dashboard/rituals" className={navClass}>
-            <span className="material-symbols-outlined mr-4" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
-            <span className="font-headline text-xs font-bold uppercase tracking-widest">Rituals</span>
-          </NavLink>
-          <NavLink to="/dashboard/settings" className={navClass}>
-            <span className="material-symbols-outlined mr-4">settings</span>
-            <span className="font-headline text-xs font-bold uppercase tracking-widest">Settings</span>
-          </NavLink>
-        </nav>
-
-        <div className="px-6 mt-auto">
-          <div className="p-6 rounded-3xl bg-surface-container relative overflow-hidden group border border-outline-variant/10">
-            <div className="relative z-10">
-              <p className="text-[10px] font-bold text-tertiary uppercase tracking-widest mb-2">Artisan Status</p>
-              <h4 className="font-headline font-bold text-white mb-6 text-xl">Elite Tier</h4>
-              <Link to="/products" className="w-full inline-block text-center bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-surface font-black py-4 rounded-xl text-[10px] uppercase tracking-widest hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-black/20">Upgrade Ritual</Link>
-            </div>
-            <div className="absolute -right-8 -bottom-8 opacity-5 group-hover:opacity-10 transition-opacity">
-              <span className="material-symbols-outlined text-9xl">cognition</span>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <UserSidebar />
 
       <main className="md:ml-72 min-h-screen pb-32">
         <header className="p-8 md:p-16 flex flex-col md:flex-row md:items-end justify-between gap-8">

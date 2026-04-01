@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import { authAPI } from '../../../utils/api';
-
-const navClass = ({ isActive }) =>
-  `mx-4 my-1 px-6 py-3 rounded-full transition-all flex items-center gap-4 ${
-    isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold shadow-lg shadow-tertiary/10'
-      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
-  }`;
+import UserSidebar from './UserSidebar';
 
 const Settings = () => {
   const { user, updateUser } = useAuth();
@@ -81,39 +75,7 @@ const Settings = () => {
 
   return (
     <div className="bg-surface text-on-surface min-h-screen overflow-x-hidden">
-      <nav className="hidden md:flex flex-col h-screen w-72 left-0 top-0 fixed bg-[#221a17] shadow-2xl shadow-black/20 py-8 z-50">
-        <div className="px-8 mb-12">
-          <h1 className="text-[#efbf70] font-black text-2xl font-headline tracking-tighter">Balpro Life</h1>
-          <p className="font-headline text-sm uppercase tracking-widest text-primary-fixed-dim mt-1">The Liquid Curator</p>
-        </div>
-        <div className="flex flex-col flex-1">
-          <NavLink to="/dashboard" end className={navClass}>
-            <span className="material-symbols-outlined">home</span>
-            <span className="font-headline text-sm uppercase tracking-widest">Home</span>
-          </NavLink>
-          <NavLink to="/dashboard/rewards" className={navClass}>
-            <span className="material-symbols-outlined">workspace_premium</span>
-            <span className="font-headline text-sm uppercase tracking-widest">Rewards</span>
-          </NavLink>
-          <NavLink to="/dashboard/orders" className={navClass}>
-            <span className="material-symbols-outlined">inventory_2</span>
-            <span className="font-headline text-sm uppercase tracking-widest">Orders</span>
-          </NavLink>
-          <NavLink to="/dashboard/rituals" className={navClass}>
-            <span className="material-symbols-outlined">auto_awesome</span>
-            <span className="font-headline text-sm uppercase tracking-widest">Rituals</span>
-          </NavLink>
-          <NavLink to="/dashboard/settings" className={navClass}>
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>settings</span>
-            <span className="font-headline text-sm uppercase tracking-widest">Settings</span>
-          </NavLink>
-        </div>
-        <div className="px-8 mt-auto">
-          <Link to="/products" className="inline-block text-center w-full bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-primary py-4 rounded-full font-headline text-xs uppercase tracking-widest font-bold transition-transform hover:scale-105 active:scale-95">
-            Upgrade Ritual
-          </Link>
-        </div>
-      </nav>
+      <UserSidebar />
 
       <main className="md:ml-72 min-h-screen p-6 md:p-12 lg:p-20">
         <header className="mb-8 md:mb-16">

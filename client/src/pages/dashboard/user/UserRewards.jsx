@@ -1,58 +1,11 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-
-const navClass = ({ isActive }) =>
-  `mx-4 my-1 px-6 py-3 flex items-center gap-4 rounded-full transition-all ${
-    isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold shadow-lg shadow-tertiary/20'
-      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
-  }`;
+import { Link } from 'react-router-dom';
+import UserSidebar from './UserSidebar';
 
 const UserRewards = () => {
   return (
     <div className="bg-surface text-on-surface min-h-screen">
-      <nav className="h-screen w-72 left-0 top-0 fixed bg-[#221a17] flex flex-col py-8 z-50 shadow-2xl shadow-black/20">
-        <div className="px-8 mb-12">
-          <h1 className="text-[#efbf70] font-black text-2xl font-headline tracking-tighter">Balpro Life</h1>
-          <p className="font-['Epilogue'] text-[10px] uppercase tracking-[0.2em] text-primary-fixed-dim mt-1">The Liquid Curator</p>
-        </div>
-
-        <div className="flex-1 space-y-2">
-          <NavLink to="/dashboard" end className={navClass}>
-            <span className="material-symbols-outlined">home</span>
-            <span className="font-['Epilogue'] text-sm uppercase tracking-widest">Home</span>
-          </NavLink>
-          <NavLink to="/dashboard/rewards" className={navClass}>
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
-            <span className="font-['Epilogue'] text-sm uppercase tracking-widest">Rewards</span>
-          </NavLink>
-          <NavLink to="/dashboard/orders" className={navClass}>
-            <span className="material-symbols-outlined">inventory_2</span>
-            <span className="font-['Epilogue'] text-sm uppercase tracking-widest">Orders</span>
-          </NavLink>
-          <NavLink to="/dashboard/rituals" className={navClass}>
-            <span className="material-symbols-outlined">auto_awesome</span>
-            <span className="font-['Epilogue'] text-sm uppercase tracking-widest">Rituals</span>
-          </NavLink>
-          <NavLink to="/dashboard/settings" className={navClass}>
-            <span className="material-symbols-outlined">settings</span>
-            <span className="font-['Epilogue'] text-sm uppercase tracking-widest">Settings</span>
-          </NavLink>
-        </div>
-
-        <div className="px-8 mt-auto">
-          <Link to="/products" className="w-full inline-block text-center bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary font-bold py-4 rounded-full mb-8 text-xs uppercase tracking-widest hover:scale-105 transition-transform">
-            Upgrade Ritual
-          </Link>
-          <div className="flex items-center gap-3 p-2 bg-surface-container rounded-full">
-            <img alt="User Profile" className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs-8NTJHc6oS-iY-kUF8lQNKuJ019FQyIkDtMjWr4rVkPKN7G6igOM7ZYgcEVWWRcySmRIZds9-OlHQc9xqayzNuDK_vU4Uxp64kEp2mkkS4i2UlzCyBVe9ti1e_m7rmypkdQOGNi6v41gPWG8CA4Ia23j94tm5BB_Yjxcd5syEZyHlncY_WhEGMNEpIi-vX4nDANmhbsQhIfWC5b-aKxRkUC2HtXxlJBfDJb0OXWNjT9cGFWxWqTCii-NDQ5i45lvOX8-VhHwvQ" />
-            <div>
-              <p className="text-xs font-bold text-on-surface">Julian Vane</p>
-              <p className="text-[10px] text-primary-fixed-dim uppercase tracking-tighter">Gold Tier Member</p>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <UserSidebar />
 
       <main className="ml-72 min-h-screen p-12 bg-surface">
         <header className="flex justify-between items-end mb-16">

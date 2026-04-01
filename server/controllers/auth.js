@@ -17,6 +17,26 @@ const normalizeGoogleClientId = (value) => {
 const GOOGLE_CLIENT_ID = normalizeGoogleClientId(process.env.GOOGLE_CLIENT_ID);
 const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
+const getAuthCookieOptions = () => {
+  const sameSite = (process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax')).toLowerCase();
+  const secure = process.env.NODE_ENV === 'production' || sameSite === 'none';
+  const maxAgeDays = process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30;
+  const options = {
+    httpOnly: true,
+    secure,
+    sameSite,
+    path: '/',
+    maxAge: maxAgeDays * 24 * 60 * 60 * 1000
+  };
+
+  const cookieDomain = String(process.env.COOKIE_DOMAIN || '').trim();
+  if (cookieDomain) {
+    options.domain = cookieDomain;
+  }
+
+  return options;
+};
+
 const getRequestBaseUrl = (req) => {
   if (process.env.SERVER_ROOT_URL) {
     return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
@@ -178,6 +198,12 @@ export const login = async (req, res) => {
     // Generate token
     const token = user.getSignedJwtToken();
 
+    try {
+      res.cookie('token', token, getAuthCookieOptions());
+    } catch (cookieErr) {
+      console.warn('Failed to set auth cookie on login:', cookieErr?.message || cookieErr);
+    }
+
     // For cookie-based flows we can set an HttpOnly cookie when desired (callbacks will set it).
     res.status(200).json({
       success: true,
@@ -202,7 +228,15 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     // Clear cookie if present
-    res.clearCookie('token', { path: '/' });
+    const clearOptions = {
+      path: '/',
+      sameSite: getAuthCookieOptions().sameSite,
+      secure: getAuthCookieOptions().secure
+    };
+    if (getAuthCookieOptions().domain) {
+      clearOptions.domain = getAuthCookieOptions().domain;
+    }
+    res.clearCookie('token', clearOptions);
     res.status(200).json({
       success: true,
       message: 'Logged out successfully',
@@ -233,6 +267,41 @@ export const getMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error'
+    });
+  }
+};
+
+// @desc    Refresh auth session and rotate token
+// @route   POST /api/auth/refresh
+// @access  Private
+export const refreshSession = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'No user found with this token',
+        code: 'INVALID_TOKEN'
+      });
+    }
+
+    const token = user.getSignedJwtToken();
+    res.cookie('token', token, getAuthCookieOptions());
+
+    res.status(200).json({
+      success: true,
+      message: 'Session refreshed',
+      data: {
+        user: user.toJSON(),
+        token
+      }
+    });
+  } catch (error) {
+    console.error('Refresh session error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during session refresh'
     });
   }
 };
@@ -441,15 +510,7 @@ export const oauthLogin = async (req, res) => {
 
     // Set HttpOnly cookie for browsers (will be used by protect middleware)
     try {
-      const cookieOptions = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        // Allow overriding SameSite via env (use 'none' for cross-site cookies in production)
-        sameSite: process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
-        path: '/',
-        maxAge: (process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30) * 24 * 60 * 60 * 1000
-      };
-      res.cookie('token', token, cookieOptions);
+      res.cookie('token', token, getAuthCookieOptions());
     } catch (cookieErr) {
       console.warn('Failed to set auth cookie:', cookieErr);
     }
@@ -511,14 +572,7 @@ export const googleCallback = async (req, res) => {
 
     // Set cookie instead of returning token in URL
     try {
-      const cookieOptions = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.COOKIE_SAMESITE || (process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
-        path: '/',
-        maxAge: (process.env.JWT_COOKIE_EXPIRE_DAYS ? parseInt(process.env.JWT_COOKIE_EXPIRE_DAYS, 10) : 30) * 24 * 60 * 60 * 1000
-      };
-      res.cookie('token', appToken, cookieOptions);
+      res.cookie('token', appToken, getAuthCookieOptions());
       console.log('Cookie set for user:', user.email);
     } catch (cookieErr) {
       console.warn('Failed to set auth cookie on Google callback:', cookieErr);

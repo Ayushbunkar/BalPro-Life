@@ -1,6 +1,16 @@
 import React from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -10,40 +20,56 @@ const UserDashboard = () => {
           <p className="text-xs text-primary-fixed-dim uppercase tracking-widest mt-1 opacity-60">Premium Member</p>
         </div>
         <nav className="flex-1 space-y-2">
-          <a className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]" href="#">
+          <NavLink
+            to="/dashboard"
+            end
+            className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40' : 'text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]'}`}
+          >
             <span className="material-symbols-outlined" data-icon="home">home</span>
             <span className="text-sm font-medium">Home</span>
-          </a>
-          <a className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40" href="#">
+          </NavLink>
+          <NavLink
+            to="/dashboard/rewards"
+            className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40' : 'text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]'}`}
+          >
             <span className="material-symbols-outlined" data-icon="military_tech" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
             <span className="text-sm">Rewards</span>
-          </a>
-          <a className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]" href="#">
+          </NavLink>
+          <NavLink
+            to="/dashboard/orders"
+            className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40' : 'text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]'}`}
+          >
             <span className="material-symbols-outlined" data-icon="package_2">package_2</span>
             <span className="text-sm">Orders</span>
-          </a>
-          <a className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]" href="#">
+          </NavLink>
+          <NavLink
+            to="/dashboard/rituals"
+            className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40' : 'text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]'}`}
+          >
             <span className="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
             <span className="text-sm">Rituals</span>
-          </a>
-          <a className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]" href="#">
+          </NavLink>
+          <NavLink
+            to="/dashboard/settings"
+            className={({ isActive }) => `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 ${isActive ? 'text-[#efbf70] font-bold border-r-2 border-[#efbf70] bg-[#3c332f]/40' : 'text-[#e2bfb2] hover:text-[#efbf70] hover:bg-[#3c332f]'}`}
+          >
             <span className="material-symbols-outlined" data-icon="settings">settings</span>
             <span className="text-sm">Settings</span>
-          </a>
+          </NavLink>
         </nav>
         <div className="mt-auto pt-8 border-t border-outline-variant/10 space-y-4">
-          <button className="w-full gold-shimmer-btn text-on-tertiary font-bold py-3 rounded-full text-sm uppercase tracking-widest hover:scale-105 transition-transform">
+          <Link to="/products" className="block w-full gold-shimmer-btn text-on-tertiary font-bold py-3 rounded-full text-sm uppercase tracking-widest hover:scale-105 transition-transform text-center">
             Shop Cacao
-          </button>
+          </Link>
           <div className="space-y-1">
-            <a className="flex items-center gap-4 px-4 py-2 text-sm text-[#e2bfb2] hover:text-[#efbf70] transition-colors" href="#">
+            <Link className="flex items-center gap-4 px-4 py-2 text-sm text-[#e2bfb2] hover:text-[#efbf70] transition-colors" to="/contact">
               <span className="material-symbols-outlined" data-icon="help_outline">help_outline</span>
               <span>Help</span>
-            </a>
-            <a className="flex items-center gap-4 px-4 py-2 text-sm text-[#e2bfb2] hover:text-[#efbf70] transition-colors" href="#">
+            </Link>
+            <button type="button" className="w-full flex items-center gap-4 px-4 py-2 text-sm text-[#e2bfb2] hover:text-[#efbf70] transition-colors" onClick={handleLogout}>
               <span className="material-symbols-outlined" data-icon="logout">logout</span>
               <span>Sign Out</span>
-            </a>
+            </button>
           </div>
         </div>
       </aside>
@@ -53,9 +79,9 @@ const UserDashboard = () => {
         <header className="fixed top-0 right-0 w-[calc(100%-18rem)] z-50 bg-[#19120f]/70 dark:bg-[#19120f]/70 backdrop-blur-md flex justify-between items-center px-12 h-24">
           <div className="flex items-center gap-8">
             <nav className="hidden lg:flex gap-8">
-              <a className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" href="#">Our Story</a>
-              <a className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" href="#">Benefits</a>
-              <a className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" href="#">Subscription</a>
+              <Link className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" to="/about">Our Story</Link>
+              <Link className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" to="/why-choose-us">Benefits</Link>
+              <Link className="font-headline text-sm uppercase tracking-widest text-[#e2bfb2] hover:text-[#efbf70] transition-opacity" to="/products">Subscription</Link>
             </nav>
           </div>
           <div className="flex items-center gap-6">
@@ -301,9 +327,9 @@ const UserDashboard = () => {
               <p className="text-xs text-on-surface-variant mt-2 tracking-widest uppercase">The Gold Standard of Functional Cacao</p>
             </div>
             <div className="flex gap-8 text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant">
-              <a className="hover:text-tertiary transition-colors" href="#">Privacy</a>
-              <a className="hover:text-tertiary transition-colors" href="#">Terms</a>
-              <a className="hover:text-tertiary transition-colors" href="#">Support</a>
+              <Link className="hover:text-tertiary transition-colors" to="/about">Privacy</Link>
+              <Link className="hover:text-tertiary transition-colors" to="/why-choose-us">Terms</Link>
+              <Link className="hover:text-tertiary transition-colors" to="/contact">Support</Link>
             </div>
             <div className="text-xs text-on-surface-variant/50">
               © 2024 Balpro Life. All rights reserved.

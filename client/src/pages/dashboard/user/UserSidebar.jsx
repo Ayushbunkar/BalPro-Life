@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { User, FileText, MapPin, Settings, LogOut } from 'lucide-react';
+import { User, FileText, Settings, Gift, Sparkles, LogOut } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import ConfirmModal from '../../../components/ConfirmModal';
 
@@ -11,7 +11,9 @@ const UserSidebar = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const items = [
     { name: 'Profile', path: '/dashboard', icon: User },
+    { name: 'Rewards', path: '/dashboard/rewards', icon: Gift },
     { name: 'My Orders', path: '/dashboard/orders', icon: FileText },
+    { name: 'Rituals', path: '/dashboard/rituals', icon: Sparkles },
     { name: 'Settings', path: '/dashboard/settings', icon: Settings }
   ];
 

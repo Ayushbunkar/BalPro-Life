@@ -5,6 +5,7 @@ import {
   login,
   logout,
   getMe,
+  refreshSession,
   updateProfile,
   changePassword,
   forgotPassword,
@@ -50,6 +51,7 @@ router.put('/reset-password/:token', [
 ], resetPassword);
 router.use(protect); // All routes below require authentication
 router.get('/me', getMe);
+router.post('/refresh', refreshSession);
 // Allow avatar upload via multipart/form-data on profile update
 router.put('/profile', uploadAvatar.single('avatar'), handleAvatarUpload, updateProfile);
 router.put('/change-password', [

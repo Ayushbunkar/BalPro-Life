@@ -33,6 +33,8 @@ import AdminSettings from './pages/dashboard/admin/AdminSettings';
 import OAuthCallback from './pages/OAuthCallback';
 import UserOrders from './pages/dashboard/user/UserOrders';
 import Settings from './pages/dashboard/user/Settings';
+import UserRewards from './pages/dashboard/user/UserRewards';
+import UserRituals from './pages/dashboard/user/UserRituals';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartSidebar from './components/CartSidebar';
 import CheckoutModal from './components/CheckoutModal';
@@ -138,6 +140,16 @@ function AppContent() {
           <Route path="/dashboard/orders" element={
             <ProtectedRoute>
               <UserOrders />
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard/rewards" element={
+            <ProtectedRoute>
+              <UserRewards />
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard/rituals" element={
+            <ProtectedRoute>
+              <UserRituals />
             </ProtectedRoute>
           } />
           <Route path="/dashboard/settings" element={

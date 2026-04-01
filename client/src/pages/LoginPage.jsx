@@ -127,11 +127,11 @@ const LoginPage = () => {
               </div>
             )}
 
-            <div className="mb-8">
+            <div className="mb-8 flex justify-center">
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
-                className="w-full flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
+                className="w-full max-w-xs flex items-center justify-center gap-3 px-6 py-4 rounded-full border border-outline-variant/30 hover:bg-surface-container-highest transition-all duration-300 group"
               >
                 <img
                   src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { authAPI } from '../utils/api';
 
 // Create Auth Context
 const AuthContext = createContext();
@@ -11,22 +12,40 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is logged in on app start
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
+    const hydrateSession = async () => {
+      const userData = localStorage.getItem('user');
 
-    if (token && userData) {
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+          localStorage.removeItem('user');
+        }
+      }
+
       try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing user data:', error);
+        // Validate/restore session from backend using token/cookie.
+        const me = await authAPI.getMe();
+        if (me?.data) {
+          setUser(me.data);
+          setIsAuthenticated(true);
+          localStorage.setItem('user', JSON.stringify(me.data));
+        }
+      } catch (_error) {
+        // If backend session is invalid, clear local auth cache.
+        setUser(null);
+        setIsAuthenticated(false);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+      } finally {
+        setLoading(false);
       }
-    }
+    };
 
-    setLoading(false);
+    hydrateSession();
   }, []);
 
   // Login function
@@ -45,7 +64,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Logout function
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+      await authAPI.logout();
+    } catch (_error) {
+      // Always clear local state even if server logout request fails.
+    }
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('token');

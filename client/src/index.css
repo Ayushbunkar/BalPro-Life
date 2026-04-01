@@ -81,6 +81,39 @@ h1, h2, h3, h4, h5, h6 {
 	box-shadow: 0 8px 32px rgba(239, 191, 112, 0.2);
 }
 
+/* Keep click/press colors readable across all buttons and button-like controls */
+@layer base {
+	button,
+	input[type='button'],
+	input[type='submit'],
+	input[type='reset'],
+	a[role='button'] {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	button:focus-visible,
+	input[type='button']:focus-visible,
+	input[type='submit']:focus-visible,
+	input[type='reset']:focus-visible,
+	a[role='button']:focus-visible {
+		outline: 2px solid #efbf70;
+		outline-offset: 2px;
+	}
+
+	button:active:not(:disabled),
+	input[type='button']:active:not(:disabled),
+	input[type='submit']:active:not(:disabled),
+	input[type='reset']:active:not(:disabled),
+	a[role='button']:active {
+		filter: brightness(0.94) saturate(1.08);
+	}
+}
+
+.gold-shimmer:active {
+	filter: brightness(0.92) saturate(1.1);
+	color: #19120f;
+}
+
 @keyframes shimmer {
 	0% {
 		background-position: -200% 0;

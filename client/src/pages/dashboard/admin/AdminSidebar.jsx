@@ -1,41 +1,57 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Users, PackageCheck, FileText, Settings, LogOut } from 'lucide-react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import ConfirmModal from '../../../components/ConfirmModal';
 
+const navClass = ({ isActive }) =>
+  `flex items-center px-4 py-3 rounded-full transition-all group ${
+    isActive
+      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold shadow-lg shadow-tertiary/10'
+      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
+  }`;
+
 const AdminSidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const items = [
-    { name: 'Overview', path: '/admin', icon: Home },
-    { name: 'Users', path: '/admin/users', icon: Users },
-    { name: 'Products', path: '/admin/products', icon: PackageCheck },
-    { name: 'Orders', path: '/admin/orders', icon: FileText },
-    { name: 'Settings', path: '/admin/settings', icon: Settings }
+    { name: 'Overview', path: '/admin', icon: 'space_dashboard', end: true },
+    { name: 'Users', path: '/admin/users', icon: 'group' },
+    { name: 'Products', path: '/admin/products', icon: 'inventory_2' },
+    { name: 'Orders', path: '/admin/orders', icon: 'receipt_long' },
+    { name: 'Settings', path: '/admin/settings', icon: 'settings' }
   ];
 
   return (
-    <nav className="bg-white p-4 rounded-lg shadow">
-      <ul className="space-y-2">
-        {items.map((it) => (
-          <li key={it.name}>
-            <Link to={it.path} className={`flex items-center gap-3 p-3 rounded-md ${location.pathname === it.path ? 'bg-green-50 text-green-700 font-bold' : 'text-slate-700 hover:bg-slate-50'}`}>
-              <it.icon size={16} />
-              <span className="text-sm">{it.name}</span>
-            </Link>
-          </li>
+    <nav className="bg-[#221a17] p-4 rounded-2xl shadow-2xl shadow-black/20 text-[#efdfd9]">
+      <div className="px-2 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-linear-to-br from-tertiary to-on-tertiary-container flex items-center justify-center">
+            <span className="material-symbols-outlined text-surface" style={{ fontVariationSettings: "'FILL' 1" }}>admin_panel_settings</span>
+          </div>
+          <div>
+            <h3 className="font-headline font-black text-base tracking-tight text-[#efbf70]">Admin Panel</h3>
+            <p className="text-[10px] uppercase tracking-widest text-primary-fixed-dim/60 font-bold">Control Center</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        {items.map((item) => (
+          <NavLink key={item.path} to={item.path} end={item.end} className={navClass}>
+            <span className="material-symbols-outlined mr-3 group-hover:text-tertiary">{item.icon}</span>
+            <span className="font-headline text-xs uppercase tracking-widest">{item.name}</span>
+          </NavLink>
         ))}
-      </ul>
-      <div className="pt-4 border-t mt-4" style={{borderColor: '#EAD8C0'}}>
+      </div>
+
+      <div className="pt-4 border-t mt-6" style={{ borderColor: '#4f4440' }}>
         <button
           onClick={() => setConfirmOpen(true)}
-          className="w-full flex items-center gap-3 p-3 rounded-md text-slate-700 hover:bg-slate-50"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-full text-[#e2bfb2] hover:bg-[#3c332f] transition-all"
         >
-          <LogOut size={16} />
-          <span className="text-sm">Logout</span>
+          <span className="material-symbols-outlined">logout</span>
+          <span className="font-headline text-xs uppercase tracking-widest">Logout</span>
         </button>
       </div>
 

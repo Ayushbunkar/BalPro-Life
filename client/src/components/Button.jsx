@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Button = ({ children, variant = 'primary', className = '', onClick, type = "button", icon: Icon, disabled }) => {
-  const baseStyle = "inline-flex items-center justify-center px-8 py-4 font-bold tracking-wide transition-all duration-300 rounded-full uppercase text-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl";
+  const baseStyle = "inline-flex items-center justify-center px-8 py-4 font-bold tracking-wide transition-all duration-200 rounded-full uppercase text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#efbf70] focus-visible:ring-offset-2 focus-visible:ring-offset-[#151312] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl active:scale-95";
 
   const variants = {
-    primary: "bg-[#1D6B3A] hover:bg-[#4FAF5A] text-white border border-transparent hover:shadow-[#1D6B3A]/30",
-    secondary: "bg-[#F4E8D3] text-[#7B4A22] border border-[#EAD8C0] hover:border-[#1D6B3A] hover:bg-[#EAD8C0] hover:shadow-[#7B4A22]/20",
-    outline: "bg-transparent border border-[#1D6B3A] text-[#1D6B3A] hover:bg-[#1D6B3A] hover:text-white",
-    dark: "bg-[#7B4A22] text-white border border-[#5A3417] hover:bg-[#5A3417] hover:shadow-[#7B4A22]/30"
+    primary: "bg-[#1D6B3A] hover:bg-[#4FAF5A] active:bg-[#14522d] text-white border border-transparent hover:shadow-[#1D6B3A]/30",
+    secondary: "bg-[#F4E8D3] text-[#7B4A22] border border-[#EAD8C0] hover:border-[#1D6B3A] hover:bg-[#EAD8C0] active:bg-[#d9c4a2] active:text-[#432c00] hover:shadow-[#7B4A22]/20",
+    outline: "bg-transparent border border-[#1D6B3A] text-[#1D6B3A] hover:bg-[#1D6B3A] hover:text-white active:bg-[#14522d] active:text-white",
+    dark: "bg-[#7B4A22] text-white border border-[#5A3417] hover:bg-[#5A3417] active:bg-[#432c00] hover:shadow-[#7B4A22]/30"
   };
 
   return (

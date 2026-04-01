@@ -6,8 +6,8 @@ import ConfirmModal from '../../../components/ConfirmModal';
 const navClass = ({ isActive }) =>
   `flex items-center px-4 py-3 rounded-full transition-all group ${
     isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] font-bold shadow-lg shadow-tertiary/10'
-      : 'text-[#e2bfb2] hover:bg-[#3c332f]'
+      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] visited:text-[#19120f] active:text-[#19120f] font-bold shadow-lg shadow-tertiary/10'
+      : 'text-[#e2bfb2] visited:text-[#e2bfb2] hover:bg-[#3c332f] active:text-[#efbf70] focus-visible:text-[#efbf70]'
   }`;
 
 const AdminSidebar = () => {

@@ -6,8 +6,8 @@ import ConfirmModal from '../../../components/ConfirmModal';
 const navClass = ({ isActive }) =>
   `flex items-center mx-4 my-1 px-6 py-3 rounded-full transition-all group ${
     isActive
-      ? 'bg-gradient-to-r from-[#efbf70] to-[#a77e36] text-[#19120f] visited:text-[#19120f] active:text-[#19120f] font-bold shadow-lg shadow-tertiary/10'
-      : 'text-[#e2bfb2] visited:text-[#e2bfb2] hover:bg-[#3c332f] active:text-[#efbf70] focus-visible:text-[#efbf70]'
+      ? 'bg-[#efbf70] text-[#2a170f] font-bold shadow-lg shadow-tertiary/10'
+      : 'text-[#e2bfb2] hover:bg-[#3c332f] focus-visible:text-[#efbf70]'
   }`;
 
 const UserSidebar = () => {
@@ -24,20 +24,9 @@ const UserSidebar = () => {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col h-screen py-8 bg-[#221a17] w-72 left-0 top-0 fixed shadow-2xl shadow-black/20 z-50">
-        <div className="px-8 mb-12">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-linear-to-br from-tertiary to-on-tertiary-container flex items-center justify-center">
-              <span className="material-symbols-outlined text-surface" style={{ fontVariationSettings: "'FILL' 1" }}>fluid</span>
-            </div>
-            <div>
-              <h1 className="font-headline font-black text-xl tracking-tighter text-[#efbf70]">Balpro Life</h1>
-              <p className="text-[10px] uppercase tracking-widest text-primary-fixed-dim/60 font-bold">The Liquid Curator</p>
-            </div>
-          </div>
-        </div>
+      <aside className="hidden md:flex flex-col h-screen pt-3 pb-6 bg-[#221a17] w-72 left-0 top-0 fixed shadow-2xl shadow-black/20 z-50">
 
-        <nav className="grow space-y-1">
+        <nav className="grow space-y-1 mt-1">
           {items.map((item) => (
             <NavLink key={item.path} to={item.path} end={item.end} className={navClass}>
               <span

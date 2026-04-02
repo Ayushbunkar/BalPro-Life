@@ -244,20 +244,6 @@ const Settings = () => {
           </section>
         </form>
 
-        <footer className="mt-24 pt-12 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left">
-            <h5 className="text-sm font-bold text-error/80 uppercase tracking-widest mb-1">Danger Zone</h5>
-            <p className="text-xs text-outline">Pause or permanently deactivate your account sanctuary.</p>
-          </div>
-          <div className="flex gap-4">
-            <button type="button" className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-outline hover:text-on-surface transition-colors">
-              Pause Account
-            </button>
-            <button type="button" className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest border border-error/30 text-error hover:bg-error/5 transition-all">
-              Deactivate
-            </button>
-          </div>
-        </footer>
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-[rgba(38,30,26,0.6)] backdrop-blur-xl z-50 flex justify-around items-center py-4 px-6 border-t border-outline-variant/10">

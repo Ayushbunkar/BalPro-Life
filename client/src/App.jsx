@@ -87,7 +87,8 @@ function AppContent() {
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
   const isImmersiveRoute = location.pathname === '/enter-code';
-  const hideGlobalChrome = isImmersiveRoute;
+  const isDashboardRoute = location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/admin');
+  const hideGlobalChrome = isImmersiveRoute || isDashboardRoute;
   const showGlobalFooter = !hideGlobalChrome && location.pathname !== '/cart';
 
   useEffect(() => {

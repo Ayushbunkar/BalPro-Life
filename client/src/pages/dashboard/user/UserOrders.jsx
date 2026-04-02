@@ -156,9 +156,6 @@ const UserOrders = () => {
           </div>
         </section>
 
-        <footer className="p-8 text-center">
-          <p className="text-outline-variant text-[10px] uppercase tracking-[0.3em]">Curated with Intent • Balpro Life © 2023</p>
-        </footer>
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-outline-variant/10 flex justify-around items-center py-4 px-6 z-50">

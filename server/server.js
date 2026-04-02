@@ -20,6 +20,7 @@ import cartRoutes from './routes/cartRoutes.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
@@ -110,11 +111,21 @@ app.use(cookieParser());
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-const openApiSpec = YAML.load(path.join(process.cwd(), 'docs', 'openapi.yaml'));
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
-app.get('/api/docs/openapi.yaml', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'docs', 'openapi.yaml'));
-});
+const docsCandidates = [
+  path.join(process.cwd(), 'server', 'docs', 'openapi.yaml'),
+  path.join(process.cwd(), 'docs', 'openapi.yaml')
+];
+const openApiPath = docsCandidates.find((p) => fs.existsSync(p));
+
+if (openApiPath) {
+  const openApiSpec = YAML.load(openApiPath);
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
+  app.get('/api/docs/openapi.yaml', (req, res) => {
+    res.sendFile(openApiPath);
+  });
+} else {
+  console.warn('OpenAPI spec not found. /api/docs is disabled for this runtime.');
+}
 
 // Routes
 app.use('/api/auth', authRoutes);

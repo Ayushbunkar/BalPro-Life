@@ -8,7 +8,7 @@ const UserOrders = () => {
       <UserSidebar />
 
       <main className="flex-1 md:ml-72 min-h-screen bg-surface">
-        <header className="flex justify-between items-center px-8 py-6 w-full sticky top-0 bg-[#19120f]/70 backdrop-blur-xl z-40">
+        <header className="flex justify-between items-center px-8 py-6 w-full">
           <div>
             <h2 className="font-headline text-3xl font-bold tracking-tight text-on-surface">Your Orders</h2>
             <p className="text-primary-fixed-dim text-sm mt-1">Tracing your liquid curation history</p>

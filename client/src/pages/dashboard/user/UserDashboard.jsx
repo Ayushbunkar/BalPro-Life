@@ -8,24 +8,6 @@ const UserDashboard = () => {
       <UserSidebar />
 
       <main className="md:ml-72 min-h-screen relative">
-        <header className="flex justify-between items-center px-8 py-6 sticky top-0 z-40 bg-[#19120f]/70 backdrop-blur-xl">
-          <div>
-            <span className="text-tertiary text-xs font-bold tracking-widest uppercase">Member Dashboard</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <button className="text-[#e2bfb2] hover:text-tertiary transition-colors" type="button">
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
-            <div className="w-10 h-10 rounded-full border-2 border-tertiary/30 overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                alt="Profile"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4trpJ1z8nQC8s4WMnW0VqAU3DX6y74vDucyiMFVQWVeN2PPNXyRe5DQ9I2P1qqS76Xzq3YsYSh13KQbJbOMCBqblqOpMrnGwvG9qV1JjDcemi03iYen1JwuS3uDi3XEQNTaGXvAD21G7tc95W8vowakmnytxH3feymBMudOm11SCx2h461rOs_CIAvxpcyfbByUQJ99x09rJNJJG15iLr1sy6NPHyAwDbnHgnljX7Pc744pHLlrdyDkBtC53-y0XKxFfWJ30PAw"
-              />
-            </div>
-          </div>
-        </header>
-
         <section className="px-8 py-12">
           <div className="relative mb-24">
             <div className="max-w-4xl">

@@ -140,7 +140,7 @@ const CheckoutPage = () => {
                         </button>
                       </div>
                       <div className="text-right min-w-20">
-                        <span className="font-headline font-bold text-on-surface text-lg">${item.price.toFixed(2)}</span>
+                        <span className="font-headline font-bold text-on-surface text-lg">₹{item.price.toFixed(2)}</span>
                       </div>
                     </div>
                   ))}
@@ -200,7 +200,7 @@ const CheckoutPage = () => {
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between text-on-surface-variant">
                     <span>Subtotal</span>
-                    <span className="font-bold text-on-surface">${total.toFixed(2)}</span>
+                    <span className="font-bold text-on-surface">₹{total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-on-surface-variant">
                     <span>Shipping</span>
@@ -208,12 +208,12 @@ const CheckoutPage = () => {
                   </div>
                   <div className="flex justify-between text-on-surface-variant">
                     <span>Estimated Tax</span>
-                    <span className="font-bold text-on-surface">${tax.toFixed(2)}</span>
+                    <span className="font-bold text-on-surface">₹{tax.toFixed(2)}</span>
                   </div>
                   <div className="pt-4 border-t border-outline-variant/20 flex justify-between items-end">
                     <div>
                       <span className="text-xs font-bold text-tertiary uppercase tracking-widest">Total Due</span>
-                      <div className="text-3xl font-headline font-extrabold text-on-surface">${finalTotal.toFixed(2)}</div>
+                      <div className="text-3xl font-headline font-extrabold text-on-surface">₹{finalTotal.toFixed(2)}</div>
                     </div>
                   </div>
                 </div>

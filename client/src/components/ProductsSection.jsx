@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { productsAPI } from '../utils/api';
 
 const formatPrice = (value) => {
-  if (typeof value !== 'number') return '$0.00';
-  return `$${value.toFixed(2)}`;
+  if (typeof value !== 'number') return '₹0.00';
+  return `₹${value.toFixed(2)}`;
 };
 
 const ProductsSection = ({ onAddToCart }) => {

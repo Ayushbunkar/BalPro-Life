@@ -248,7 +248,7 @@ const AdminProducts = () => {
                         </div>
                       </td>
                       <td className="px-6 py-5 font-mono text-xs text-secondary">{sku}</td>
-                      <td className="px-6 py-5 font-bold text-sm text-on-surface">${Number(product.price || 0).toFixed(2)}</td>
+                      <td className="px-6 py-5 font-bold text-sm text-on-surface">₹{Number(product.price || 0).toFixed(2)}</td>
                       <td className="px-6 py-5">
                         <div className="w-32">
                           <div className="flex justify-between items-center mb-1.5">

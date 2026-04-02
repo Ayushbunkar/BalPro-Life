@@ -5,22 +5,20 @@ const ConfirmModal = ({ open, title = 'Confirm', message = 'Are you sure?', onCo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onCancel}></div>
-      <div className="bg-white rounded-lg shadow-lg p-6 z-10 w-full max-w-md">
-        <h3 className="text-lg font-bold mb-2">{title}</h3>
-        <p className="text-sm text-slate-600 mb-6">{message}</p>
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onCancel}></div>
+      <div className="bg-[#19120f] border border-[#4f4440]/40 rounded-xl shadow-lg p-6 z-10 w-full max-w-md">
+        <h3 className="text-lg font-bold mb-2 text-[#efdfd9]">{title}</h3>
+        <p className="text-sm text-[#bfaea6] mb-6">{message}</p>
         <div className="flex justify-end gap-3">
           <button
             onClick={onCancel}
-            className="px-4 py-2 rounded-md border text-sm"
-            style={{borderColor: '#EAD8C0', color: '#7B4A22'}}
+            className="px-4 py-2 rounded-md border text-sm border-[#4f4440] text-[#e2bfb2] hover:bg-[#2a221f] transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 rounded-md text-sm"
-            style={{backgroundColor: '#1D6B3A', color: 'white'}}
+            className="px-4 py-2 rounded-md text-sm bg-[linear-gradient(135deg,#efbf70,#a77e36)] text-[#432c00] font-semibold hover:brightness-105 transition-all"
           >
             Confirm
           </button>

@@ -84,8 +84,8 @@ const ProductsPage = ({ onAddToCart }) => {
 
             <div className="flex flex-col space-y-4 pt-3">
               <div className="flex items-baseline space-x-4">
-                <span className="text-4xl font-headline font-bold text-on-surface">${displayPrice.toFixed(2)}</span>
-                <span className="text-outline line-through">${displayOriginalPrice.toFixed(2)}</span>
+                <span className="text-4xl font-headline font-bold text-on-surface">₹{displayPrice.toFixed(2)}</span>
+                <span className="text-outline line-through">₹{displayOriginalPrice.toFixed(2)}</span>
               </div>
 
               <div className="flex flex-wrap gap-4">

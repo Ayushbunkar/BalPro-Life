@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { productsAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
 
+const MAX_PRODUCT_LOAD_RETRIES = 3;
+const RETRY_BASE_DELAY_MS = 1200;
+
 const faqs = [
   {
     question: 'How should I serve it?',
@@ -27,44 +30,105 @@ const ProductsPage = ({ onAddToCart }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [primaryProduct, setPrimaryProduct] = useState(null);
   const [loadingProduct, setLoadingProduct] = useState(true);
+  const [addToCartMessage, setAddToCartMessage] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let active = true;
+    let retryTimer = null;
 
-    const loadPrimaryProduct = async () => {
-      try {
-        const response = await productsAPI.getProducts({ limit: 1, page: 1 });
-        const firstProduct = Array.isArray(response?.data) ? response.data[0] : null;
-        if (active) {
-          setPrimaryProduct(firstProduct || null);
-        }
-      } catch (_error) {
-        if (active) {
-          setPrimaryProduct(null);
-        }
-      } finally {
-        if (active) {
-          setLoadingProduct(false);
-        }
+    const fetchPrimaryProduct = async () => {
+      const featuredResponse = await productsAPI.getFeaturedProducts().catch(() => null);
+      const featuredProducts = Array.isArray(featuredResponse?.data) ? featuredResponse.data : [];
+      if (featuredProducts.length > 0) {
+        return featuredProducts[0];
       }
+
+      const response = await productsAPI.getProducts({ page: 1, limit: 12 }).catch(() => null);
+      const products = Array.isArray(response?.data) ? response.data : [];
+      return products.find((product) => product?._id) || null;
     };
 
+    const loadPrimaryProduct = async (attempt = 0) => {
+      const firstProduct = await fetchPrimaryProduct();
+      if (!active) return;
+
+      if (firstProduct) {
+        setPrimaryProduct(firstProduct);
+        setRetryCount(attempt);
+        setLoadingProduct(false);
+        setAddToCartMessage('');
+        return;
+      }
+
+      if (attempt < MAX_PRODUCT_LOAD_RETRIES) {
+        setRetryCount(attempt + 1);
+        retryTimer = window.setTimeout(() => {
+          loadPrimaryProduct(attempt + 1);
+        }, RETRY_BASE_DELAY_MS * (attempt + 1));
+        return;
+      }
+
+      setPrimaryProduct(null);
+      setLoadingProduct(false);
+      setAddToCartMessage('No live product available right now. Please try again shortly.');
+    };
+
+    setLoadingProduct(true);
+    setRetryCount(0);
+    setAddToCartMessage('');
     loadPrimaryProduct();
 
     return () => {
       active = false;
+      if (retryTimer) {
+        window.clearTimeout(retryTimer);
+      }
     };
   }, []);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!onAddToCart) return;
-    onAddToCart(primaryProduct, quantity);
+
+    if (!primaryProduct?._id) {
+      setAddToCartMessage('Product data is not available right now.');
+      return;
+    }
+
+    setAddToCartMessage('');
+    try {
+      await onAddToCart(primaryProduct, quantity);
+    } catch {
+      setAddToCartMessage('Unable to add this product right now.');
+    }
   };
 
-  const displayName = primaryProduct?.name || 'Balpro Cacao';
-  const displayPrice = typeof primaryProduct?.price === 'number' ? primaryProduct.price : 39;
-  const displayOriginalPrice = typeof primaryProduct?.originalPrice === 'number' ? primaryProduct.originalPrice : 48;
-  const displayImage = primaryProduct?.images?.[0]?.url || 'https://lh3.googleusercontent.com/aida-public/AB6AXuDOPX2vUQHGnDLxgzpxvoeoUKiT0jBKQDqu4n3SFhkpvpbWvqZAlFyKnAFiB3jM-0gBK4Sc1CPYpQZSGch3XP-bmAnmr2gRjAnKgMCeHtofcfjE1Rkv4uyoODPu2ZdKCqXaDkoCTI4lS4PxrL9uMf17I4tupSeZuXVHThLMvZKqNzyXlA9433ltcmHiCCOWu7z-zJ6YEWdFsbJqmkSKpulxdTIInsTxXu_iCkU025IA22z5cWMbVuLDUGOjlEWYzxQXm1iw4vG14Q';
+  const handleRetryNow = async () => {
+    setLoadingProduct(true);
+    setRetryCount(0);
+    setAddToCartMessage('');
+
+    const featuredResponse = await productsAPI.getFeaturedProducts().catch(() => null);
+    const featuredProducts = Array.isArray(featuredResponse?.data) ? featuredResponse.data : [];
+
+    let nextProduct = featuredProducts[0] || null;
+    if (!nextProduct) {
+      const response = await productsAPI.getProducts({ page: 1, limit: 12 }).catch(() => null);
+      const products = Array.isArray(response?.data) ? response.data : [];
+      nextProduct = products.find((product) => product?._id) || null;
+    }
+
+    setPrimaryProduct(nextProduct);
+    setLoadingProduct(false);
+    if (!nextProduct) {
+      setAddToCartMessage('No live product available right now. Please try again shortly.');
+    }
+  };
+
+  const displayName = primaryProduct?.name || 'Product Unavailable';
+  const displayPrice = typeof primaryProduct?.price === 'number' ? primaryProduct.price : 0;
+  const displayOriginalPrice = typeof primaryProduct?.originalPrice === 'number' ? primaryProduct.originalPrice : null;
+  const displayImage = primaryProduct?.images?.[0]?.url || '';
 
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30 pb-28 md:pb-0">
@@ -77,7 +141,7 @@ const ProductsPage = ({ onAddToCart }) => {
               FUNCTIONAL CACAO
             </div>
             <h1 className="font-headline text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] [text-shadow:0_10px_30px_rgba(0,0,0,0.5)]">
-              {displayName.split(' ')[0] || 'Velvet'} <br /> <span className="text-tertiary">Recovery.</span>
+              {displayName.split(' ')[0] || 'Product'} <br /> <span className="text-tertiary">Recovery.</span>
             </h1>
             <p className="max-w-md text-primary-fixed-dim text-lg leading-relaxed">
               A masterclass in functional indulgence. Rich Belgian chocolate meets adaptogenic mushrooms in a
@@ -87,7 +151,9 @@ const ProductsPage = ({ onAddToCart }) => {
             <div className="flex flex-col space-y-4 pt-3">
               <div className="flex items-baseline space-x-4">
                 <span className="text-4xl font-headline font-bold text-on-surface">₹{displayPrice.toFixed(2)}</span>
-                <span className="text-outline line-through">₹{displayOriginalPrice.toFixed(2)}</span>
+                {typeof displayOriginalPrice === 'number' && displayOriginalPrice > displayPrice && (
+                  <span className="text-outline line-through">₹{displayOriginalPrice.toFixed(2)}</span>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-4">
@@ -112,7 +178,7 @@ const ProductsPage = ({ onAddToCart }) => {
                 <button
                   className="bg-[linear-gradient(135deg,#efbf70,#a77e36)] px-10 py-4 rounded-full text-on-tertiary-fixed font-bold text-lg relative overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
                   type="button"
-                  disabled={loadingProduct}
+                  disabled={loadingProduct || !primaryProduct?._id}
                   onClick={handleAddToCart}
                 >
                   {loadingProduct ? 'LOADING...' : 'ADD TO CART'}
@@ -121,6 +187,21 @@ const ProductsPage = ({ onAddToCart }) => {
 
               {!loadingProduct && !isAuthenticated && (
                 <p className="text-sm text-primary-fixed-dim">Login required to add items.</p>
+              )}
+
+              {!loadingProduct && addToCartMessage && (
+                <div className="flex items-center gap-3">
+                  <p className="text-sm text-error">{addToCartMessage}</p>
+                  {!primaryProduct?._id && (
+                    <button
+                      type="button"
+                      className="text-xs text-tertiary hover:underline"
+                      onClick={handleRetryNow}
+                    >
+                      Retry now {retryCount > 0 ? `(${retryCount}/${MAX_PRODUCT_LOAD_RETRIES})` : ''}
+                    </button>
+                  )}
+                </div>
               )}
 
               <button
@@ -134,11 +215,17 @@ const ProductsPage = ({ onAddToCart }) => {
 
           <div className="w-full md:w-1/2 relative flex justify-center mt-10 md:mt-0">
             <div className="relative z-20 w-60 md:w-[360px] lg:w-[420px] transform hover:rotate-3 transition-transform duration-700">
-              <img
-                alt="Premium Chocolate Tetra Pack"
-                className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"
-                src={displayImage}
-              />
+              {displayImage ? (
+                <img
+                  alt="Premium Chocolate Tetra Pack"
+                  className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"
+                  src={displayImage}
+                />
+              ) : (
+                <div className="w-full aspect-3/4 rounded-2xl border border-outline-variant/20 bg-surface-container-highest flex items-center justify-center text-on-surface-variant text-sm">
+                  Product image unavailable
+                </div>
+              )}
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-linear-to-tr from-tertiary/10 to-transparent rounded-full blur-3xl -z-10"></div>
           </div>

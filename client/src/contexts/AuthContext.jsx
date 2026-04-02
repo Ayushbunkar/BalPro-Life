@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { authAPI } from '../utils/api';
+import { authAPI, setAuthErrorHandler } from '../utils/api';
 
 // Create Auth Context
 const AuthContext = createContext();
@@ -74,6 +74,17 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+  }, []);
+
+  useEffect(() => {
+    setAuthErrorHandler(() => {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    });
+
+    return () => setAuthErrorHandler(null);
   }, []);
 
   // Update user function (uses functional setState so it's stable)

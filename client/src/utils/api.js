@@ -12,6 +12,11 @@ const getApiBaseUrl = () => {
   return '/api';
 };
 const API_BASE_URL = getApiBaseUrl();
+let authErrorHandler = null;
+
+export const setAuthErrorHandler = (handler) => {
+  authErrorHandler = typeof handler === 'function' ? handler : null;
+};
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {
@@ -57,6 +62,12 @@ const apiRequest = async (endpoint, options = {}) => {
     }
 
     if (!response.ok) {
+      if (response.status === 401 && (data?.code === 'TOKEN_EXPIRED' || data?.code === 'INVALID_TOKEN')) {
+        if (authErrorHandler) {
+          authErrorHandler(data);
+        }
+      }
+
       // Handle validation errors specifically
       if (data.errors && Array.isArray(data.errors)) {
         const errorMessages = data.errors.map(err => err.msg || err.message).join(', ');
@@ -219,7 +230,7 @@ export const ordersAPI = {
     return apiRequest(`/orders?${queryString}`);
   },
 
-  updateOrderStatus: (id, statusData) => apiRequest(`/orders/${id}/status`, {
+  updateOrderStatus: (id, statusData) => apiRequest(`/orders/${id}`, {
     method: 'PUT',
     body: JSON.stringify(statusData),
   }),
@@ -233,6 +244,11 @@ export const usersAPI = {
   },
 
   getUser: (id) => apiRequest(`/users/${id}`),
+
+  createUser: (userData) => apiRequest('/users', {
+    method: 'POST',
+    body: JSON.stringify(userData),
+  }),
 
   updateUser: (id, userData) => apiRequest(`/users/${id}`, {
     method: 'PUT',
@@ -259,5 +275,24 @@ export default {
 
 // Admin API
 export const adminAPI = {
-  getMetrics: () => apiRequest('/admin/metrics')
+  getMetrics: () => apiRequest('/admin/metrics'),
+  updateProfile: (payload) => apiRequest('/admin/profile', {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  }),
+  updatePassword: (payload) => apiRequest('/admin/password', {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+};
+
+export const dashboardAPI = {
+  getStats: () => apiRequest('/dashboard/stats'),
+  getAnalytics: () => apiRequest('/dashboard/analytics')
+};
+
+export const analyticsAPI = {
+  getRevenue: () => apiRequest('/analytics/revenue'),
+  getUsers: () => apiRequest('/analytics/users'),
+  getConversion: () => apiRequest('/analytics/conversion')
 };

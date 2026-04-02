@@ -23,6 +23,7 @@ router.put('/:id/cancel', cancelOrder);
 // Admin only routes
 router.use(authorize('admin'));
 router.get('/', getOrders);
+router.put('/:id', updateOrderStatus);
 router.put('/:id/status', updateOrderStatus);
 
 export default router;

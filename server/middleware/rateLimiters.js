@@ -101,9 +101,31 @@ export const codeGenerationLimiter = createLimiter({
     }
   });
 
+/**
+ * Rate limiter for cart mutation endpoints
+ * Prevents abuse on add/update/remove/clear actions
+ * Limit: 10 mutations per 1 minute per user/IP
+ */
+export const cartMutationLimiter = createLimiter({
+  windowMs: 60 * 1000, // 1 minute
+  max: 10,
+  message: {
+    success: false,
+    message: 'Too many cart updates. Please try again in a minute.',
+    code: 'RATE_LIMITED'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => getRequestKey(req),
+  skip: (req) => {
+    return req.user && req.user.role === 'admin';
+  }
+});
+
 export default {
   codeVerificationLimiter,
   rewardRedemptionLimiter,
   codeGenerationLimiter,
-  gamePlayLimiter
+  gamePlayLimiter,
+  cartMutationLimiter
 };

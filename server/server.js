@@ -14,6 +14,12 @@ import adminRoutes from './routes/admin.js';
 import codeRoutes from './routes/codes.js';
 import rewardRoutes from './routes/rewards.js';
 import gameRoutes from './routes/game.js';
+import dashboardRoutes from './routes/dashboard.js';
+import analyticsRoutes from './routes/analytics.js';
+import cartRoutes from './routes/cartRoutes.js';
+import { errorHandler, notFound } from './middleware/errorHandler.js';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 
 // Load environment variables
 dotenv.config();
@@ -104,12 +110,21 @@ app.use(cookieParser());
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
+const openApiSpec = YAML.load(path.join(process.cwd(), 'docs', 'openapi.yaml'));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
+app.get('/api/docs/openapi.yaml', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'docs', 'openapi.yaml'));
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/api/codes', codeRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/game', gameRoutes);
@@ -123,23 +138,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : {}
-  });
-});
+app.use(notFound);
+app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -1,0 +1,408 @@
+openapi: 3.0.3
+info:
+  title: BalPro Life Admin API
+  version: 1.0.0
+  description: Swagger/OpenAPI documentation for admin, dashboard, analytics and cart endpoints.
+servers:
+  - url: http://localhost:5000
+    description: Local development
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+    CartItemInput:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId:
+          type: string
+          example: 67c7f6d4b2f0f5a5c8b4f123
+        quantity:
+          type: integer
+          minimum: 1
+          example: 2
+    QuantityInput:
+      type: object
+      required: [quantity]
+      properties:
+        quantity:
+          type: integer
+          minimum: 0
+          example: 1
+    RateLimitResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Too many cart updates. Please try again in a minute.
+        code:
+          type: string
+          example: RATE_LIMITED
+security:
+  - bearerAuth: []
+paths:
+  /api/auth/login:
+    post:
+      summary: Login with email/password
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200':
+          description: Login success
+  /api/auth/me:
+    get:
+      summary: Get current logged-in user
+      tags: [Auth]
+      responses:
+        '200':
+          description: Current user profile
+  /api/admin/metrics:
+    get:
+      summary: Get admin metrics
+      tags: [Admin]
+      responses:
+        '200':
+          description: Metrics payload
+        '401':
+          description: Unauthorized
+  /api/admin/profile:
+    put:
+      summary: Update admin profile
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                phone: { type: string }
+                profession: { type: string }
+                isProfessional: { type: boolean }
+      responses:
+        '200':
+          description: Profile updated
+        '400':
+          description: Validation failed
+  /api/admin/password:
+    put:
+      summary: Update admin password
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [currentPassword, newPassword]
+              properties:
+                currentPassword: { type: string }
+                newPassword: { type: string }
+      responses:
+        '200':
+          description: Password updated
+  /api/dashboard/stats:
+    get:
+      summary: Get dashboard stats
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Stats response
+  /api/dashboard/analytics:
+    get:
+      summary: Get dashboard analytics
+      tags: [Dashboard]
+      responses:
+        '200':
+          description: Analytics response
+  /api/analytics/revenue:
+    get:
+      summary: Revenue analytics
+      tags: [Analytics]
+      responses:
+        '200':
+          description: Revenue series
+  /api/analytics/users:
+    get:
+      summary: User analytics
+      tags: [Analytics]
+      responses:
+        '200':
+          description: User series
+  /api/analytics/conversion:
+    get:
+      summary: Conversion analytics
+      tags: [Analytics]
+      responses:
+        '200':
+          description: Conversion data
+  /api/users:
+    get:
+      summary: List users (admin)
+      tags: [Users]
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer }
+        - in: query
+          name: limit
+          schema: { type: integer }
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: role
+          schema: { type: string }
+        - in: query
+          name: status
+          schema: { type: string, enum: [active, inactive] }
+      responses:
+        '200':
+          description: User list
+    post:
+      summary: Create user (admin)
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string }
+                role: { type: string, enum: [user, admin] }
+                isActive: { type: boolean }
+      responses:
+        '201':
+          description: User created
+  /api/users/{id}:
+    put:
+      summary: Update user (admin)
+      tags: [Users]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: User updated
+    delete:
+      summary: Delete user (admin)
+      tags: [Users]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: User deleted
+  /api/products:
+    get:
+      summary: List products
+      tags: [Products]
+      responses:
+        '200':
+          description: Product list
+    post:
+      summary: Create product (admin)
+      tags: [Products]
+      responses:
+        '201':
+          description: Product created
+  /api/products/{id}:
+    put:
+      summary: Update product (admin)
+      tags: [Products]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Product updated
+    delete:
+      summary: Delete product (admin)
+      tags: [Products]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Product deleted
+  /api/orders:
+    get:
+      summary: List orders (admin)
+      tags: [Orders]
+      responses:
+        '200':
+          description: Order list
+  /api/orders/{id}:
+    get:
+      summary: Get order details
+      tags: [Orders]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Order details
+    put:
+      summary: Update order status (admin)
+      tags: [Orders]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status: { type: string }
+                trackingNumber: { type: string }
+      responses:
+        '200':
+          description: Order updated
+  /api/cart/add:
+    post:
+      summary: Add item to cart
+      tags: [Cart]
+      description: Limited to 10 requests per minute per user/IP for abuse protection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItemInput'
+      responses:
+        '200':
+          description: Item added
+        '400':
+          description: Invalid request
+        '404':
+          description: Product not found
+        '429':
+          description: Too many cart mutation requests (10/min)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitResponse'
+              example:
+                success: false
+                message: Too many cart updates. Please try again in a minute.
+                code: RATE_LIMITED
+  /api/cart:
+    get:
+      summary: Get authenticated user's cart
+      tags: [Cart]
+      responses:
+        '200':
+          description: Cart data
+  /api/cart/update/{productId}:
+    put:
+      summary: Update item quantity in cart
+      tags: [Cart]
+      description: Limited to 10 requests per minute per user/IP for abuse protection.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuantityInput'
+      responses:
+        '200':
+          description: Cart updated
+        '429':
+          description: Too many cart mutation requests (10/min)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitResponse'
+              example:
+                success: false
+                message: Too many cart updates. Please try again in a minute.
+                code: RATE_LIMITED
+  /api/cart/remove/{productId}:
+    delete:
+      summary: Remove item from cart
+      tags: [Cart]
+      description: Limited to 10 requests per minute per user/IP for abuse protection.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Item removed
+        '429':
+          description: Too many cart mutation requests (10/min)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitResponse'
+              example:
+                success: false
+                message: Too many cart updates. Please try again in a minute.
+                code: RATE_LIMITED
+  /api/cart/clear:
+    delete:
+      summary: Clear cart
+      tags: [Cart]
+      description: Limited to 10 requests per minute per user/IP for abuse protection.
+      responses:
+        '200':
+          description: Cart cleared
+        '429':
+          description: Too many cart mutation requests (10/min)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitResponse'
+              example:
+                success: false
+                message: Too many cart updates. Please try again in a minute.
+                code: RATE_LIMITED

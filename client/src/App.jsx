@@ -30,6 +30,7 @@ import AdminProducts from './pages/dashboard/admin/AdminProducts';
 import AdminProductForm from './pages/dashboard/admin/AdminProductForm';
 import AdminOrders from './pages/dashboard/admin/AdminOrders';
 import AdminSettings from './pages/dashboard/admin/AdminSettings';
+import AdminAnalytics from './pages/dashboard/admin/AdminAnalytics';
 import OAuthCallback from './pages/OAuthCallback';
 import UserOrders from './pages/dashboard/user/UserOrders';
 import Settings from './pages/dashboard/user/Settings';
@@ -198,6 +199,11 @@ function AppContent() {
           <Route path="/admin/orders" element={
             <ProtectedRoute roles={[ 'admin' ]}>
               <AdminOrders />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/analytics" element={
+            <ProtectedRoute roles={[ 'admin' ]}>
+              <AdminAnalytics />
             </ProtectedRoute>
           } />
           <Route path="/admin/settings" element={

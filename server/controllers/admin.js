@@ -1,6 +1,8 @@
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import Order from '../models/Order.js';
+import asyncHandler from '../middleware/asyncHandler.js';
+import { updateAdminPasswordService, updateAdminProfileService } from '../services/adminService.js';
 
 // @desc    Get aggregated metrics for admin dashboard
 // @route   GET /api/admin/metrics
@@ -79,4 +81,29 @@ export const getMetrics = async (req, res) => {
   }
 };
 
-export default { getMetrics };
+// @desc    Update admin profile
+// @route   PUT /api/admin/profile
+// @access  Private/Admin
+export const updateAdminProfile = asyncHandler(async (req, res) => {
+  const updated = await updateAdminProfileService(req.user.id, req.body);
+  res.status(200).json({
+    success: true,
+    message: 'Profile updated successfully',
+    data: updated
+  });
+});
+
+// @desc    Update admin password
+// @route   PUT /api/admin/password
+// @access  Private/Admin
+export const updateAdminPassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  await updateAdminPasswordService(req.user.id, currentPassword, newPassword);
+
+  res.status(200).json({
+    success: true,
+    message: 'Password updated successfully'
+  });
+});
+
+export default { getMetrics, updateAdminProfile, updateAdminPassword };

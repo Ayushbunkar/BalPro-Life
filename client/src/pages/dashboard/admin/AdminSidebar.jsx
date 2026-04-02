@@ -19,6 +19,7 @@ const AdminSidebar = () => {
     { name: 'Users', path: '/admin/users', icon: 'group' },
     { name: 'Products', path: '/admin/products', icon: 'inventory_2' },
     { name: 'Orders', path: '/admin/orders', icon: 'receipt_long' },
+    { name: 'Analytics', path: '/admin/analytics', icon: 'analytics' },
     { name: 'Settings', path: '/admin/settings', icon: 'settings' }
   ];
 

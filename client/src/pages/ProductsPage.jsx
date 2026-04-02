@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productsAPI } from '../utils/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const faqs = [
   {
@@ -21,6 +22,7 @@ const faqs = [
 ];
 
 const ProductsPage = ({ onAddToCart }) => {
+  const { isAuthenticated } = useAuth();
   const [quantity, setQuantity] = useState(1);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [primaryProduct, setPrimaryProduct] = useState(null);
@@ -55,7 +57,7 @@ const ProductsPage = ({ onAddToCart }) => {
   }, []);
 
   const handleAddToCart = () => {
-    if (!onAddToCart || !primaryProduct) return;
+    if (!onAddToCart) return;
     onAddToCart(primaryProduct, quantity);
   };
 
@@ -110,12 +112,16 @@ const ProductsPage = ({ onAddToCart }) => {
                 <button
                   className="bg-[linear-gradient(135deg,#efbf70,#a77e36)] px-10 py-4 rounded-full text-on-tertiary-fixed font-bold text-lg relative overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
                   type="button"
-                  disabled={loadingProduct || !primaryProduct}
+                  disabled={loadingProduct}
                   onClick={handleAddToCart}
                 >
                   {loadingProduct ? 'LOADING...' : 'ADD TO CART'}
                 </button>
               </div>
+
+              {!loadingProduct && !isAuthenticated && (
+                <p className="text-sm text-primary-fixed-dim">Login required to add items.</p>
+              )}
 
               <button
                 type="button"

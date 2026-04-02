@@ -55,7 +55,14 @@ function AppContent() {
       showNotification(`${product?.name || 'Item'} added to cart.`);
       setIsCartOpen(true);
     } catch (error) {
-      showNotification(error?.message || 'Unable to add item to cart.');
+      const message = error?.message || 'Unable to add item to cart.';
+      showNotification(message);
+
+      if (message.toLowerCase().includes('sign in')) {
+        setTimeout(() => {
+          navigate('/login', { state: { from: `${location.pathname}${location.search}` } });
+        }, 700);
+      }
     }
   };
 
@@ -85,7 +92,6 @@ function AppContent() {
     setIsCartOpen(false);
     navigate('/checkout');
   };
-  const cartTotal = total.toFixed(2);
   const cartCount = itemCount;
   const isImmersiveRoute = location.pathname === '/enter-code';
   const isUserDashboardRoute = location.pathname.startsWith('/dashboard');

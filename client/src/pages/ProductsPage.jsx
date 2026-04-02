@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { productsAPI } from '../utils/api';
 
 const faqs = [
   {
@@ -22,22 +23,46 @@ const faqs = [
 const ProductsPage = ({ onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [primaryProduct, setPrimaryProduct] = useState(null);
+  const [loadingProduct, setLoadingProduct] = useState(true);
 
-  const handleAddToCart = () => {
-    if (!onAddToCart) return;
+  useEffect(() => {
+    let active = true;
 
-    const product = {
-      id: 'balpro-cacao-1',
-      name: 'Balpro Cacao',
-      price: 39,
-      image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuDOPX2vUQHGnDLxgzpxvoeoUKiT0jBKQDqu4n3SFhkpvpbWvqZAlFyKnAFiB3jM-0gBK4Sc1CPYpQZSGch3XP-bmAnmr2gRjAnKgMCeHtofcfjE1Rkv4uyoODPu2ZdKCqXaDkoCTI4lS4PxrL9uMf17I4tupSeZuXVHThLMvZKqNzyXlA9433ltcmHiCCOWu7z-zJ6YEWdFsbJqmkSKpulxdTIInsTxXu_iCkU025IA22z5cWMbVuLDUGOjlEWYzxQXm1iw4vG14Q',
+    const loadPrimaryProduct = async () => {
+      try {
+        const response = await productsAPI.getProducts({ limit: 1, page: 1 });
+        const firstProduct = Array.isArray(response?.data) ? response.data[0] : null;
+        if (active) {
+          setPrimaryProduct(firstProduct || null);
+        }
+      } catch (_error) {
+        if (active) {
+          setPrimaryProduct(null);
+        }
+      } finally {
+        if (active) {
+          setLoadingProduct(false);
+        }
+      }
     };
 
-    for (let i = 0; i < quantity; i += 1) {
-      onAddToCart(product);
-    }
+    loadPrimaryProduct();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const handleAddToCart = () => {
+    if (!onAddToCart || !primaryProduct) return;
+    onAddToCart(primaryProduct, quantity);
   };
+
+  const displayName = primaryProduct?.name || 'Balpro Cacao';
+  const displayPrice = typeof primaryProduct?.price === 'number' ? primaryProduct.price : 39;
+  const displayOriginalPrice = typeof primaryProduct?.originalPrice === 'number' ? primaryProduct.originalPrice : 48;
+  const displayImage = primaryProduct?.images?.[0]?.url || 'https://lh3.googleusercontent.com/aida-public/AB6AXuDOPX2vUQHGnDLxgzpxvoeoUKiT0jBKQDqu4n3SFhkpvpbWvqZAlFyKnAFiB3jM-0gBK4Sc1CPYpQZSGch3XP-bmAnmr2gRjAnKgMCeHtofcfjE1Rkv4uyoODPu2ZdKCqXaDkoCTI4lS4PxrL9uMf17I4tupSeZuXVHThLMvZKqNzyXlA9433ltcmHiCCOWu7z-zJ6YEWdFsbJqmkSKpulxdTIInsTxXu_iCkU025IA22z5cWMbVuLDUGOjlEWYzxQXm1iw4vG14Q';
 
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30 pb-28 md:pb-0">
@@ -50,7 +75,7 @@ const ProductsPage = ({ onAddToCart }) => {
               FUNCTIONAL CACAO
             </div>
             <h1 className="font-headline text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] [text-shadow:0_10px_30px_rgba(0,0,0,0.5)]">
-              Velvet <br /> <span className="text-tertiary">Recovery.</span>
+              {displayName.split(' ')[0] || 'Velvet'} <br /> <span className="text-tertiary">Recovery.</span>
             </h1>
             <p className="max-w-md text-primary-fixed-dim text-lg leading-relaxed">
               A masterclass in functional indulgence. Rich Belgian chocolate meets adaptogenic mushrooms in a
@@ -59,8 +84,8 @@ const ProductsPage = ({ onAddToCart }) => {
 
             <div className="flex flex-col space-y-4 pt-3">
               <div className="flex items-baseline space-x-4">
-                <span className="text-4xl font-headline font-bold text-on-surface">$39.00</span>
-                <span className="text-outline line-through">$48.00</span>
+                <span className="text-4xl font-headline font-bold text-on-surface">${displayPrice.toFixed(2)}</span>
+                <span className="text-outline line-through">${displayOriginalPrice.toFixed(2)}</span>
               </div>
 
               <div className="flex flex-wrap gap-4">
@@ -85,9 +110,10 @@ const ProductsPage = ({ onAddToCart }) => {
                 <button
                   className="bg-[linear-gradient(135deg,#efbf70,#a77e36)] px-10 py-4 rounded-full text-on-tertiary-fixed font-bold text-lg relative overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
                   type="button"
+                  disabled={loadingProduct || !primaryProduct}
                   onClick={handleAddToCart}
                 >
-                  ADD TO CART
+                  {loadingProduct ? 'LOADING...' : 'ADD TO CART'}
                 </button>
               </div>
 
@@ -105,7 +131,7 @@ const ProductsPage = ({ onAddToCart }) => {
               <img
                 alt="Premium Chocolate Tetra Pack"
                 className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOPX2vUQHGnDLxgzpxvoeoUKiT0jBKQDqu4n3SFhkpvpbWvqZAlFyKnAFiB3jM-0gBK4Sc1CPYpQZSGch3XP-bmAnmr2gRjAnKgMCeHtofcfjE1Rkv4uyoODPu2ZdKCqXaDkoCTI4lS4PxrL9uMf17I4tupSeZuXVHThLMvZKqNzyXlA9433ltcmHiCCOWu7z-zJ6YEWdFsbJqmkSKpulxdTIInsTxXu_iCkU025IA22z5cWMbVuLDUGOjlEWYzxQXm1iw4vG14Q"
+                src={displayImage}
               />
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-linear-to-tr from-tertiary/10 to-transparent rounded-full blur-3xl -z-10"></div>

@@ -236,6 +236,29 @@ export const ordersAPI = {
   }),
 };
 
+// Cart API functions
+export const cartAPI = {
+  getCart: () => apiRequest('/cart'),
+
+  addToCart: (productId, quantity = 1) => apiRequest('/cart/add', {
+    method: 'POST',
+    body: JSON.stringify({ productId, quantity }),
+  }),
+
+  updateCartItemQuantity: (productId, quantity) => apiRequest(`/cart/update/${productId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ quantity }),
+  }),
+
+  removeCartItem: (productId) => apiRequest(`/cart/remove/${productId}`, {
+    method: 'DELETE',
+  }),
+
+  clearCart: () => apiRequest('/cart/clear', {
+    method: 'DELETE',
+  }),
+};
+
 // Users API functions (Admin only)
 export const usersAPI = {
   getUsers: (params = {}) => {
@@ -269,6 +292,7 @@ export default {
   authAPI,
   productsAPI,
   ordersAPI,
+  cartAPI,
   usersAPI,
   healthAPI,
 };

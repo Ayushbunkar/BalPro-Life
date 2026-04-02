@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider, useCart } from './contexts/CartContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -38,35 +39,41 @@ import UserRewards from './pages/dashboard/user/UserRewards';
 import UserRituals from './pages/dashboard/user/UserRituals';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartSidebar from './components/CartSidebar';
-import CheckoutModal from './components/CheckoutModal';
 import MobileBottomNav from './components/MobileBottomNav';
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { items, itemCount, total, addToCart, removeItem, updateItemQuantityByDelta } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [cart, setCart] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notification, setNotification] = useState(null);
 
-  const addToCart = (product) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) return prev.map(item => item.id === product.id ? {...item, qty: item.qty + 1} : item);
-      return [...prev, { ...product, qty: 1 }];
-    });
-    showNotification(`${product.name} added`);
-    setIsCartOpen(true);
+  const handleAddToCart = async (product, quantity = 1) => {
+    try {
+      await addToCart(product, quantity);
+      showNotification(`${product?.name || 'Item'} added to cart.`);
+      setIsCartOpen(true);
+    } catch (error) {
+      showNotification(error?.message || 'Unable to add item to cart.');
+    }
   };
 
-  const removeFromCart = (id) => setCart(prev => prev.filter(item => item.id !== id));
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      await removeItem(productId);
+      showNotification('Item removed from cart.');
+    } catch (error) {
+      showNotification(error?.message || 'Unable to remove item from cart.');
+    }
+  };
 
-  const updateQty = (id, change) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id) return { ...item, qty: Math.max(1, item.qty + change) };
-      return item;
-    }));
+  const handleUpdateQty = async (productId, change) => {
+    try {
+      await updateItemQuantityByDelta(productId, change);
+    } catch (error) {
+      showNotification(error?.message || 'Unable to update item quantity.');
+    }
   };
 
   const showNotification = (msg) => {
@@ -78,15 +85,8 @@ function AppContent() {
     setIsCartOpen(false);
     navigate('/checkout');
   };
-
-  const handlePlaceOrder = () => {
-    setIsCheckoutOpen(false);
-    setCart([]);
-    showNotification("Order confirmed. Welcome to the team.");
-  };
-
-  const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
-  const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
+  const cartTotal = total.toFixed(2);
+  const cartCount = itemCount;
   const isImmersiveRoute = location.pathname === '/enter-code';
   const isUserDashboardRoute = location.pathname.startsWith('/dashboard');
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -121,8 +121,8 @@ function AppContent() {
       {/* Main content starts below navbar (navbar is fixed). Pages control their own container/full-bleed behavior. */}
       <main className={`${hideGlobalChrome ? '' : 'pt-24'} pb-24 md:pb-0`}>
         <Routes>
-          <Route path="/" element={<HomePage onAddToCart={addToCart} />} />
-          <Route path="/products" element={<ProductsPage onAddToCart={addToCart} />} />
+          <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
+          <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
@@ -224,19 +224,10 @@ function AppContent() {
         <CartSidebar
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
-          cart={cart}
-          onRemove={removeFromCart}
-          onUpdateQty={updateQty}
+          cart={items}
+          onRemove={handleRemoveFromCart}
+          onUpdateQty={handleUpdateQty}
           onCheckout={handleCheckout}
-        />
-      )}
-
-      {!hideGlobalChrome && (
-        <CheckoutModal
-          isOpen={isCheckoutOpen}
-          onClose={() => setIsCheckoutOpen(false)}
-          total={cartTotal}
-          onPlaceOrder={handlePlaceOrder}
         />
       )}
 
@@ -254,7 +245,9 @@ export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
       </AuthProvider>
     </Router>
   );

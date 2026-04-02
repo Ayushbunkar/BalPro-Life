@@ -30,9 +30,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onRemove, onUpdateQty, onCheckout 
             ) : (
               cart.map(item => (
                 <div key={item.id} className="flex gap-6 group">
-                  <div className="w-20 h-24 shrink-0 shadow-md bg-white border border-slate-100 flex items-center justify-center overflow-hidden">
+                  <div className="relative w-20 h-24 shrink-0 shadow-md bg-white border border-slate-100 flex items-center justify-center overflow-hidden">
+                    <span className="absolute -top-2 -right-2 z-10 min-w-6 h-6 px-1 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center">
+                      {item.qty}
+                    </span>
                     <img
-                      src={bottleImg}
+                      src={item.image || bottleImg}
                       alt={item.name}
                       className="w-16 h-20 object-contain"
                     />

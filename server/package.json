@@ -12,6 +12,7 @@
     "dev": "nodemon server.js || node server.js",
     "seed:admin": "node ./scripts/seedAdmin.js",
     "seed:codes": "node ./scripts/seedCodes.js",
+    "seed:product": "node ./scripts/seedProduct.js",
     "test": "jest"
   },
   "keywords": ["ecommerce", "fitness", "protein", "backend"],

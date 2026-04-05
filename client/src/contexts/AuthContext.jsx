@@ -14,8 +14,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const hydrateSession = async () => {
       const userData = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
 
-      if (userData) {
+      // Only trust cached user when a token exists; otherwise treat it as stale.
+      if (userData && token) {
         try {
           const parsedUser = JSON.parse(userData);
           setUser(parsedUser);
@@ -24,6 +26,8 @@ export const AuthProvider = ({ children }) => {
           console.error('Error parsing user data:', error);
           localStorage.removeItem('user');
         }
+      } else if (userData && !token) {
+        localStorage.removeItem('user');
       }
 
       try {

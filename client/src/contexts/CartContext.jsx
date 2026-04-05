@@ -7,7 +7,7 @@ const CartContext = createContext();
 
 const normalizeCartItem = (item) => {
   const product = item?.product || {};
-  const image = bottleChocolateImage;
+  const image = product?.images?.[0]?.url || bottleChocolateImage;
   const details = product?.description || '';
 
   return {

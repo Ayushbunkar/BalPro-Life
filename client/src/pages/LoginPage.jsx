@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-import { requestGoogleIdToken } from '../utils/googleIdentity';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { login, logout, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -17,12 +16,19 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    // Opening the login page should always present a fresh signed-out state.
-    if (isAuthenticated) {
-      logout();
+  const getApiRootUrl = () => {
+    if (typeof window === 'undefined') return '';
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalHost) return 'http://localhost:5000';
+
+    const envApiBase = import.meta.env.VITE_API_BASE;
+    if (envApiBase) {
+      const trimmed = String(envApiBase).replace(/\/$/, '');
+      return trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
     }
-  }, [isAuthenticated, logout]);
+
+    return '';
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -57,24 +63,8 @@ const LoginPage = () => {
 
   const handleGoogleSignIn = async () => {
     setError('');
-    setLoading(true);
-    try {
-      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-      const idToken = await requestGoogleIdToken(clientId);
-      const data = await authAPI.oauth({ provider: 'google', idToken });
-
-      login(data.data.user, data.data.token);
-
-      if (data.data.user?.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (err) {
-      setError(err?.message || 'Google sign-in failed');
-    } finally {
-      setLoading(false);
-    }
+    const apiRoot = getApiRootUrl();
+    window.location.assign(`${apiRoot}/api/auth/google`);
   };
 
   return (

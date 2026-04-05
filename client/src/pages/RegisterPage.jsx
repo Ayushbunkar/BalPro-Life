@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-import { requestGoogleIdToken } from '../utils/googleIdentity';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -17,6 +16,20 @@ const RegisterPage = () => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getApiRootUrl = () => {
+    if (typeof window === 'undefined') return '';
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalHost) return 'http://localhost:5000';
+
+    const envApiBase = import.meta.env.VITE_API_BASE;
+    if (envApiBase) {
+      const trimmed = String(envApiBase).replace(/\/$/, '');
+      return trimmed.endsWith('/api') ? trimmed.slice(0, -4) : trimmed;
+    }
+
+    return '';
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,24 +108,8 @@ const RegisterPage = () => {
 
   const handleGoogleSignIn = async () => {
     setError('');
-    setLoading(true);
-    try {
-      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-      const idToken = await requestGoogleIdToken(clientId);
-      const data = await authAPI.oauth({ provider: 'google', idToken });
-
-      login(data.data.user, data.data.token);
-
-      if (data.data.user?.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/dashboard');
-      }
-    } catch (err) {
-      setError(err?.message || 'Google sign-in failed');
-    } finally {
-      setLoading(false);
-    }
+    const apiRoot = getApiRootUrl();
+    window.location.assign(`${apiRoot}/api/auth/google`);
   };
 
   return (

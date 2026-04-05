@@ -35,10 +35,11 @@ const getAuthHeaders = () => {
 // Generic API request function
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
+  const { suppressErrorLog = false, ...requestOptions } = options;
   const config = {
     headers: getAuthHeaders(),
     credentials: 'include', // send cookies for cookie-based auth
-    ...options,
+    ...requestOptions,
   };
 
   try {
@@ -81,7 +82,9 @@ const apiRequest = async (endpoint, options = {}) => {
 
     return data;
   } catch (error) {
-    console.error('API request error:', error);
+    if (!suppressErrorLog) {
+      console.error('API request error:', error);
+    }
     throw error;
   }
 };
@@ -98,7 +101,7 @@ export const authAPI = {
     body: JSON.stringify(userData),
   }),
 
-  getMe: () => apiRequest('/auth/me'),
+  getMe: () => apiRequest('/auth/me', { suppressErrorLog: true }),
 
   oauth: (payload) => apiRequest('/auth/oauth', {
     method: 'POST',

@@ -1,4 +1,8 @@
 let scriptPromise = null;
+let initializedClientId = null;
+let pendingCredentialResolver = null;
+let pendingCredentialRejecter = null;
+let inFlightTokenPromise = null;
 
 const parseAllowedOrigins = (allowedOriginsCsv) => {
   return String(allowedOriginsCsv || '')
@@ -79,46 +83,84 @@ export const requestGoogleIdToken = async (clientId) => {
     throw new Error('Google Sign-In is not configured. Missing VITE_GOOGLE_CLIENT_ID.');
   }
 
+  if (typeof window !== 'undefined') {
+    const currentOrigin = window.location.origin.toLowerCase();
+    const allowedOrigins = parseAllowedOrigins(import.meta.env.VITE_GOOGLE_ALLOWED_ORIGINS);
+    if (allowedOrigins.length > 0 && !allowedOrigins.includes(currentOrigin)) {
+      throw new Error(`Google Sign-In is blocked for ${currentOrigin}. Add this origin to VITE_GOOGLE_ALLOWED_ORIGINS and Google Cloud OAuth Authorized JavaScript origins.`);
+    }
+  }
+
   await loadGoogleIdentityScript();
 
-  return new Promise((resolve, reject) => {
+  if (inFlightTokenPromise) {
+    return inFlightTokenPromise;
+  }
+
+  inFlightTokenPromise = new Promise((resolve, reject) => {
     let settled = false;
     const timeoutId = setTimeout(() => {
       if (!settled) {
         settled = true;
+        pendingCredentialResolver = null;
+        pendingCredentialRejecter = null;
+        inFlightTokenPromise = null;
         reject(new Error('Google sign-in was cancelled or timed out. Please try again.'));
       }
     }, 60000);
 
-    window.google.accounts.id.initialize({
-      client_id: normalizedClientId,
-      callback: (response) => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timeoutId);
-        if (response?.credential) {
-          resolve(response.credential);
-          return;
-        }
-        reject(new Error('Google did not return a valid ID token.'));
-      },
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
+    if (initializedClientId !== normalizedClientId) {
+      window.google.accounts.id.initialize({
+        client_id: normalizedClientId,
+        callback: (response) => {
+          if (pendingCredentialResolver) {
+            pendingCredentialResolver(response);
+          }
+        },
+        auto_select: false,
+        cancel_on_tap_outside: true,
+        use_fedcm_for_prompt: true
+      });
+      initializedClientId = normalizedClientId;
+    }
 
-    window.google.accounts.id.prompt((notification) => {
-      if (!notification || settled) return;
+    pendingCredentialResolver = (response) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      pendingCredentialResolver = null;
+      pendingCredentialRejecter = null;
+      inFlightTokenPromise = null;
 
-      const blockedByConfig = notification.isNotDisplayed?.() && (
-        notification.getNotDisplayedReason?.() === 'unregistered_origin' ||
-        notification.getNotDisplayedReason?.() === 'invalid_client'
-      );
-
-      if (blockedByConfig) {
-        settled = true;
-        clearTimeout(timeoutId);
-        reject(toGoogleConfigError(normalizedClientId, notification.getNotDisplayedReason?.()));
+      if (response?.credential) {
+        resolve(response.credential);
+        return;
       }
-    });
+
+      reject(new Error('Google did not return a valid ID token.'));
+    };
+
+    pendingCredentialRejecter = (err) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      pendingCredentialResolver = null;
+      pendingCredentialRejecter = null;
+      inFlightTokenPromise = null;
+      reject(err);
+    };
+
+    try {
+      // Prompt without status callbacks to avoid deprecated prompt-status warnings.
+      window.google.accounts.id.prompt();
+    } catch (err) {
+      if (pendingCredentialRejecter) {
+        pendingCredentialRejecter(err instanceof Error ? err : new Error('Google sign-in prompt failed to open.'));
+      } else {
+        reject(err instanceof Error ? err : new Error('Google sign-in prompt failed to open.'));
+      }
+    }
   });
+
+  return inFlightTokenPromise;
 };

@@ -15,6 +15,14 @@ const normalizeGoogleClientId = (value) => {
 };
 
 const GOOGLE_CLIENT_ID = normalizeGoogleClientId(process.env.GOOGLE_CLIENT_ID);
+const GOOGLE_CLIENT_AUDIENCES = Array.from(new Set([
+  GOOGLE_CLIENT_ID,
+  normalizeGoogleClientId(process.env.VITE_GOOGLE_CLIENT_ID),
+  ...String(process.env.GOOGLE_CLIENT_IDS || '')
+    .split(',')
+    .map((value) => normalizeGoogleClientId(value))
+    .filter(Boolean)
+].filter(Boolean)));
 const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
 const getAuthCookieOptions = () => {
@@ -517,7 +525,10 @@ export const oauthLogin = async (req, res) => {
     if (provider === 'google') {
       if (!googleClient) return res.status(500).json({ success: false, message: 'Google client not configured on server' });
       // Verify Google ID token
-      const ticket = await googleClient.verifyIdToken({ idToken, audience: GOOGLE_CLIENT_ID });
+      const ticket = await googleClient.verifyIdToken({
+        idToken,
+        audience: GOOGLE_CLIENT_AUDIENCES.length > 0 ? GOOGLE_CLIENT_AUDIENCES : GOOGLE_CLIENT_ID
+      });
       const payload = ticket.getPayload();
       profile = {
         email: payload.email,
@@ -588,7 +599,10 @@ export const googleCallback = async (req, res) => {
 
     const idToken = tokenRes.data.id_token;
     if (!idToken) return res.status(400).send('No id_token from Google');
-    const ticket = await googleClient.verifyIdToken({ idToken, audience: GOOGLE_CLIENT_ID });
+    const ticket = await googleClient.verifyIdToken({
+      idToken,
+      audience: GOOGLE_CLIENT_AUDIENCES.length > 0 ? GOOGLE_CLIENT_AUDIENCES : GOOGLE_CLIENT_ID
+    });
     const payload = ticket.getPayload();
     if (!payload || !payload.email) return res.status(400).send('Invalid id_token payload');
     const profile = { email: payload.email, name: payload.name || payload.email.split('@')[0], avatar: payload.picture || '' };

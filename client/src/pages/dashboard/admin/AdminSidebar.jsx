@@ -27,7 +27,7 @@ const AdminSidebar = () => {
     <nav className="bg-surface-container-lowest p-4 rounded-2xl shadow-sm text-on-surface border border-outline-variant/10">
       <div className="px-2 mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-tertiary to-on-tertiary-container flex items-center justify-center">
+          <div className="w-9 h-9 rounded-full bg-linear-to-br from-tertiary to-on-tertiary-container flex items-center justify-center">
             <span className="material-symbols-outlined text-surface" style={{ fontVariationSettings: "'FILL' 1" }}>admin_panel_settings</span>
           </div>
           <div>

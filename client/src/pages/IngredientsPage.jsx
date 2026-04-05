@@ -200,7 +200,7 @@ const IngredientsPage = () => {
               </div>
             </div>
 
-            <div className="bg-on-surface text-surface p-8 rounded-lg shadow-2xl font-body max-w-[370px] mx-auto transform rotate-0 md:rotate-1">
+            <div className="nutrition-facts-card bg-on-surface text-surface p-8 rounded-lg shadow-2xl font-body max-w-[370px] mx-auto transform rotate-0 md:rotate-1">
               <h2 className="text-3xl font-headline font-black border-b-8 border-surface pb-1 mb-2">Nutrition Facts</h2>
               <p className="text-sm font-bold border-b border-surface pb-1 mb-2">15 servings per container</p>
               <div className="flex justify-between items-end border-b-8 border-surface pb-1 mb-4">

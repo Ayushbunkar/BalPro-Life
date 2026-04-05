@@ -148,7 +148,7 @@ const LoginPage = () => {
                   Email Address
                 </label>
                 <div className="relative group">
-                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 material-symbols-outlined leading-none text-[20px] text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
                     mail
                   </span>
                   <input
@@ -175,7 +175,7 @@ const LoginPage = () => {
                 </div>
 
                 <div className="relative group">
-                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 material-symbols-outlined leading-none text-[20px] text-outline group-focus-within:text-tertiary transition-colors pointer-events-none">
                     lock
                   </span>
                   <input

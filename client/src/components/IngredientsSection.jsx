@@ -29,17 +29,22 @@ const IngredientsSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {ingredients.map((ingredient, idx) => (
-            <div key={idx} className="glass-panel p-10 rounded-xl relative group overflow-hidden h-[400px] flex flex-col justify-end">
-              <div className="absolute top-10 right-10 opacity-10 group-hover:opacity-100 transition-opacity">
-                <span className="material-symbols-outlined text-6xl text-tertiary">{ingredient.icon}</span>
+            <div key={idx} className="glass-panel p-8 rounded-4xl relative group overflow-hidden min-h-[270px] flex flex-col justify-between border border-outline-variant/10 hover:border-tertiary/30 transition-all duration-500">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-xl bg-surface-container-highest/80 border border-outline-variant/10 flex items-center justify-center group-hover:bg-tertiary/15 transition-colors">
+                  <span className="material-symbols-outlined text-2xl text-tertiary">{ingredient.icon}</span>
+                </div>
+                <span className="text-xs font-bold text-tertiary/70 tracking-[0.2em]">0{idx + 1}</span>
               </div>
-              <div className="relative z-10">
-                <h3 className="text-tertiary text-2xl font-bold mb-4">{ingredient.title}</h3>
-                <p className="text-on-surface opacity-70 group-hover:opacity-100 transition-opacity">{ingredient.description}</p>
+
+              <div className="relative z-10 mt-8">
+                <h3 className="text-tertiary text-4xl md:text-3xl font-bold mb-4 leading-tight">{ingredient.title}</h3>
+                <p className="text-on-surface-variant text-lg md:text-base leading-relaxed">{ingredient.description}</p>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-tertiary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+              <div className="absolute inset-0 bg-linear-to-t from-tertiary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             </div>
           ))}
         </div>

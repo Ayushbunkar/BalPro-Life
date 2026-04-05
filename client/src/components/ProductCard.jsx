@@ -1,5 +1,5 @@
 import React from 'react';
-import bottleImg from '../assets/bottle1.png';
+import bottleImg from '../assets/bottleechoclate.jpg';
 import { Star } from 'lucide-react';
 import Button from './Button';
 

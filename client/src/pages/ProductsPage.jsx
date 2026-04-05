@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productsAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
+import bottleChocolateImage from '../assets/bottleechoclate.jpg';
 
 const MAX_PRODUCT_LOAD_RETRIES = 3;
 const RETRY_BASE_DELAY_MS = 1200;
@@ -128,7 +129,7 @@ const ProductsPage = ({ onAddToCart }) => {
   const displayName = primaryProduct?.name || 'Product Unavailable';
   const displayPrice = typeof primaryProduct?.price === 'number' ? primaryProduct.price : 0;
   const displayOriginalPrice = typeof primaryProduct?.originalPrice === 'number' ? primaryProduct.originalPrice : null;
-  const displayImage = primaryProduct?.images?.[0]?.url || '';
+  const displayImage = primaryProduct?.images?.[0]?.url || bottleChocolateImage;
 
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary/30 pb-28 md:pb-0">
@@ -215,17 +216,15 @@ const ProductsPage = ({ onAddToCart }) => {
 
           <div className="w-full md:w-1/2 relative flex justify-center mt-10 md:mt-0">
             <div className="relative z-20 w-60 md:w-[360px] lg:w-[420px] transform hover:rotate-3 transition-transform duration-700">
-              {displayImage ? (
-                <img
-                  alt="Premium Chocolate Tetra Pack"
-                  className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"
-                  src={displayImage}
-                />
-              ) : (
-                <div className="w-full aspect-3/4 rounded-2xl border border-outline-variant/20 bg-surface-container-highest flex items-center justify-center text-on-surface-variant text-sm">
-                  Product image unavailable
-                </div>
-              )}
+              <img
+                alt="Premium Chocolate Tetra Pack"
+                className="w-full h-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.4)]"
+                src={displayImage}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = bottleChocolateImage;
+                }}
+              />
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-linear-to-tr from-tertiary/10 to-transparent rounded-full blur-3xl -z-10"></div>
           </div>

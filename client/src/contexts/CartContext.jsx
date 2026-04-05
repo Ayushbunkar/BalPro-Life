@@ -1,12 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { cartAPI } from '../utils/api';
 import { useAuth } from './AuthContext';
+import bottleChocolateImage from '../assets/bottleechoclate.jpg';
 
 const CartContext = createContext();
 
 const normalizeCartItem = (item) => {
   const product = item?.product || {};
-  const image = product?.images?.[0]?.url || '';
+  const image = product?.images?.[0]?.url || bottleChocolateImage;
   const details = product?.description || '';
 
   return {

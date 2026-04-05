@@ -45,6 +45,14 @@ if (corsAllowAll) {
 } else {
   const normalizeOrigin = (value) => (value || '').trim().replace(/\/+$/, '');
 
+  const allowSuffixes = [
+    '.vercel.app',
+    ...(process.env.CORS_ALLOWED_ORIGIN_SUFFIXES || '')
+      .split(',')
+      .map((suffix) => suffix.trim())
+      .filter(Boolean)
+  ];
+
   const envOrigins = [
     process.env.CLIENT_URL,
     ...(process.env.CLIENT_URLS || '').split(',').map((origin) => origin.trim())
@@ -54,15 +62,19 @@ if (corsAllowAll) {
 
   const allowedOrigins = Array.from(new Set([
     ...envOrigins,
+    normalizeOrigin('https://balpro.vercel.app'),
+    normalizeOrigin('https://www.balpro.vercel.app'),
     normalizeOrigin('http://localhost:5173'),
-    normalizeOrigin('http://127.0.0.1:5173')
+    normalizeOrigin('http://127.0.0.1:5173'),
+    normalizeOrigin('http://localhost:4173'),
+    normalizeOrigin('http://127.0.0.1:4173')
   ]));
 
   const corsOptions = {
     origin(origin, callback) {
       if (!origin) return callback(null, true);
       const normalizedOrigin = normalizeOrigin(origin);
-      if (process.env.VERCEL && normalizedOrigin.endsWith('.vercel.app')) {
+      if (allowSuffixes.some((suffix) => normalizedOrigin.endsWith(suffix))) {
         return callback(null, true);
       }
       if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {

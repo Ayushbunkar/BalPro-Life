@@ -1,7 +1,7 @@
 import React from 'react';
-import bottleImg from '../assets/bottle1.png';
 import { ShoppingCart, X, Trash2, ArrowRight } from 'lucide-react';
 import Button from './Button';
+import bottleChocolateImage from '../assets/bottleechoclate.jpg';
 
 const CartSidebar = ({ isOpen, onClose, cart, onRemove, onUpdateQty, onCheckout }) => {
   const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
@@ -35,9 +35,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onRemove, onUpdateQty, onCheckout 
                       {item.qty}
                     </span>
                     <img
-                      src={item.image || bottleImg}
+                      src={item.image || bottleChocolateImage}
                       alt={item.name}
-                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = bottleImg; }}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = bottleChocolateImage;
+                      }}
                       loading="lazy"
                       className="w-16 h-20 object-contain"
                     />

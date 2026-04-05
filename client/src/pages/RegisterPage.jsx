@@ -206,7 +206,7 @@ const RegisterPage = () => {
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Email Address</label>
               <div className="relative group">
-                <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">mail</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 material-symbols-outlined leading-none text-[20px] text-on-surface-variant group-focus-within:text-tertiary transition-colors pointer-events-none">mail</span>
                 <input
                   className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                   placeholder="julian@luxury.com"
@@ -223,7 +223,7 @@ const RegisterPage = () => {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-widest text-tertiary ml-1">Password</label>
                 <div className="relative group">
-                  <span className="absolute inset-y-0 left-4 flex items-center material-symbols-outlined leading-none text-on-surface-variant group-focus-within:text-tertiary transition-colors text-xl pointer-events-none">lock</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 material-symbols-outlined leading-none text-[20px] text-on-surface-variant group-focus-within:text-tertiary transition-colors pointer-events-none">lock</span>
                   <input
                     className="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-12 pr-4 text-[#1a120f] font-semibold placeholder:text-[#756963] placeholder:font-medium focus:ring-2 focus:ring-tertiary/20 transition-all outline-none"
                     placeholder="••••••••"

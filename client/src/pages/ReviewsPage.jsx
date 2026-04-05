@@ -82,7 +82,6 @@ const ReviewsPage = () => {
           </div>
 
           <div className="relative">
-            <div className="absolute inset-0 bg-tertiary/10 blur-[120px] rounded-full"></div>
             <img
               alt="Premium Chocolate Packaging"
               className="relative z-10 w-full h-auto rounded-xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700"

@@ -1,5 +1,6 @@
 import React from 'react';
-// No local assets needed for this section, using a direct image URL instead
+import manImage from '../assets/man.png';
+
 const BenefitsSection = () => {
   const benefits = [
     {
@@ -28,7 +29,7 @@ const BenefitsSection = () => {
               <img
                 alt="Person Drinking"
                 className="w-full h-[340px] md:h-[460px] object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFuimltsyeWIrQbPrj9iQ6l7elbPkWpZ0IE23IRHBvZ22vnV2gMtfi4TiIdjZqse-Yxk9trcagkSr_Yiyz0ta96aSga8rNmvYMrJVtzURJQESxSbUurZRDdUUDnxD17OAxRkdMBbp3cnsmfjIaq8cP8jnIKaoRBh3X18D22zoo4BcGLrjC6jxXvBPVwUa8VpM37P2vt1NWLxLIF1mConVI_D-fYD5bi4jjb0GaCRcookZww-oZUr1unSB-qsiOlIZgSJXbdpj5QA"
+                src={manImage}
               />
             </div>
             <div className="absolute -bottom-12 -right-12 glass-panel p-8 rounded-xl shadow-2xl border border-tertiary/20 hidden md:block">

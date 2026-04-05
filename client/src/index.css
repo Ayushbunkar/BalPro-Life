@@ -36,21 +36,67 @@
 	--brand-muted: #c2a791;
 	--brand-muted-boost: #e0c797;
 	--brand-outline-boost: #c9aea0;
+	--brand-border-subtle: rgba(111, 84, 65, 0.18);
+	--brand-border-soft: rgba(111, 84, 65, 0.28);
+	--brand-border-strong: rgba(111, 84, 65, 0.4);
 }
 
 html, body, #root {
 	height: 100%;
 }
 
+html {
+	scroll-behavior: auto;
+	/* Keep anchor navigation aligned below the fixed navbar */
+	scroll-padding-top: 6rem;
+}
+
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+
+/* Hide scrollbars globally while preserving scroll behavior */
+* {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+	display: none;
+}
+
 body {
 	font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	-webkit-overflow-scrolling: touch;
 	background:
 		radial-gradient(1200px 420px at 85% -10%, rgba(239, 191, 112, 0.14), transparent 62%),
 		radial-gradient(900px 380px at -10% 18%, rgba(206, 168, 101, 0.08), transparent 56%),
 		#151312;
 	color: #e8e1de;
+}
+
+/* Respect accessibility settings: disable smooth motion when reduced-motion is requested */
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -67,7 +113,7 @@ textarea,
 li,
 td,
 th {
-	color: var(--brand-text);
+	color: inherit;
 }
 
 a {
@@ -85,9 +131,95 @@ a:hover {
 	color: var(--brand-primary);
 }
 
+.text-tertiary,
+.text-tertiary\/80,
+.text-tertiary\/70,
+.text-tertiary\/60,
+.text-tertiary\/40,
+.text-tertiary\/30,
+.text-tertiary\/20,
+.text-tertiary\/10,
+.text-primary-fixed-dim,
+.text-primary-fixed-dim\/70,
+.text-primary-fixed-dim\/60,
+.text-primary-fixed-dim\/40,
+.text-on-tertiary-container {
+	color: var(--brand-primary) !important;
+}
+
+.hover\:text-tertiary:hover,
+.hover\:text-primary-fixed-dim:hover,
+.hover\:text-on-tertiary-container:hover,
+.group:hover .group-hover\:text-tertiary,
+.group:hover .group-hover\:text-primary-fixed-dim,
+.group:hover .group-hover\:text-on-tertiary-container {
+	color: var(--brand-primary) !important;
+}
+
 .border-primary,
 .hover\:border-primary:hover {
 	border-color: var(--brand-primary);
+}
+
+.border-tertiary,
+.border-tertiary\/30,
+.border-tertiary\/20,
+.hover\:border-tertiary:hover,
+.group:hover .group-hover\:border-tertiary {
+	border-color: var(--brand-primary) !important;
+}
+
+/* Keep outline-variant borders from appearing white on dark surfaces */
+.border-outline-variant,
+.border-outline-variant\/10,
+.border-outline-variant\/15,
+.border-outline-variant\/20 {
+	border-color: var(--brand-border-subtle) !important;
+}
+
+.border-outline-variant\/30,
+.border-outline-variant\/40 {
+	border-color: var(--brand-border-soft) !important;
+}
+
+.border-outline-variant\/50 {
+	border-color: var(--brand-border-strong) !important;
+}
+
+.divide-outline-variant\/10 > :not([hidden]) ~ :not([hidden]) {
+	border-color: var(--brand-border-subtle) !important;
+}
+
+.divide-outline-variant\/20 > :not([hidden]) ~ :not([hidden]) {
+	border-color: var(--brand-border-soft) !important;
+}
+
+.ring-outline-variant\/20 {
+	--tw-ring-color: var(--brand-border-subtle) !important;
+}
+
+.ring-outline-variant\/30,
+.ring-outline-variant\/40 {
+	--tw-ring-color: var(--brand-border-soft) !important;
+}
+
+.bg-tertiary,
+.bg-tertiary\/20,
+.bg-tertiary\/10,
+.hover\:bg-tertiary:hover,
+.group:hover .group-hover\:bg-tertiary {
+	background-color: var(--brand-primary) !important;
+}
+
+/* Keep text readable on gold-filled CTA buttons */
+.gold-shimmer,
+.gold-shimmer * {
+	color: #281900 !important;
+}
+
+button[class*="bg-[linear-gradient(135deg,#efbf70"],
+a[class*="bg-[linear-gradient(135deg,#efbf70"] {
+	color: #281900 !important;
 }
 
 /* Readability pass: brighten only small muted labels without affecting headings */
@@ -112,6 +244,12 @@ a:hover {
 .text-outline.text-\[10px\],
 .text-outline.text-\[11px\] {
 	color: var(--brand-outline-boost);
+}
+
+/* Keep nutrition panel readable on light card background */
+.nutrition-facts-card,
+.nutrition-facts-card * {
+	color: #1f1510 !important;
 }
 
 /* Glass morphism effect for luxury cards */

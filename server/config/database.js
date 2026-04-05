@@ -16,6 +16,11 @@ const connectDB = async () => {
   }
 
   const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/balpro-life';
+  const looksLikePlaceholder = /YOUR_MONGODB_URI|<.*MONGODB.*>|example/i.test(String(uri));
+
+  if (looksLikePlaceholder) {
+    throw new Error('Invalid MONGODB_URI configured. Please set a real mongodb:// or mongodb+srv:// URI in environment variables.');
+  }
 
   // Mask credentials for logging
   const maskedUri = uri.includes('@') ? uri.replace(/:\/\/.*@/, '://****:****@') : uri;

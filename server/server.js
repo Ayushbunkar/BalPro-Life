@@ -41,11 +41,11 @@ const corsAllowAll = (process.env.CORS_ALLOW_ALL || '').toLowerCase() === 'true'
 if (corsAllowAll) {
   const corsOptions = { origin: true, credentials: true, optionSuccessStatus: 200 };
   app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
+  app.options(/.*/, cors(corsOptions));
 } else if (process.env.NODE_ENV === 'development') {
   const corsOptions = { origin: true, credentials: true, optionSuccessStatus: 200 };
   app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
+  app.options(/.*/, cors(corsOptions));
 } else {
   const normalizeOrigin = (value) => (value || '').trim().replace(/\/+$/, '');
 
@@ -79,7 +79,7 @@ if (corsAllowAll) {
     optionSuccessStatus: 200
   };
   app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
+  app.options(/.*/, cors(corsOptions));
 }
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)

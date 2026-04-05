@@ -60,11 +60,40 @@ const getRequestBaseUrl = (req) => {
 };
 
 const getGoogleRedirectUri = (req) => {
-  const explicit = String(process.env.GOOGLE_REDIRECT_URI || '').trim();
-  if (explicit) {
-    return explicit;
+  const requestBasedRedirect = `${getRequestBaseUrl(req)}/api/auth/google/callback`;
+
+  // Support optional multi-domain redirect configuration and prefer request host.
+  const configuredRedirects = [
+    ...(process.env.GOOGLE_REDIRECT_URIS || '').split(',').map((value) => value.trim()),
+    String(process.env.GOOGLE_REDIRECT_URI || '').trim()
+  ].filter(Boolean);
+
+  if (configuredRedirects.length === 0) {
+    return requestBasedRedirect;
   }
-  return `${getRequestBaseUrl(req)}/api/auth/google/callback`;
+
+  if (configuredRedirects.includes(requestBasedRedirect)) {
+    return requestBasedRedirect;
+  }
+
+  const requestHost = (() => {
+    try {
+      return new URL(requestBasedRedirect).host;
+    } catch {
+      return '';
+    }
+  })();
+
+  const hostMatchedRedirect = configuredRedirects.find((value) => {
+    try {
+      return new URL(value).host === requestHost;
+    } catch {
+      return false;
+    }
+  });
+
+  // If no host match is found, default to the request-based URI.
+  return hostMatchedRedirect || requestBasedRedirect;
 };
 
 const upsertOAuthUser = async (profile) => {

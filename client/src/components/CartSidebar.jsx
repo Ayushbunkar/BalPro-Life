@@ -35,7 +35,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onRemove, onUpdateQty, onCheckout 
                       {item.qty}
                     </span>
                     <img
-                      src={item.image || bottleChocolateImage}
+                      src={bottleChocolateImage}
                       alt={item.name}
                       onError={(e) => {
                         e.currentTarget.onerror = null;

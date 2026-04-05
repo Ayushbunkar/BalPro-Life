@@ -204,11 +204,17 @@ a:hover {
 }
 
 .bg-tertiary,
-.bg-tertiary\/20,
-.bg-tertiary\/10,
 .hover\:bg-tertiary:hover,
 .group:hover .group-hover\:bg-tertiary {
 	background-color: var(--brand-primary) !important;
+}
+
+.bg-tertiary\/20 {
+	background-color: rgb(239 191 112 / 0.2) !important;
+}
+
+.bg-tertiary\/10 {
+	background-color: rgb(239 191 112 / 0.1) !important;
 }
 
 /* Keep text readable on gold-filled CTA buttons */

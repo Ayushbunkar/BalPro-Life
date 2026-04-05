@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ordersAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import bottleChocolateImage from '../assets/bottleechoclate.jpg';
 
 const TAX_RATE = 0.08;
 
@@ -102,11 +103,15 @@ const CheckoutPage = () => {
                         <span className="absolute top-2 right-2 z-10 min-w-6 h-6 px-1 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center">
                           {item.qty}
                         </span>
-                        {item.image ? (
-                          <img className="w-full h-full object-cover" src={item.image} alt={item.name} />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs text-on-surface-variant">No image</div>
-                        )}
+                        <img
+                          className="w-full h-full object-cover"
+                          src={bottleChocolateImage}
+                          alt={item.name}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = bottleChocolateImage;
+                          }}
+                        />
                       </div>
                       <div className="grow text-center sm:text-left">
                         <h3 className="font-headline text-lg font-bold text-on-surface">{item.name}</h3>

@@ -62,8 +62,9 @@ if (corsAllowAll) {
 
   const allowedOrigins = Array.from(new Set([
     ...envOrigins,
-    normalizeOrigin('https://balpro.vercel.app'),
-    normalizeOrigin('https://www.balpro.vercel.app'),
+    normalizeOrigin('https://balprolife.vercel.app'),
+    normalizeOrigin('https://www.balprolife.vercel.app'),
+    normalizeOrigin('https://bal-pro-life.vercel.app'),
     normalizeOrigin('http://localhost:5173'),
     normalizeOrigin('http://127.0.0.1:5173'),
     normalizeOrigin('http://localhost:4173'),

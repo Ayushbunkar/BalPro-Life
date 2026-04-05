@@ -38,10 +38,6 @@ const getAuthCookieOptions = () => {
 };
 
 const getRequestBaseUrl = (req) => {
-  if (process.env.SERVER_ROOT_URL) {
-    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
-  }
-
   const forwardedProto = req.headers['x-forwarded-proto'];
   const forwardedHost = req.headers['x-forwarded-host'];
   if (forwardedProto && forwardedHost) {
@@ -54,6 +50,10 @@ const getRequestBaseUrl = (req) => {
 
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
+  }
+
+  if (process.env.SERVER_ROOT_URL) {
+    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
   }
 
   return `http://localhost:${process.env.PORT || 5000}`;

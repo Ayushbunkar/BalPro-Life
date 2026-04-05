@@ -61,7 +61,7 @@ const getRequestBaseUrl = (req) => {
   }
 
   if (process.env.SERVER_ROOT_URL) {
-    return process.env.SERVER_ROOT_URL.replace(/\/+$/, '');
+    return String(process.env.SERVER_ROOT_URL || '').trim().replace(/\/+$/, '');
   }
 
   return `http://localhost:${process.env.PORT || 5000}`;
@@ -623,7 +623,7 @@ export const googleCallback = async (req, res) => {
 
     // Redirect back to client without token in URL
     const clientUrl = process.env.NODE_ENV === 'production'
-      ? (process.env.CLIENT_URL || getRequestBaseUrl(req))
+      ? (String(process.env.CLIENT_URL || '').trim() || getRequestBaseUrl(req))
       : 'http://localhost:5173';
     console.log('Redirecting to:', clientUrl + '/auth/callback');
     return res.redirect(`${clientUrl}/auth/callback`);

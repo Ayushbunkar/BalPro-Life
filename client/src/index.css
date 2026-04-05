@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Utilities for consistent spacing relative to the fixed navbar (plain CSS to avoid @apply build issues) */
 .section-below-navbar {

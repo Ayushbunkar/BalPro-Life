@@ -2,10 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Utilities for consistent spacing relative to the fixed navbar */
-@layer utilities {
-	.section-below-navbar { @apply pt-24; }
-	.content-container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+/* Utilities for consistent spacing relative to the fixed navbar (plain CSS to avoid @apply build issues) */
+.section-below-navbar {
+	/* Tailwind `pt-24` -> 6rem */
+	padding-top: 6rem;
+}
+.content-container {
+	/* approximate of Tailwind `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` */
+	max-width: 80rem; /* 7xl */
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 1rem; /* px-4 */
+	padding-right: 1rem;
+}
+@media (min-width: 640px) {
+	.content-container {
+		padding-left: 1.5rem; /* sm:px-6 */
+		padding-right: 1.5rem;
+	}
+}
+@media (min-width: 1024px) {
+	.content-container {
+		padding-left: 2rem; /* lg:px-8 */
+		padding-right: 2rem;
+	}
 }
 
 /* Global typography and brand tokens - LUXURY THEME */

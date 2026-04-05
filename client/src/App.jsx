@@ -238,9 +238,9 @@ function AppContent() {
       )}
 
       {notification && (
-        <div className="fixed top-24 right-8 bg-[#19120f]/95 border border-[#4f4440]/40 text-[#efdfd9] px-6 py-4 shadow-2xl z-80 flex items-center gap-4 animate-in slide-in-from-right-10 border-l-4 border-l-[#efbf70] backdrop-blur-md rounded-xl">
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 w-[min(92vw,760px)] bg-[#19120f]/95 border border-[#4f4440]/40 text-[#efdfd9] px-6 py-4 shadow-2xl z-80 flex items-center justify-center gap-4 animate-in border-l-4 border-l-[#efbf70] backdrop-blur-md rounded-xl">
           <div className="bg-[#efbf70]/20 p-1 rounded-full text-[#efbf70]"><Check size={14} /></div>
-          <span className="font-bold text-sm uppercase tracking-wide">{notification}</span>
+          <span className="font-bold text-sm uppercase tracking-wide text-center">{notification}</span>
         </div>
       )}
     </div>

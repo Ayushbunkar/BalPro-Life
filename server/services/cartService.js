@@ -3,6 +3,35 @@ import ApiError from '../utils/ApiError.js';
 import Cart from '../models/cartModel.js';
 import Product from '../models/Product.js';
 
+const VANILLA_IMAGE_URL = process.env.VANILLA_PRODUCT_IMAGE_URL || '/assets/vanillachoclate.jpg';
+
+const isVanillaProduct = (product) => {
+  const text = [
+    product?.name || '',
+    product?.description || '',
+    ...(Array.isArray(product?.tags) ? product.tags : [])
+  ].join(' ').toLowerCase();
+
+  return text.includes('vanilla');
+};
+
+const normalizeCartImages = (cart) => {
+  if (!cart?.items?.length) return cart;
+
+  cart.items.forEach((item) => {
+    if (item?.product && isVanillaProduct(item.product)) {
+      item.product.images = [
+        {
+          url: VANILLA_IMAGE_URL,
+          alt: item.product?.name || 'BalPro Vanilla'
+        }
+      ];
+    }
+  });
+
+  return cart;
+};
+
 const recalculateTotal = (items = []) => items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
 const ensureObjectId = (id, label) => {
@@ -55,7 +84,8 @@ export const addToCartService = async (userId, productId, quantity) => {
     cart.totalPrice = recalculateTotal(cart.items);
     await cart.save({ session });
 
-    return Cart.findById(cart._id).populate('items.product').session(session);
+    const populatedCart = await Cart.findById(cart._id).populate('items.product').session(session);
+    return normalizeCartImages(populatedCart);
   });
 };
 
@@ -68,7 +98,7 @@ export const getCartService = async (userId) => {
     cart = await Cart.findById(cart._id).populate('items.product');
   }
 
-  return cart;
+  return normalizeCartImages(cart);
 };
 
 export const updateCartItemQuantityService = async (userId, productId, quantity) => {
@@ -100,7 +130,8 @@ export const updateCartItemQuantityService = async (userId, productId, quantity)
     cart.totalPrice = recalculateTotal(cart.items);
     await cart.save({ session });
 
-    return Cart.findById(cart._id).populate('items.product').session(session);
+    const populatedCart = await Cart.findById(cart._id).populate('items.product').session(session);
+    return normalizeCartImages(populatedCart);
   });
 };
 
@@ -114,7 +145,8 @@ export const removeCartItemService = async (userId, productId) => {
     cart.totalPrice = recalculateTotal(cart.items);
     await cart.save({ session });
 
-    return Cart.findById(cart._id).populate('items.product').session(session);
+    const populatedCart = await Cart.findById(cart._id).populate('items.product').session(session);
+    return normalizeCartImages(populatedCart);
   });
 };
 
@@ -127,6 +159,7 @@ export const clearCartService = async (userId) => {
     cart.totalPrice = 0;
     await cart.save({ session });
 
-    return Cart.findById(cart._id).populate('items.product').session(session);
+    const populatedCart = await Cart.findById(cart._id).populate('items.product').session(session);
+    return normalizeCartImages(populatedCart);
   });
 };

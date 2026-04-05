@@ -100,12 +100,9 @@ const CheckoutPage = () => {
                   {items.map((item) => (
                     <div key={item.id} className="flex flex-col sm:flex-row gap-6 items-center">
                       <div className="relative w-24 h-24 rounded-lg bg-surface-container-highest shrink-0 overflow-hidden">
-                        <span className="absolute top-2 right-2 z-10 min-w-6 h-6 px-1 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center">
-                          {item.qty}
-                        </span>
                         <img
                           className="w-full h-full object-cover"
-                          src={bottleChocolateImage}
+                          src={item.image || bottleChocolateImage}
                           alt={item.name}
                           onError={(e) => {
                             e.currentTarget.onerror = null;

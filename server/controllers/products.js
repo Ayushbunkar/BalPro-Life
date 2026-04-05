@@ -5,6 +5,27 @@ import cloudinary from '../config/cloudinary.js';
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 const VANILLA_IMAGE_URL = process.env.VANILLA_PRODUCT_IMAGE_URL || '/assets/vanillachoclate.jpg';
 
+const resolveImageUrl = (req, imageUrl) => {
+  if (!imageUrl || /^https?:\/\//i.test(imageUrl)) {
+    return imageUrl;
+  }
+
+  const forwardedProto = req?.headers?.['x-forwarded-proto'];
+  const forwardedHost = req?.headers?.['x-forwarded-host'];
+
+  if (forwardedProto && forwardedHost) {
+    const proto = String(forwardedProto).split(',')[0];
+    const host = String(forwardedHost).split(',')[0];
+    return `${proto}://${host}${imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`}`;
+  }
+
+  if (req?.get?.('host')) {
+    return `${req.protocol}://${req.get('host')}${imageUrl.startsWith('/') ? imageUrl : `/${imageUrl}`}`;
+  }
+
+  return imageUrl;
+};
+
 const isVanillaProduct = (product) => {
   const searchText = [
     product?.name || '',
@@ -17,14 +38,14 @@ const isVanillaProduct = (product) => {
   return searchText.includes('vanilla');
 };
 
-const normalizeFlavorImage = (product) => {
+const normalizeFlavorImage = (product, req) => {
   const normalized = product?.toObject ? product.toObject() : { ...product };
   if (!normalized) return normalized;
 
   if (isVanillaProduct(normalized)) {
     normalized.images = [
       {
-        url: VANILLA_IMAGE_URL,
+        url: resolveImageUrl(req, VANILLA_IMAGE_URL),
         alt: normalized?.name || 'BalPro Vanilla'
       }
     ];
@@ -81,7 +102,7 @@ export const getProducts = async (req, res) => {
 
     const total = await Product.countDocuments(query);
 
-    const normalizedProducts = products.map(normalizeFlavorImage);
+    const normalizedProducts = products.map((product) => normalizeFlavorImage(product, req));
 
     res.status(200).json({
       success: true,
@@ -117,7 +138,7 @@ export const getProduct = async (req, res) => {
       });
     }
 
-    const normalizedProduct = normalizeFlavorImage(product);
+    const normalizedProduct = normalizeFlavorImage(product, req);
 
     res.status(200).json({
       success: true,
@@ -149,12 +170,17 @@ export const createProduct = async (req, res) => {
       data.images = [img];
     }
 
+    if (isVanillaProduct(data)) {
+      data.images = [{ url: VANILLA_IMAGE_URL, alt: data.name || 'BalPro Vanilla' }];
+    }
+
     const product = await Product.create(data);
+    const normalizedProduct = normalizeFlavorImage(product, req);
 
     res.status(201).json({
       success: true,
       message: 'Product created successfully',
-      data: product
+      data: normalizedProduct
     });
   } catch (error) {
     console.error('Create product error:', error);
@@ -198,6 +224,10 @@ export const updateProduct = async (req, res) => {
       updateData.images = [img];
     }
 
+    if (isVanillaProduct(updateData)) {
+      updateData.images = [{ url: VANILLA_IMAGE_URL, alt: updateData.name || 'BalPro Vanilla' }];
+    }
+
     const product = await Product.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true
@@ -210,10 +240,12 @@ export const updateProduct = async (req, res) => {
       });
     }
 
+    const normalizedProduct = normalizeFlavorImage(product, req);
+
     res.status(200).json({
       success: true,
       message: 'Product updated successfully',
-      data: product
+      data: normalizedProduct
     });
   } catch (error) {
     console.error('Update product error:', error);
@@ -279,7 +311,7 @@ export const getProductsByCategory = async (req, res) => {
       isActive: true
     }).sort('-createdAt');
 
-    const normalizedProducts = products.map(normalizeFlavorImage);
+    const normalizedProducts = products.map((product) => normalizeFlavorImage(product, req));
 
     res.status(200).json({
       success: true,
@@ -321,7 +353,7 @@ export const searchProducts = async (req, res) => {
     .sort({ score: { $meta: 'textScore' } })
     .limit(20);
 
-    const normalizedProducts = products.map(normalizeFlavorImage);
+    const normalizedProducts = products.map((product) => normalizeFlavorImage(product, req));
 
     res.status(200).json({
       success: true,
@@ -349,7 +381,7 @@ export const getFeaturedProducts = async (req, res) => {
     .sort('-averageRating -createdAt')
     .limit(8);
 
-    const normalizedProducts = products.map(normalizeFlavorImage);
+    const normalizedProducts = products.map((product) => normalizeFlavorImage(product, req));
 
     res.status(200).json({
       success: true,

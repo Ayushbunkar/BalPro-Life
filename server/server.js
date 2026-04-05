@@ -39,9 +39,13 @@ app.use(helmet());
 const corsAllowAll = (process.env.CORS_ALLOW_ALL || '').toLowerCase() === 'true';
 
 if (corsAllowAll) {
-  app.use(cors({ origin: true, credentials: true, optionSuccessStatus: 200 }));
+  const corsOptions = { origin: true, credentials: true, optionSuccessStatus: 200 };
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 } else if (process.env.NODE_ENV === 'development') {
-  app.use(cors({ origin: true, credentials: true, optionSuccessStatus: 200 }));
+  const corsOptions = { origin: true, credentials: true, optionSuccessStatus: 200 };
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 } else {
   const normalizeOrigin = (value) => (value || '').trim().replace(/\/+$/, '');
 
@@ -62,7 +66,8 @@ if (corsAllowAll) {
     origin(origin, callback) {
       if (!origin) return callback(null, true);
       const normalizedOrigin = normalizeOrigin(origin);
-      if (process.env.VERCEL && normalizedOrigin.endsWith('.vercel.app')) {
+      // Vercel deployments can run under multiple *.vercel.app domains (prod/preview).
+      if (normalizedOrigin.endsWith('.vercel.app')) {
         return callback(null, true);
       }
       if (allowedOrigins.indexOf(normalizedOrigin) !== -1) {
@@ -74,6 +79,7 @@ if (corsAllowAll) {
     optionSuccessStatus: 200
   };
   app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
 }
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)

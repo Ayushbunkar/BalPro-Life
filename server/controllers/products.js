@@ -3,6 +3,35 @@ import fs from 'fs';
 import path from 'path';
 import cloudinary from '../config/cloudinary.js';
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+const VANILLA_IMAGE_URL = process.env.VANILLA_PRODUCT_IMAGE_URL || '/assets/vanillachoclate.jpg';
+
+const isVanillaProduct = (product) => {
+  const searchText = [
+    product?.name || '',
+    product?.description || '',
+    ...(Array.isArray(product?.tags) ? product.tags : [])
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  return searchText.includes('vanilla');
+};
+
+const normalizeFlavorImage = (product) => {
+  const normalized = product?.toObject ? product.toObject() : { ...product };
+  if (!normalized) return normalized;
+
+  if (isVanillaProduct(normalized)) {
+    normalized.images = [
+      {
+        url: VANILLA_IMAGE_URL,
+        alt: normalized?.name || 'BalPro Vanilla'
+      }
+    ];
+  }
+
+  return normalized;
+};
 
 // @desc    Get all products
 // @route   GET /api/products
@@ -52,16 +81,18 @@ export const getProducts = async (req, res) => {
 
     const total = await Product.countDocuments(query);
 
+    const normalizedProducts = products.map(normalizeFlavorImage);
+
     res.status(200).json({
       success: true,
-      count: products.length,
+      count: normalizedProducts.length,
       pagination: {
         page,
         limit,
         total,
         pages: Math.ceil(total / limit)
       },
-      data: products
+      data: normalizedProducts
     });
   } catch (error) {
     console.error('Get products error:', error);
@@ -86,9 +117,11 @@ export const getProduct = async (req, res) => {
       });
     }
 
+    const normalizedProduct = normalizeFlavorImage(product);
+
     res.status(200).json({
       success: true,
-      data: product
+      data: normalizedProduct
     });
   } catch (error) {
     console.error('Get product error:', error);
@@ -246,10 +279,12 @@ export const getProductsByCategory = async (req, res) => {
       isActive: true
     }).sort('-createdAt');
 
+    const normalizedProducts = products.map(normalizeFlavorImage);
+
     res.status(200).json({
       success: true,
-      count: products.length,
-      data: products
+      count: normalizedProducts.length,
+      data: normalizedProducts
     });
   } catch (error) {
     console.error('Get products by category error:', error);
@@ -286,10 +321,12 @@ export const searchProducts = async (req, res) => {
     .sort({ score: { $meta: 'textScore' } })
     .limit(20);
 
+    const normalizedProducts = products.map(normalizeFlavorImage);
+
     res.status(200).json({
       success: true,
-      count: products.length,
-      data: products
+      count: normalizedProducts.length,
+      data: normalizedProducts
     });
   } catch (error) {
     console.error('Search products error:', error);
@@ -312,10 +349,12 @@ export const getFeaturedProducts = async (req, res) => {
     .sort('-averageRating -createdAt')
     .limit(8);
 
+    const normalizedProducts = products.map(normalizeFlavorImage);
+
     res.status(200).json({
       success: true,
-      count: products.length,
-      data: products
+      count: normalizedProducts.length,
+      data: normalizedProducts
     });
   } catch (error) {
     console.error('Get featured products error:', error);

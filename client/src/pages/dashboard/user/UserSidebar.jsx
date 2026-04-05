@@ -45,8 +45,11 @@ const UserSidebar = () => {
             <div className="relative z-10">
               <p className="text-[10px] font-bold text-tertiary uppercase tracking-tighter mb-2">Current Tier</p>
               <h4 className="font-headline font-bold text-white mb-4">Elite Artisan</h4>
-              <Link to="/products" className="w-full inline-flex items-center justify-center gold-shimmer text-surface font-bold py-3 rounded-full text-xs uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
-                Upgrade Ritual
+              <Link
+                to="/products"
+                className="w-full inline-flex items-center justify-center gold-shimmer text-[#2a170f]! font-extrabold py-3 rounded-full text-sm uppercase tracking-[0.12em] hover:scale-105 transition-transform active:scale-95"
+              >
+                <span className="text-[#2a170f]!">Upgrade Ritual</span>
               </Link>
             </div>
             <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">

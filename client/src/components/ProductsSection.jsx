@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { productsAPI } from '../utils/api';
 import bottleChocolateImage from '../assets/bottleechoclate.jpg';
+import vanillaChocolateImage from '../assets/vanillachoclate.jpg';
 
 const formatPrice = (value) => {
   if (typeof value !== 'number') return '₹0.00';
@@ -77,20 +78,23 @@ const ProductsSection = ({ onAddToCart }) => {
               },
             ].map((section) => {
               const product = section.product;
-              const image = product?.images?.[0]?.url || bottleChocolateImage;
+              const sectionFallbackImage = section.key === 'vanilla' ? vanillaChocolateImage : bottleChocolateImage;
+              const image = section.key === 'vanilla'
+                ? vanillaChocolateImage
+                : (product?.images?.[0]?.url || sectionFallbackImage);
 
               return (
                 <div key={section.key} className="group cursor-pointer text-left">
                   <p className="text-tertiary uppercase tracking-[0.2em] text-xs font-bold mb-3">{section.title}</p>
 
-                  <div className="h-[260px] md:h-[300px] bg-surface-container-low rounded-2xl overflow-hidden mb-5 relative border border-outline-variant/10 group-hover:border-tertiary/30 transition-all">
+                  <div className="h-[340px] md:h-[420px] bg-surface-container-low rounded-2xl overflow-hidden mb-5 relative border border-outline-variant/10 group-hover:border-tertiary/30 transition-all p-4 md:p-6">
                     <img
                       alt={product?.name || section.displayName}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                       src={image}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
-                        e.currentTarget.src = bottleChocolateImage;
+                        e.currentTarget.src = sectionFallbackImage;
                       }}
                     />
 

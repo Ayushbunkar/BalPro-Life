@@ -90,20 +90,20 @@ const AdminSettings = () => {
   return (
     <DashboardLayout sidebar={<AdminSidebar />}>
       <div className="space-y-8">
-        <header className="bg-[rgba(250,249,247,0.8)] backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10">
+        <header className="bg-surface-container-low backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10">
           <div className="flex items-center flex-1">
             <div className="relative w-full max-w-md">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">search</span>
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-tertiary-container text-sm">search</span>
               <input className="w-full bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary-container transition-all outline-none" placeholder="Search parameters..." type="text" />
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <button className="relative text-stone-500 hover:text-[#D4A65A] transition-all" type="button">
+            <button className="relative text-on-tertiary-container hover:text-primary transition-all" type="button">
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full border-2 border-surface"></span>
             </button>
             <div className="h-8 w-px bg-outline-variant/20 mx-2"></div>
-            <span className="text-sm font-semibold text-[#1A1C1B]">Settings</span>
+            <span className="text-sm font-semibold text-on-surface">Settings</span>
           </div>
         </header>
 
@@ -288,7 +288,7 @@ const AdminSettings = () => {
                           <p className="text-[10px] text-on-tertiary-container">Current Session • Chrome</p>
                         </div>
                       </div>
-                      <span className="text-[10px] font-bold text-[#D4A65A]">Active</span>
+                      <span className="text-[10px] font-bold text-primary">Active</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -307,31 +307,31 @@ const AdminSettings = () => {
           </form>
 
           <div className="w-full lg:w-80">
-            <div className="sticky top-24 bg-[#1A1311] text-white rounded-lg p-6 shadow-xl overflow-hidden">
-              <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#D4A65A] blur-[60px] opacity-30"></div>
+            <div className="sticky top-24 bg-surface-container-lowest text-on-surface rounded-2xl p-6 shadow-xl overflow-hidden border border-outline-variant/15">
+              <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary blur-[60px] opacity-30"></div>
               <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-6">
-                  <span className="material-symbols-outlined text-[#D4A65A]">auto_awesome</span>
+                  <span className="material-symbols-outlined text-primary">auto_awesome</span>
                   <h3 className="font-bold font-headline text-lg">Review Changes</h3>
                 </div>
                 <div className="space-y-4 mb-8">
-                  <div className="p-3 bg-white/5 rounded-lg border border-white/5">
-                    <p className="text-[10px] text-stone-500 uppercase tracking-widest mb-1">Pending Updates</p>
+                  <div className="p-3 bg-surface-container-low rounded-lg border border-outline-variant/10">
+                    <p className="text-[10px] text-on-tertiary-container uppercase tracking-widest mb-1">Pending Updates</p>
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2 text-xs">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D4A65A]"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
                         Profile details updated
                       </li>
                       <li className="flex items-center gap-2 text-xs">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#D4A65A]"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
                         Appearance: Mode set to {interfaceMode}
                       </li>
                     </ul>
                   </div>
-                  <p className="text-[10px] text-stone-400 italic">Changes will take effect immediately across all synchronized devices.</p>
+                  <p className="text-[10px] text-on-tertiary-container italic">Changes will take effect immediately across all synchronized devices.</p>
                 </div>
                 <div className="space-y-3">
-                  <button form="admin-settings-form" type="submit" disabled={loading} className="w-full bg-[#D4A65A] hover:bg-[#D4A65A]/90 text-[#281900] font-bold py-3 px-4 rounded-full transition-all flex items-center justify-center gap-2 group shadow-lg hover:-translate-y-0.5 disabled:opacity-60">
+                  <button form="admin-settings-form" type="submit" disabled={loading} className="w-full gold-shimmer text-on-tertiary-fixed font-bold py-3 px-4 rounded-full transition-all flex items-center justify-center gap-2 group shadow-lg hover:-translate-y-0.5 disabled:opacity-60">
                     {loading ? 'Saving...' : 'Save Settings'}
                     <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
                   </button>
@@ -342,7 +342,7 @@ const AdminSettings = () => {
                     profession: user?.profession || '',
                     isProfessional: !!user?.isProfessional,
                     avatarFile: null,
-                  })} className="w-full bg-white/5 hover:bg-white/10 text-white font-bold py-3 px-4 rounded-full transition-all text-sm border border-white/10">
+                  })} className="w-full bg-surface-container-low hover:bg-surface-container-high text-on-surface font-bold py-3 px-4 rounded-full transition-all text-sm border border-outline-variant/10">
                     Discard Changes
                   </button>
                 </div>

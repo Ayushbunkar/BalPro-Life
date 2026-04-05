@@ -103,10 +103,10 @@ const AdminProducts = () => {
   return (
     <DashboardLayout sidebar={<AdminSidebar />}>
       <div className="space-y-8">
-        <header className="bg-[rgba(250,249,247,0.8)] backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10">
+        <header className="bg-surface-container-low backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10">
           <div className="flex items-center gap-4 w-1/3 min-w-[260px]">
             <div className="relative w-full max-w-sm">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">search</span>
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-tertiary-container text-sm">search</span>
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -117,13 +117,13 @@ const AdminProducts = () => {
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <button className="relative text-stone-500 hover:text-[#D4A65A] transition-all" type="button">
+            <button className="relative text-on-tertiary-container hover:text-primary transition-all" type="button">
               <span className="material-symbols-outlined">notifications</span>
               <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
             </button>
             <div className="h-6 w-px bg-outline-variant/20"></div>
             <div className="flex items-center gap-3">
-              <span className="font-manrope text-sm font-semibold text-[#1A1C1B]">Balpro Life</span>
+              <span className="font-manrope text-sm font-semibold text-on-surface">Balpro Life</span>
             </div>
           </div>
         </header>
@@ -135,7 +135,7 @@ const AdminProducts = () => {
           </div>
           <button
             onClick={() => navigate('/admin/products/new')}
-            className="bg-[linear-gradient(135deg,#7C5812_0%,#D4A65A_100%)] text-on-primary-fixed px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:-translate-y-0.5 transition-all shadow-lg"
+            className="gold-shimmer text-on-tertiary-fixed px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:-translate-y-0.5 transition-all shadow-lg"
             type="button"
           >
             <span className="material-symbols-outlined">add</span>

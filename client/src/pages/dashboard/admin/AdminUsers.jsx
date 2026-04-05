@@ -130,9 +130,9 @@ const AdminUsers = () => {
   return (
     <DashboardLayout sidebar={<AdminSidebar />}>
       <div className="space-y-8">
-        <header className="bg-[rgba(250,249,247,0.8)] backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10 gap-4">
+        <header className="bg-surface-container-low backdrop-blur-xl rounded-2xl flex justify-between items-center px-8 py-4 border border-outline-variant/10 gap-4">
           <div className="relative w-full max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-lg">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-tertiary-container text-lg">search</span>
             <input
               value={search}
               onChange={(e) => {
@@ -145,7 +145,7 @@ const AdminUsers = () => {
             />
           </div>
           <button
-            className="bg-[linear-gradient(135deg,#7C5812_0%,#D4A65A_100%)] text-white px-6 py-2.5 rounded-full font-bold text-sm"
+            className="gold-shimmer text-on-tertiary-fixed px-6 py-2.5 rounded-full font-bold text-sm"
             type="button"
             onClick={openAddModal}
           >
@@ -162,18 +162,18 @@ const AdminUsers = () => {
             <div className="flex gap-6">
               <div>
                 <p className="text-2xl font-extrabold text-primary">{loading ? '—' : activeUsers}</p>
-                <p className="text-[10px] uppercase tracking-widest text-stone-500">Active</p>
+                <p className="text-[10px] uppercase tracking-widest text-on-tertiary-container">Active</p>
               </div>
               <div>
                 <p className="text-2xl font-extrabold text-on-surface">{loading ? '—' : adminUsers}</p>
-                <p className="text-[10px] uppercase tracking-widest text-stone-500">Admins</p>
+                <p className="text-[10px] uppercase tracking-widest text-on-tertiary-container">Admins</p>
               </div>
             </div>
           </div>
 
           <div className="col-span-12 lg:col-span-4 bg-surface-container-low rounded-lg p-6 space-y-4">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Role</p>
+              <p className="text-[10px] uppercase tracking-widest text-on-tertiary-container font-bold mb-2">Role</p>
               <select
                 className="w-full rounded-lg border border-outline-variant/20 bg-surface-container-lowest px-3 py-2 text-sm"
                 value={selectedRole}
@@ -188,7 +188,7 @@ const AdminUsers = () => {
               </select>
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-stone-500 font-bold mb-2">Status</p>
+              <p className="text-[10px] uppercase tracking-widest text-on-tertiary-container font-bold mb-2">Status</p>
               <select
                 className="w-full rounded-lg border border-outline-variant/20 bg-surface-container-lowest px-3 py-2 text-sm"
                 value={selectedStatus}
@@ -223,25 +223,25 @@ const AdminUsers = () => {
                 {!loading && users.map((user) => (
                   <tr key={user._id} className="hover:bg-surface-container-low/20">
                     <td className="px-6 py-4 font-medium">{user.name}</td>
-                    <td className="px-6 py-4 text-sm text-stone-600">{user.email}</td>
+                    <td className="px-6 py-4 text-sm text-on-tertiary-container">{user.email}</td>
                     <td className="px-6 py-4 text-sm uppercase">{user.role}</td>
                     <td className="px-6 py-4 text-sm">{user.isActive === false ? 'Inactive' : 'Active'}</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <button className="px-3 py-1 text-xs rounded border" type="button" onClick={() => openEditModal(user)}>Edit</button>
-                        <button className="px-3 py-1 text-xs rounded border border-red-200 text-red-600" type="button" onClick={() => confirmDelete(user._id)}>Delete</button>
+                        <button className="px-3 py-1 text-xs rounded border border-outline-variant/25 text-on-surface hover:bg-surface-container-low" type="button" onClick={() => openEditModal(user)}>Edit</button>
+                        <button className="px-3 py-1 text-xs rounded border border-red-400/35 text-red-300 hover:bg-red-500/10" type="button" onClick={() => confirmDelete(user._id)}>Delete</button>
                       </div>
                     </td>
                   </tr>
                 ))}
                 {loading && (
                   <tr>
-                    <td className="px-6 py-8 text-sm text-stone-500" colSpan={5}>Loading users...</td>
+                    <td className="px-6 py-8 text-sm text-on-tertiary-container" colSpan={5}>Loading users...</td>
                   </tr>
                 )}
                 {!loading && users.length === 0 && (
                   <tr>
-                    <td className="px-6 py-8 text-sm text-stone-500" colSpan={5}>No users found.</td>
+                    <td className="px-6 py-8 text-sm text-on-tertiary-container" colSpan={5}>No users found.</td>
                   </tr>
                 )}
               </tbody>
@@ -249,12 +249,12 @@ const AdminUsers = () => {
           </div>
 
           <div className="px-6 py-4 bg-surface-container-low/10 flex justify-between items-center">
-            <p className="text-xs text-stone-500">Page {page} of {totalPages}</p>
+            <p className="text-xs text-on-tertiary-container">Page {page} of {totalPages}</p>
             <div className="flex gap-2">
               <button
                 disabled={page <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="w-8 h-8 rounded-full border disabled:opacity-40"
+                className="w-8 h-8 rounded-full border border-outline-variant/20 text-on-surface disabled:opacity-40 hover:bg-surface-container-low"
                 type="button"
               >
                 &lt;
@@ -262,7 +262,7 @@ const AdminUsers = () => {
               <button
                 disabled={page >= totalPages}
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                className="w-8 h-8 rounded-full border disabled:opacity-40"
+                className="w-8 h-8 rounded-full border border-outline-variant/20 text-on-surface disabled:opacity-40 hover:bg-surface-container-low"
                 type="button"
               >
                 &gt;
@@ -273,16 +273,16 @@ const AdminUsers = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <form className="w-full max-w-xl rounded-2xl bg-white p-6 space-y-4" onSubmit={submitForm}>
-            <h3 className="text-lg font-bold">{editingUser ? 'Edit User' : 'Add User'}</h3>
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <form className="w-full max-w-xl rounded-2xl bg-surface-container-lowest border border-outline-variant/15 p-6 space-y-4 text-on-surface" onSubmit={submitForm}>
+            <h3 className="text-lg font-bold font-headline">{editingUser ? 'Edit User' : 'Add User'}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input className="rounded-lg border px-3 py-2" name="name" value={form.name} onChange={handleFormChange} placeholder="Full name" required />
-              <input className="rounded-lg border px-3 py-2" type="email" name="email" value={form.email} onChange={handleFormChange} placeholder="Email" required />
+              <input className="rounded-lg border border-outline-variant/20 bg-surface-container-low px-3 py-2" name="name" value={form.name} onChange={handleFormChange} placeholder="Full name" required />
+              <input className="rounded-lg border border-outline-variant/20 bg-surface-container-low px-3 py-2" type="email" name="email" value={form.email} onChange={handleFormChange} placeholder="Email" required />
               {!editingUser && (
-                <input className="rounded-lg border px-3 py-2" type="password" name="password" value={form.password} onChange={handleFormChange} placeholder="Password" required />
+                <input className="rounded-lg border border-outline-variant/20 bg-surface-container-low px-3 py-2" type="password" name="password" value={form.password} onChange={handleFormChange} placeholder="Password" required />
               )}
-              <select className="rounded-lg border px-3 py-2" name="role" value={form.role} onChange={handleFormChange}>
+              <select className="rounded-lg border border-outline-variant/20 bg-surface-container-low px-3 py-2" name="role" value={form.role} onChange={handleFormChange}>
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
               </select>
@@ -292,8 +292,8 @@ const AdminUsers = () => {
               </label>
             </div>
             <div className="flex justify-end gap-2 pt-2">
-              <button type="button" className="px-4 py-2 rounded-lg border" onClick={closeModal}>Cancel</button>
-              <button type="submit" className="px-4 py-2 rounded-lg bg-primary text-white" disabled={loading}>{loading ? 'Saving...' : 'Save User'}</button>
+              <button type="button" className="px-4 py-2 rounded-lg border border-outline-variant/20 hover:bg-surface-container-low" onClick={closeModal}>Cancel</button>
+              <button type="submit" className="px-4 py-2 rounded-lg gold-shimmer text-on-tertiary-fixed" disabled={loading}>{loading ? 'Saving...' : 'Save User'}</button>
             </div>
           </form>
         </div>

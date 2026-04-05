@@ -68,87 +68,87 @@ const AdminDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-surface-container-lowest p-6 rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)]">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)]">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 rounded-2xl bg-surface-container-low">
-                <span className="material-symbols-outlined text-[#7C5812]">group</span>
+                <span className="material-symbols-outlined text-primary">group</span>
               </div>
-              <span className="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded-full">+12.5%</span>
+              <span className="text-emerald-300 text-xs font-bold bg-emerald-500/15 px-2 py-1 rounded-full">+12.5%</span>
             </div>
-            <p className="text-stone-500 text-sm font-medium uppercase tracking-widest">Total Users</p>
+            <p className="text-on-tertiary-container text-sm font-medium uppercase tracking-widest">Total Users</p>
             <h3 className="text-3xl font-extrabold text-on-surface mt-1">{loading ? '—' : stats.users}</h3>
           </div>
 
-          <div className="bg-surface-container-lowest p-6 rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)]">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)]">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 rounded-2xl bg-surface-container-low">
-                <span className="material-symbols-outlined text-[#7C5812]">payments</span>
+                <span className="material-symbols-outlined text-primary">payments</span>
               </div>
-              <span className="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded-full">+8.2%</span>
+              <span className="text-emerald-300 text-xs font-bold bg-emerald-500/15 px-2 py-1 rounded-full">+8.2%</span>
             </div>
-            <p className="text-stone-500 text-sm font-medium uppercase tracking-widest">Revenue</p>
+            <p className="text-on-tertiary-container text-sm font-medium uppercase tracking-widest">Revenue</p>
             <h3 className="text-3xl font-extrabold text-on-surface mt-1">{loading ? '—' : formatMoney(stats.revenue)}</h3>
           </div>
 
-          <div className="bg-surface-container-lowest p-6 rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)]">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)]">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 rounded-2xl bg-surface-container-low">
-                <span className="material-symbols-outlined text-[#7C5812]">shopping_bag</span>
+                <span className="material-symbols-outlined text-primary">shopping_bag</span>
               </div>
-              <span className="text-rose-500 text-xs font-bold bg-rose-50 px-2 py-1 rounded-full">-2.4%</span>
+              <span className="text-rose-300 text-xs font-bold bg-rose-500/15 px-2 py-1 rounded-full">-2.4%</span>
             </div>
-            <p className="text-stone-500 text-sm font-medium uppercase tracking-widest">Orders</p>
+            <p className="text-on-tertiary-container text-sm font-medium uppercase tracking-widest">Orders</p>
             <h3 className="text-3xl font-extrabold text-on-surface mt-1">{loading ? '—' : stats.orders}</h3>
           </div>
 
-          <div className="bg-surface-container-lowest p-6 rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)]">
+          <div className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)]">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 rounded-2xl bg-surface-container-low">
-                <span className="material-symbols-outlined text-[#7C5812]">inventory_2</span>
+                <span className="material-symbols-outlined text-primary">inventory_2</span>
               </div>
-              <span className="text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-1 rounded-full">+4.1%</span>
+              <span className="text-emerald-300 text-xs font-bold bg-emerald-500/15 px-2 py-1 rounded-full">+4.1%</span>
             </div>
-            <p className="text-stone-500 text-sm font-medium uppercase tracking-widest">Products</p>
+            <p className="text-on-tertiary-container text-sm font-medium uppercase tracking-widest">Products</p>
             <h3 className="text-3xl font-extrabold text-on-surface mt-1">{loading ? '—' : stats.products}</h3>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)]">
+          <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)]">
             <div className="flex justify-between items-center mb-10">
               <div>
                 <h4 className="text-xl font-bold font-headline">Revenue Performance</h4>
-                <p className="text-sm text-stone-500">Yearly trends and fiscal movement</p>
+                <p className="text-sm text-on-tertiary-container">Yearly trends and fiscal movement</p>
               </div>
               <div className="flex gap-2">
-                <span className="flex items-center gap-2 text-xs font-medium text-stone-500">
-                  <span className="w-3 h-3 rounded-full bg-[#D4A65A]"></span> Projection
+                <span className="flex items-center gap-2 text-xs font-medium text-on-tertiary-container">
+                  <span className="w-3 h-3 rounded-full bg-primary"></span> Projection
                 </span>
-                <span className="flex items-center gap-2 text-xs font-medium text-stone-500">
-                  <span className="w-3 h-3 rounded-full bg-stone-300"></span> Actual
+                <span className="flex items-center gap-2 text-xs font-medium text-on-tertiary-container">
+                  <span className="w-3 h-3 rounded-full bg-outline"></span> Actual
                 </span>
               </div>
             </div>
 
             <div className="relative h-[300px] w-full mt-4">
               <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 1080 300">
-                <line stroke="#D2C3C0" strokeOpacity="0.1" x1="0" x2="100%" y1="0" y2="0"></line>
-                <line stroke="#D2C3C0" strokeOpacity="0.1" x1="0" x2="100%" y1="25%" y2="25%"></line>
-                <line stroke="#D2C3C0" strokeOpacity="0.1" x1="0" x2="100%" y1="50%" y2="50%"></line>
-                <line stroke="#D2C3C0" strokeOpacity="0.1" x1="0" x2="100%" y1="75%" y2="75%"></line>
-                <line stroke="#D2C3C0" strokeOpacity="0.1" x1="0" x2="100%" y1="100%" y2="100%"></line>
+                <line stroke="#a88a7e" strokeOpacity="0.15" x1="0" x2="100%" y1="0" y2="0"></line>
+                <line stroke="#a88a7e" strokeOpacity="0.15" x1="0" x2="100%" y1="25%" y2="25%"></line>
+                <line stroke="#a88a7e" strokeOpacity="0.15" x1="0" x2="100%" y1="50%" y2="50%"></line>
+                <line stroke="#a88a7e" strokeOpacity="0.15" x1="0" x2="100%" y1="75%" y2="75%"></line>
+                <line stroke="#a88a7e" strokeOpacity="0.15" x1="0" x2="100%" y1="100%" y2="100%"></line>
                 <defs>
                   <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#D4A65A" stopOpacity="0.2"></stop>
-                    <stop offset="100%" stopColor="#D4A65A" stopOpacity="0"></stop>
+                    <stop offset="0%" stopColor="#efbf70" stopOpacity="0.25"></stop>
+                    <stop offset="100%" stopColor="#efbf70" stopOpacity="0"></stop>
                   </linearGradient>
                 </defs>
                 <path d="M0,250 L120,220 L240,240 L360,180 L480,200 L600,120 L720,150 L840,80 L960,100 L1080,40 V300 H0 Z" fill="url(#areaGradient)"></path>
-                <polyline fill="none" points="0,250 120,220 240,240 360,180 480,200 600,120 720,150 840,80 960,100 1080,40" stroke="#7C5812" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4"></polyline>
-                <circle cx="600" cy="120" fill="#7C5812" r="6"></circle>
-                <circle cx="840" cy="80" fill="#7C5812" r="6"></circle>
+                <polyline fill="none" points="0,250 120,220 240,240 360,180 480,200 600,120 720,150 840,80 960,100 1080,40" stroke="#efbf70" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4"></polyline>
+                <circle cx="600" cy="120" fill="#efbf70" r="6"></circle>
+                <circle cx="840" cy="80" fill="#efbf70" r="6"></circle>
               </svg>
-              <div className="flex justify-between mt-6 text-[10px] font-bold text-stone-400 uppercase tracking-widest px-2">
+              <div className="flex justify-between mt-6 text-[10px] font-bold text-on-tertiary-container uppercase tracking-widest px-2">
                 <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
               </div>
             </div>
@@ -163,10 +163,10 @@ const AdminDashboard = () => {
               {[40, 65, 85, 55, 70].map((h, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-2 w-full">
                   <div
-                    className={`${idx === 2 ? 'bg-[#7C5812] shadow-lg' : 'bg-[#D4A65A]/40'} w-full rounded-t-lg`}
+                    className={`${idx === 2 ? 'bg-primary shadow-lg shadow-primary/20' : 'bg-primary/30'} w-full rounded-t-lg`}
                     style={{ height: `${h}%` }}
                   ></div>
-                  <span className={`text-[10px] font-bold uppercase ${idx === 2 ? 'text-[#7C5812]' : 'text-stone-500'}`}>
+                  <span className={`text-[10px] font-bold uppercase ${idx === 2 ? 'text-primary' : 'text-on-tertiary-container'}`}>
                     {['Apr', 'May', 'Jun', 'Jul', 'Aug'][idx]}
                   </span>
                 </div>
@@ -184,19 +184,19 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-surface-container-lowest rounded-lg shadow-[0_20px_40px_-12px_rgba(26,28,27,0.06)] overflow-hidden">
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-[0_20px_40px_-20px_rgba(239,191,112,0.2)] overflow-hidden">
           <div className="px-8 py-6 border-b border-surface-container flex justify-between items-center bg-surface-container-low/30">
             <div>
               <h4 className="text-xl font-bold font-headline">Recent Activity</h4>
-              <p className="text-sm text-stone-500">Monitor latest transactions and user events</p>
+              <p className="text-sm text-on-tertiary-container">Monitor latest transactions and user events</p>
             </div>
-            <button className="text-[#7C5812] text-sm font-bold hover:underline" type="button">View All Activities</button>
+            <button className="text-primary text-sm font-bold hover:underline" type="button">View All Activities</button>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-[10px] uppercase tracking-widest text-stone-500 font-bold border-b border-surface-container">
+                <tr className="text-[10px] uppercase tracking-widest text-on-tertiary-container font-bold border-b border-surface-container">
                   <th className="px-8 py-4">User</th>
                   <th className="px-8 py-4">Activity Type</th>
                   <th className="px-8 py-4">Timestamp</th>
@@ -209,12 +209,12 @@ const AdminDashboard = () => {
                   <tr key={order._id} className="hover:bg-surface-container-low/50 transition-colors">
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-stone-400">person</span>
+                        <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+                          <span className="material-symbols-outlined text-on-tertiary-container">person</span>
                         </div>
                         <div>
                           <p className="text-sm font-bold text-on-surface">{order?.user?.name || 'Customer'}</p>
-                          <p className="text-[10px] text-stone-500">{order?.user?.email || 'Member'}</p>
+                          <p className="text-[10px] text-on-tertiary-container">{order?.user?.email || 'Member'}</p>
                         </div>
                       </div>
                     </td>
@@ -222,12 +222,12 @@ const AdminDashboard = () => {
                       <span className="text-sm text-on-tertiary-container">Order Placement</span>
                     </td>
                     <td className="px-8 py-5">
-                      <span className="text-xs text-stone-500">
+                      <span className="text-xs text-on-tertiary-container">
                         {order?.createdAt ? new Date(order.createdAt).toLocaleString() : '—'}
                       </span>
                     </td>
                     <td className="px-8 py-5">
-                      <span className="text-sm font-bold text-[#1A1C1B]">{formatMoney(order?.total)}</span>
+                      <span className="text-sm font-bold text-on-surface">{formatMoney(order?.total)}</span>
                     </td>
                     <td className="px-8 py-5">
                       <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-100 text-emerald-700">
@@ -238,12 +238,12 @@ const AdminDashboard = () => {
                 ))}
                 {!loading && recentOrders.length === 0 && (
                   <tr>
-                    <td className="px-8 py-8 text-sm text-stone-500" colSpan={5}>No recent activity found.</td>
+                    <td className="px-8 py-8 text-sm text-on-tertiary-container" colSpan={5}>No recent activity found.</td>
                   </tr>
                 )}
                 {loading && (
                   <tr>
-                    <td className="px-8 py-8 text-sm text-stone-500" colSpan={5}>Loading activity...</td>
+                    <td className="px-8 py-8 text-sm text-on-tertiary-container" colSpan={5}>Loading activity...</td>
                   </tr>
                 )}
               </tbody>

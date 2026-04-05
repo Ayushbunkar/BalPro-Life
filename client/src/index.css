@@ -33,6 +33,9 @@
 	--brand-surface: #151312;
 	--brand-text: #e8e1de;
 	--brand-accent: #d9c4a2;
+	--brand-muted: #c2a791;
+	--brand-muted-boost: #e0c797;
+	--brand-outline-boost: #c9aea0;
 }
 
 html, body, #root {
@@ -43,12 +46,72 @@ body {
 	font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: #151312;
+	background:
+		radial-gradient(1200px 420px at 85% -10%, rgba(239, 191, 112, 0.14), transparent 62%),
+		radial-gradient(900px 380px at -10% 18%, rgba(206, 168, 101, 0.08), transparent 56%),
+		#151312;
 	color: #e8e1de;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Epilogue', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	letter-spacing: -0.01em;
+}
+
+p,
+small,
+label,
+input,
+select,
+textarea,
+li,
+td,
+th {
+	color: var(--brand-text);
+}
+
+a {
+	color: var(--brand-primary);
+}
+
+a:hover {
+	color: #ffd897;
+}
+
+/* Global visibility guard for gold accent utilities */
+.text-primary,
+.hover\:text-primary:hover,
+.group:hover .group-hover\:text-primary {
+	color: var(--brand-primary);
+}
+
+.border-primary,
+.hover\:border-primary:hover {
+	border-color: var(--brand-primary);
+}
+
+/* Readability pass: brighten only small muted labels without affecting headings */
+.text-on-tertiary-container.text-xs,
+.text-on-tertiary-container.text-sm,
+.text-on-tertiary-container.text-\[10px\],
+.text-on-tertiary-container.text-\[11px\],
+.text-on-surface-variant.text-xs,
+.text-on-surface-variant.text-sm,
+.text-on-surface-variant.text-\[10px\],
+.text-on-surface-variant.text-\[11px\],
+.text-primary-fixed-dim.text-xs,
+.text-primary-fixed-dim.text-sm,
+.text-primary-fixed-dim.text-\[10px\],
+.text-primary-fixed-dim.text-\[11px\] {
+	color: var(--brand-muted-boost);
+	text-shadow: 0 0 0.01px rgba(239, 191, 112, 0.22);
+}
+
+.text-outline.text-xs,
+.text-outline.text-sm,
+.text-outline.text-\[10px\],
+.text-outline.text-\[11px\] {
+	color: var(--brand-outline-boost);
 }
 
 /* Glass morphism effect for luxury cards */

@@ -11,7 +11,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 
 const HomePage = ({ onAddToCart }) => {
   const handleShopClick = () => {
-    const element = document.getElementById('shop');
+    const element = document.getElementById('menu') || document.getElementById('shop');
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -20,12 +20,18 @@ const HomePage = ({ onAddToCart }) => {
       <ChocolateHero onShopClick={handleShopClick} />
       <BrandTrust />
       <ProductSpotlight />
-      <WhyBalpro />
+      <section id="about">
+        <WhyBalpro />
+      </section>
       <StorySection />
       <IngredientsSection />
       <BenefitsSection />
-      <ProductsSection onAddToCart={onAddToCart} />
-      <TestimonialsSection />
+      <section id="menu">
+        <ProductsSection onAddToCart={onAddToCart} />
+      </section>
+      <section id="reviews">
+        <TestimonialsSection />
+      </section>
     </>
   );
 };

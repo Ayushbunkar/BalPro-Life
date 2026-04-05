@@ -5,10 +5,18 @@ import cloudinary from '../config/cloudinary.js';
 
 
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+const isServerlessRuntime = !!process.env.VERCEL;
 let uploadsDir;
-if (!usingCloudinary) {
+let canUseDiskStorage = false;
+
+if (!usingCloudinary && !isServerlessRuntime) {
   uploadsDir = path.join(process.cwd(), 'uploads', 'products');
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  try {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    canUseDiskStorage = true;
+  } catch (error) {
+    console.warn('Product upload disk storage disabled:', error?.message || error);
+  }
 }
 
 // Cloudinary is configured in `config/cloudinary.js` if env vars provided
@@ -21,7 +29,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const storage = usingCloudinary ? multer.memoryStorage() : multer.diskStorage({
+const storage = (usingCloudinary || !canUseDiskStorage)
+  ? multer.memoryStorage()
+  : multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadsDir);
   },
@@ -53,6 +63,14 @@ export const handleUpload = async (req, res, next) => {
       });
       streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
       return;
+    }
+
+    // In serverless without Cloudinary, we cannot persist local files.
+    if (!canUseDiskStorage) {
+      return res.status(503).json({
+        success: false,
+        message: 'Product image upload is not configured for this environment. Enable Cloudinary to upload images.'
+      });
     }
 
     // Otherwise file was stored on disk by multer.diskStorage

@@ -5,10 +5,18 @@ import cloudinary from '../config/cloudinary.js';
 
 
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+const isServerlessRuntime = !!process.env.VERCEL;
 let uploadsDir;
-if (!usingCloudinary) {
+let canUseDiskStorage = false;
+
+if (!usingCloudinary && !isServerlessRuntime) {
   uploadsDir = path.join(process.cwd(), 'uploads', 'avatars');
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  try {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    canUseDiskStorage = true;
+  } catch (error) {
+    console.warn('Avatar upload disk storage disabled:', error?.message || error);
+  }
 }
 
 // Cloudinary configured via `config/cloudinary.js` when env vars are present
@@ -22,7 +30,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const storage = usingCloudinary ? multer.memoryStorage() : multer.diskStorage({
+const storage = (usingCloudinary || !canUseDiskStorage)
+  ? multer.memoryStorage()
+  : multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
@@ -47,6 +57,14 @@ export const handleAvatarUpload = async (req, res, next) => {
       });
       streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
       return;
+    }
+
+    // In serverless without Cloudinary, we cannot persist local files.
+    if (!canUseDiskStorage) {
+      return res.status(503).json({
+        success: false,
+        message: 'Avatar upload is not configured for this environment. Enable Cloudinary to upload images.'
+      });
     }
 
     if (req.file && req.file.filename) {

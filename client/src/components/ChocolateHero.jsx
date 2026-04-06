@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import singleBgRemoveImage from '../assets/singlebgremove.png';
 
 const ChocolateHero = ({ onShopClick }) => {
+  const bottleRef = useRef(null);
+
+  useEffect(() => {
+    if (!bottleRef.current) return undefined;
+
+    const tl = gsap.timeline({ repeat: -1, yoyo: true });
+    tl.to(bottleRef.current, {
+      y: -14,
+      rotation: 5,
+      scale: 1.02,
+      duration: 2.4,
+      ease: 'sine.inOut',
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
   return (
     <section className="relative min-h-[calc(100svh-7rem)] flex items-center justify-center overflow-hidden py-2 md:py-4">
       <div className="absolute inset-0 bg-linear-to-b from-surface/0 via-surface/40 to-surface z-10"></div>
@@ -25,11 +46,12 @@ const ChocolateHero = ({ onShopClick }) => {
         </div>
 
         {/* Right Content - Product Image */}
-        <div className="relative flex justify-center lg:justify-end items-center h-64 md:h-[340px] lg:h-[430px]">
+        <div className="relative flex justify-center lg:justify-end items-center h-72 md:h-[400px] lg:h-[500px]">
           <img
+            ref={bottleRef}
             alt="Premium Chocolate Beverage"
-            className="relative z-10 w-[62%] md:w-[58%] lg:w-[52%] max-w-[300px] h-auto drop-shadow-[0_26px_28px_rgba(0,0,0,0.44)] transform rotate-2"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcDewhjH4kTrAPpiUxIZc0eTIHCAgBm7WZEEkoKGW_YzMG9IGZINGKVwkaBg9D1M1SVMel7w3leGWBiFGA3YHbvGibdqRcEsqJR7Ksjst2uZ6-_rnW9KGm_Q16K8X0AaTtjYByGQ4T66BrvyS4ADV-Hq43VmbRaLgpz-PGFFYsBpLs8vL7yelLcayt4s4Y_1_jCtWwLJXbfsXulKC-0ZdmfEXzKjo1LqtAQafGk_I0P2aDPQ5RnFhKrUoADZ094FaPWXMWPvUNTw"
+            className="relative z-10 w-[78%] md:w-[70%] lg:w-[64%] max-w-[430px] h-auto drop-shadow-[0_34px_36px_rgba(0,0,0,0.48)] origin-bottom"
+            src={singleBgRemoveImage}
           />
         </div>
       </div>

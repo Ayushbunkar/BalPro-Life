@@ -73,6 +73,17 @@ const userSchema = new mongoose.Schema({
   passwordResetToken: String,
   passwordResetExpires: Date,
   lastLogin: Date
+  ,
+  rewardPoints: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  lifetimeRewardPoints: {
+    type: Number,
+    default: 0,
+    min: 0
+  }
 }, {
   timestamps: true
 });

@@ -7,6 +7,12 @@ import { validationResult } from 'express-validator';
 import fs from 'fs';
 import path from 'path';
 import cloudinary from '../config/cloudinary.js';
+import {
+  getUserPointsSummary,
+  redeemFreeDrinkWithPoints,
+  getUserRedemptions,
+  getLoyaltyDashboardData,
+} from '../services/pointsService.js';
 const usingCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 
 // Initialize Google OAuth client if client ID is provided
@@ -304,6 +310,107 @@ export const getMe = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error'
+    });
+  }
+};
+
+// @desc    Get current user's rewards points summary
+// @route   GET /api/auth/points-summary
+// @access  Private
+export const getPointsSummary = async (req, res) => {
+  try {
+    const summary = await getUserPointsSummary(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      data: summary
+    });
+  } catch (error) {
+    console.error('Get points summary error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+// @desc    Redeem one free drink using points
+// @route   POST /api/auth/redeem-free-drink
+// @access  Private
+export const redeemFreeDrink = async (req, res) => {
+  try {
+    const rewardItem = String(req.body?.rewardItem || 'CHOCOLATE_SINGLE').toUpperCase();
+    const { redemption, currentPoints } = await redeemFreeDrinkWithPoints(req.user.id, rewardItem);
+
+    res.status(200).json({
+      success: true,
+      message: 'Free drink redeemed successfully',
+      data: {
+        redemptionCode: redemption.redemptionCode,
+        status: redemption.status,
+        expiresAt: redemption.expiresAt,
+        pointsUsed: redemption.pointsUsed,
+        rewardItem: redemption.rewardItem,
+        currentPoints,
+      },
+    });
+  } catch (error) {
+    console.error('Redeem free drink error:', error);
+
+    if (
+      error.message?.includes('required') ||
+      error.message?.includes('At least') ||
+      error.message?.includes('Invalid reward item')
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+    });
+  }
+};
+
+// @desc    Get loyalty dashboard data
+// @route   GET /api/auth/loyalty-dashboard
+// @access  Private
+export const getLoyaltyDashboard = async (req, res) => {
+  try {
+    const data = await getLoyaltyDashboardData(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    console.error('Get loyalty dashboard error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+    });
+  }
+};
+
+// @desc    Get logged in user's redemption history
+// @route   GET /api/auth/redemptions
+// @access  Private
+export const getMyRedemptions = async (req, res) => {
+  try {
+    const redemptions = await getUserRedemptions(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      data: redemptions,
+    });
+  } catch (error) {
+    console.error('Get redemptions error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
     });
   }
 };

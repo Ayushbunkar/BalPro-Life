@@ -5,6 +5,10 @@ import {
   login,
   logout,
   getMe,
+  getPointsSummary,
+  getLoyaltyDashboard,
+  redeemFreeDrink,
+  getMyRedemptions,
   refreshSession,
   updateProfile,
   changePassword,
@@ -51,6 +55,10 @@ router.put('/reset-password/:token', [
 ], resetPassword);
 router.use(protect); // All routes below require authentication
 router.get('/me', getMe);
+router.get('/points-summary', getPointsSummary);
+router.get('/loyalty-dashboard', getLoyaltyDashboard);
+router.get('/redemptions', getMyRedemptions);
+router.post('/redeem-free-drink', redeemFreeDrink);
 router.post('/refresh', refreshSession);
 // Allow avatar upload via multipart/form-data on profile update
 router.put('/profile', uploadAvatar.single('avatar'), handleAvatarUpload, updateProfile);

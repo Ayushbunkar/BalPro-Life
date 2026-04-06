@@ -67,10 +67,12 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     required: [true, 'Please add payment method'],
-    enum: ['card', 'paypal', 'bank_transfer']
+    enum: ['card', 'paypal', 'bank_transfer', 'razorpay']
   },
   paymentResult: {
     id: String,
+    order_id: String,
+    signature: String,
     status: String,
     update_time: String,
     email_address: String
@@ -95,6 +97,17 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: false
   },
+  pointsAwarded: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  pointsEarned: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  pointsAwardedAt: Date,
   paidAt: Date,
   isDelivered: {
     type: Boolean,

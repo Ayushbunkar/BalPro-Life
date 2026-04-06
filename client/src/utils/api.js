@@ -103,6 +103,17 @@ export const authAPI = {
 
   getMe: () => apiRequest('/auth/me', { suppressErrorLog: true }),
 
+  getPointsSummary: () => apiRequest('/auth/points-summary', { suppressErrorLog: true }),
+
+  getLoyaltyDashboard: () => apiRequest('/auth/loyalty-dashboard', { suppressErrorLog: true }),
+
+  getRedemptions: () => apiRequest('/auth/redemptions', { suppressErrorLog: true }),
+
+  redeemFreeDrink: (payload = {}) => apiRequest('/auth/redeem-free-drink', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+
   oauth: (payload) => apiRequest('/auth/oauth', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -239,6 +250,19 @@ export const ordersAPI = {
   }),
 };
 
+// Payments API functions
+export const paymentsAPI = {
+  createOrder: (amount) => apiRequest('/create-order', {
+    method: 'POST',
+    body: JSON.stringify({ amount }),
+  }),
+
+  verifyPayment: (payload) => apiRequest('/verify-payment', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+};
+
 // Cart API functions
 export const cartAPI = {
   getCart: () => apiRequest('/cart'),
@@ -295,6 +319,7 @@ export default {
   authAPI,
   productsAPI,
   ordersAPI,
+  paymentsAPI,
   cartAPI,
   usersAPI,
   healthAPI,

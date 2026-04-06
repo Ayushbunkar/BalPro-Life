@@ -1,13 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import UserSidebar from './UserSidebar';
-import { ordersAPI } from '../../../utils/api';
+import { authAPI, cartAPI, ordersAPI } from '../../../utils/api';
 import bottleChocolateImage from '../../../assets/bottleechoclate.jpg';
 import vanillaChocolateImage from '../../../assets/vanillachoclate.jpg';
 import chocolatePack6Image from '../../../assets/6packchoclate.jpg';
 import vanillaPack6Image from '../../../assets/vanilla6pack.png';
 
 const formatCurrency = (value) => `₹${Number(value || 0).toFixed(2)}`;
+
+const formatInvoiceDate = (value) => {
+  if (!value) return 'N/A';
+  return new Date(value).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+};
 
 const formatOrderDate = (order) => {
   const sourceDate = order?.isDelivered
@@ -50,10 +59,28 @@ const resolveOrderImage = (item) => {
 };
 
 const normalizeOrderForCard = (order) => {
-  const firstItem = Array.isArray(order?.orderItems) && order.orderItems.length > 0 ? order.orderItems[0] : null;
-  const quantity = (Array.isArray(order?.orderItems) ? order.orderItems : []).reduce((sum, item) => sum + Number(item?.quantity || 0), 0);
+  const orderItems = Array.isArray(order?.orderItems) ? order.orderItems : [];
+  const firstItem = orderItems.length > 0 ? orderItems[0] : null;
+  const quantity = orderItems.reduce((sum, item) => sum + Number(item?.quantity || 0), 0);
   const status = String(order?.status || 'pending').toLowerCase();
   const isShipped = status === 'shipped';
+
+  const detailedItems = orderItems.map((item, index) => ({
+    id: `${order?._id || 'order'}-${item?.product?._id || index}`,
+    productId: item?.product?._id || item?.product || null,
+    name: item?.name || 'Product',
+    quantity: Number(item?.quantity || 0),
+    unitPrice: Number(item?.price || 0),
+    totalPrice: Number(item?.price || 0) * Number(item?.quantity || 0),
+    image: resolveOrderImage(item),
+  }));
+
+  const shippingAddress = order?.shippingAddress || {};
+  const addressBlock = shippingAddress?.address || {};
+  const subtotal = detailedItems.reduce((sum, line) => sum + line.totalPrice, 0);
+  const tax = Number(order?.taxPrice || 0);
+  const shipping = Number(order?.shippingPrice || 0);
+  const total = Number(order?.totalPrice || subtotal + tax + shipping);
 
   return {
     id: order?._id,
@@ -67,15 +94,43 @@ const normalizeOrderForCard = (order) => {
     qty: `${quantity || 1}x`,
     image: resolveOrderImage(firstItem),
     badgeClass: isShipped ? 'bg-tertiary text-on-tertiary' : 'bg-outline-variant text-on-surface',
-    actionText: isShipped ? 'Track' : 'Invoice',
-    actionIcon: isShipped ? 'local_shipping' : 'receipt_long',
+    actionText: 'Invoice',
+    actionIcon: 'receipt_long',
+    items: detailedItems,
+    invoice: {
+      invoiceNumber: `INV-${String(order?._id || '').slice(-8).toUpperCase() || 'NA'}`,
+      orderNumber: `#${String(order?._id || '').slice(-6).toUpperCase() || 'NA'}`,
+      date: formatInvoiceDate(order?.createdAt),
+      status: status.charAt(0).toUpperCase() + status.slice(1),
+      customerName: shippingAddress?.name || 'Customer',
+      customerPhone: shippingAddress?.phone || 'N/A',
+      shippingAddress: `${addressBlock?.street || ''}${addressBlock?.city ? `, ${addressBlock.city}` : ''}${addressBlock?.state ? `, ${addressBlock.state}` : ''}${addressBlock?.zipCode ? ` - ${addressBlock.zipCode}` : ''}${addressBlock?.country ? `, ${addressBlock.country}` : ''}`.trim() || 'Address not available',
+      paymentMethod: String(order?.paymentMethod || 'card').replace('_', ' ').toUpperCase(),
+      subtotal,
+      tax,
+      shipping,
+      total,
+    },
   };
 };
 
 const UserOrders = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState(null);
+  const [reorderingId, setReorderingId] = useState('');
+  const [pointsSummary, setPointsSummary] = useState({
+    currentPoints: 0,
+    freeDrinkThreshold: 100,
+    redeemableFreeDrinks: 0,
+    nextMilestone: 3000,
+    pointsToNextMilestone: 3000,
+  });
+  const [redeemingDrink, setRedeemingDrink] = useState(false);
+  const [redeemMessage, setRedeemMessage] = useState('');
 
   useEffect(() => {
     let active = true;
@@ -84,10 +139,24 @@ const UserOrders = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await ordersAPI.getUserOrders();
+        const [ordersResponse, pointsResponse] = await Promise.all([
+          ordersAPI.getUserOrders(),
+          authAPI.getPointsSummary(),
+        ]);
+
+        const response = ordersResponse;
         const rawOrders = Array.isArray(response?.data) ? response.data : [];
         if (active) {
           setOrders(rawOrders);
+          if (pointsResponse?.data) {
+            setPointsSummary({
+              currentPoints: Number(pointsResponse.data.currentPoints || 0),
+              freeDrinkThreshold: Number(pointsResponse.data.freeDrinkThreshold || 100),
+              redeemableFreeDrinks: Number(pointsResponse.data.redeemableFreeDrinks || 0),
+              nextMilestone: Number(pointsResponse.data.nextMilestone || 100),
+              pointsToNextMilestone: Number(pointsResponse.data.pointsToNextMilestone || 100),
+            });
+          }
         }
       } catch (err) {
         if (active) {
@@ -109,6 +178,59 @@ const UserOrders = () => {
   }, []);
 
   const orderCards = useMemo(() => orders.map(normalizeOrderForCard), [orders]);
+
+  const handleRedeemFreeDrink = async () => {
+    setRedeemMessage('');
+    setRedeemingDrink(true);
+
+    try {
+      const res = await authAPI.redeemFreeDrink();
+      const code = res?.data?.redemptionCode || 'N/A';
+      setRedeemMessage(`Redeemed successfully. Code: ${code}`);
+
+      const summaryRes = await authAPI.getPointsSummary();
+      if (summaryRes?.data) {
+        setPointsSummary({
+          currentPoints: Number(summaryRes.data.currentPoints || 0),
+          freeDrinkThreshold: Number(summaryRes.data.freeDrinkThreshold || 100),
+          redeemableFreeDrinks: Number(summaryRes.data.redeemableFreeDrinks || 0),
+          nextMilestone: Number(summaryRes.data.nextMilestone || 100),
+          pointsToNextMilestone: Number(summaryRes.data.pointsToNextMilestone || 100),
+        });
+      }
+    } catch (err) {
+      setRedeemMessage(err?.message || 'Unable to redeem free drink right now.');
+    } finally {
+      setRedeemingDrink(false);
+    }
+  };
+
+  const handleReorder = async (orderCard) => {
+    if (!orderCard?.id) return;
+
+    const validItems = (orderCard.items || []).filter((line) => line.productId && line.quantity > 0);
+    if (validItems.length === 0) {
+      setError('This order has no valid products to reorder.');
+      return;
+    }
+
+    setReorderingId(orderCard.id);
+    setError('');
+
+    try {
+      await cartAPI.clearCart();
+
+      for (const line of validItems) {
+        await cartAPI.addToCart(line.productId, line.quantity);
+      }
+
+      navigate('/checkout');
+    } catch (err) {
+      setError(err?.message || 'Failed to reorder this order. Please try again.');
+    } finally {
+      setReorderingId('');
+    }
+  };
 
   return (
     <div className="bg-[#19120f] text-[#efdfd9] font-body min-h-screen">
@@ -157,10 +279,15 @@ const UserOrders = () => {
               <div key={item.id} className="bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-colors duration-300">
                 <div className="p-8 flex flex-col lg:flex-row lg:items-center gap-8">
                   <div className="flex items-center gap-6 flex-1">
-                    <div className="w-24 h-24 bg-surface-container-highest rounded-lg flex items-center justify-center p-2 relative">
+                    <button
+                      type="button"
+                      className="w-24 h-24 bg-surface-container-highest rounded-lg flex items-center justify-center p-2 relative cursor-pointer hover:scale-105 transition-transform"
+                      onClick={() => setSelectedOrder(item)}
+                      title="View all products in this order"
+                    >
                       <img className="w-full h-full object-contain opacity-90" alt={item.title} src={item.image} />
                       <div className={`absolute -top-2 -right-2 ${item.badgeClass} text-[10px] font-bold px-2 py-0.5 rounded-full`}>{item.qty}</div>
-                    </div>
+                    </button>
                     <div>
                       <span className="text-tertiary text-[10px] font-bold uppercase tracking-widest">Order #{item.displayId}</span>
                       <h3 className="text-xl font-headline font-bold text-on-surface mt-1">{item.title}</h3>
@@ -181,13 +308,22 @@ const UserOrders = () => {
                       </span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <button className="text-primary-fixed-dim hover:text-tertiary text-sm font-bold flex items-center gap-2 border-b border-transparent hover:border-tertiary transition-all" type="button">
+                      <button
+                        className="text-primary-fixed-dim hover:text-tertiary text-sm font-bold flex items-center gap-2 border-b border-transparent hover:border-tertiary transition-all"
+                        type="button"
+                        onClick={() => setSelectedInvoiceOrder(item)}
+                      >
                         <span className="material-symbols-outlined text-lg">{item.actionIcon}</span>
                         {item.actionText}
                       </button>
-                      <button className="bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2" type="button">
+                      <button
+                        className="bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                        type="button"
+                        onClick={() => handleReorder(item)}
+                        disabled={reorderingId === item.id}
+                      >
                         <span className="material-symbols-outlined text-lg">refresh</span>
-                        Reorder
+                        {reorderingId === item.id ? 'Reordering...' : 'Reorder'}
                       </button>
                     </div>
                   </div>
@@ -203,8 +339,17 @@ const UserOrders = () => {
                 <span className="text-on-tertiary-container bg-tertiary-container px-2 py-1 rounded text-[10px] font-bold">VIP STATUS</span>
               </div>
               <h4 className="text-outline text-xs uppercase tracking-widest mb-1">Rewards Points</h4>
-              <p className="text-3xl font-headline font-black text-on-surface group-hover:text-tertiary transition-colors">2,450</p>
-              <p className="text-primary-fixed-dim text-sm mt-2">Next reward at 3,000 pts</p>
+              <p className="text-3xl font-headline font-black text-on-surface group-hover:text-tertiary transition-colors">{pointsSummary.currentPoints.toLocaleString('en-IN')}</p>
+              <p className="text-primary-fixed-dim text-sm mt-2">{pointsSummary.redeemableFreeDrinks > 0 ? `${pointsSummary.redeemableFreeDrinks} free drink(s) available` : `${pointsSummary.pointsToNextMilestone.toLocaleString('en-IN')} pts away from free drink`}</p>
+              <button
+                type="button"
+                className="mt-4 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary px-4 py-2 rounded-full text-xs font-bold disabled:opacity-60 disabled:cursor-not-allowed"
+                onClick={handleRedeemFreeDrink}
+                disabled={redeemingDrink || pointsSummary.currentPoints < pointsSummary.freeDrinkThreshold}
+              >
+                {redeemingDrink ? 'Redeeming...' : 'Redeem 1 Free Drink'}
+              </button>
+              {redeemMessage && <p className="text-[11px] text-primary-fixed-dim mt-2">{redeemMessage}</p>}
             </div>
 
             <div className="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10 hover:border-tertiary/30 transition-all group">
@@ -231,6 +376,150 @@ const UserOrders = () => {
             </div>
           </div>
         </section>
+
+        {selectedOrder && (
+          <div
+            className="fixed inset-0 z-60 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setSelectedOrder(null)}
+          >
+            <div
+              className="w-full max-w-3xl rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-2xl max-h-[85vh] overflow-hidden"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="px-6 py-5 border-b border-outline-variant/20 flex items-center justify-between">
+                <div>
+                  <p className="text-tertiary text-[10px] font-bold uppercase tracking-widest">Order #{selectedOrder.displayId}</p>
+                  <h3 className="font-headline text-2xl font-bold text-on-surface">All Products</h3>
+                </div>
+                <button
+                  type="button"
+                  className="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface hover:text-tertiary transition-colors"
+                  onClick={() => setSelectedOrder(null)}
+                  aria-label="Close order details"
+                >
+                  <span className="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(85vh-9rem)]">
+                {selectedOrder.items.map((orderItem) => (
+                  <div key={orderItem.id} className="flex items-center gap-4 rounded-lg bg-surface-container-highest p-4">
+                    <div className="w-16 h-16 rounded-md overflow-hidden bg-surface-container p-1 shrink-0">
+                      <img src={orderItem.image} alt={orderItem.name} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-on-surface truncate">{orderItem.name}</p>
+                      <p className="text-sm text-primary-fixed-dim">Qty: {orderItem.quantity} x {formatCurrency(orderItem.unitPrice)}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs uppercase tracking-widest text-outline">Line Total</p>
+                      <p className="font-headline font-bold text-on-surface">{formatCurrency(orderItem.totalPrice)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedInvoiceOrder && (
+          <div
+            className="fixed inset-0 z-60 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setSelectedInvoiceOrder(null)}
+          >
+            <div
+              className="w-full max-w-4xl rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-2xl max-h-[90vh] overflow-hidden"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="px-6 py-5 border-b border-outline-variant/20 flex items-center justify-between">
+                <div>
+                  <p className="text-tertiary text-[10px] font-bold uppercase tracking-widest">Tax Invoice</p>
+                  <h3 className="font-headline text-2xl font-bold text-on-surface">{selectedInvoiceOrder.invoice.invoiceNumber}</h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    className="px-4 py-2 rounded-full bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary font-bold text-sm"
+                    onClick={() => window.print()}
+                  >
+                    Print
+                  </button>
+                  <button
+                    type="button"
+                    className="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface hover:text-tertiary transition-colors"
+                    onClick={() => setSelectedInvoiceOrder(null)}
+                    aria-label="Close invoice"
+                  >
+                    <span className="material-symbols-outlined">close</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="rounded-lg bg-surface-container-highest p-4">
+                    <p className="text-xs uppercase tracking-widest text-outline mb-2">Billed To</p>
+                    <p className="font-bold text-on-surface">{selectedInvoiceOrder.invoice.customerName}</p>
+                    <p className="text-sm text-primary-fixed-dim">{selectedInvoiceOrder.invoice.customerPhone}</p>
+                    <p className="text-sm text-primary-fixed-dim mt-2">{selectedInvoiceOrder.invoice.shippingAddress}</p>
+                  </div>
+                  <div className="rounded-lg bg-surface-container-highest p-4">
+                    <p className="text-xs uppercase tracking-widest text-outline mb-2">Invoice Info</p>
+                    <p className="text-sm text-primary-fixed-dim">Order: <span className="text-on-surface font-semibold">{selectedInvoiceOrder.invoice.orderNumber}</span></p>
+                    <p className="text-sm text-primary-fixed-dim">Date: <span className="text-on-surface font-semibold">{selectedInvoiceOrder.invoice.date}</span></p>
+                    <p className="text-sm text-primary-fixed-dim">Status: <span className="text-on-surface font-semibold">{selectedInvoiceOrder.invoice.status}</span></p>
+                    <p className="text-sm text-primary-fixed-dim">Payment: <span className="text-on-surface font-semibold">{selectedInvoiceOrder.invoice.paymentMethod}</span></p>
+                  </div>
+                </div>
+
+                <div className="rounded-lg bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+                  <div className="grid grid-cols-12 gap-3 px-4 py-3 border-b border-outline-variant/20 text-xs uppercase tracking-widest text-outline">
+                    <div className="col-span-6">Product</div>
+                    <div className="col-span-2 text-center">Qty</div>
+                    <div className="col-span-2 text-right">Price</div>
+                    <div className="col-span-2 text-right">Total</div>
+                  </div>
+                  {selectedInvoiceOrder.items.map((lineItem) => (
+                    <div key={lineItem.id} className="grid grid-cols-12 gap-3 px-4 py-4 border-b border-outline-variant/10 last:border-b-0 items-center">
+                      <div className="col-span-6 flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded bg-surface-container p-1 shrink-0">
+                          <img src={lineItem.image} alt={lineItem.name} className="w-full h-full object-contain" />
+                        </div>
+                        <span className="font-semibold text-on-surface truncate">{lineItem.name}</span>
+                      </div>
+                      <div className="col-span-2 text-center text-primary-fixed-dim">{lineItem.quantity}</div>
+                      <div className="col-span-2 text-right text-primary-fixed-dim">{formatCurrency(lineItem.unitPrice)}</div>
+                      <div className="col-span-2 text-right font-semibold text-on-surface">{formatCurrency(lineItem.totalPrice)}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="ml-auto w-full md:w-[360px] rounded-lg bg-surface-container-highest p-4 space-y-2">
+                  <div className="flex justify-between text-primary-fixed-dim">
+                    <span>Subtotal</span>
+                    <span>{formatCurrency(selectedInvoiceOrder.invoice.subtotal)}</span>
+                  </div>
+                  <div className="flex justify-between text-primary-fixed-dim">
+                    <span>Tax</span>
+                    <span>{formatCurrency(selectedInvoiceOrder.invoice.tax)}</span>
+                  </div>
+                  <div className="flex justify-between text-primary-fixed-dim">
+                    <span>Shipping</span>
+                    <span>{selectedInvoiceOrder.invoice.shipping > 0 ? formatCurrency(selectedInvoiceOrder.invoice.shipping) : 'Complimentary'}</span>
+                  </div>
+                  <div className="pt-2 border-t border-outline-variant/20 flex justify-between font-headline font-bold text-xl text-on-surface">
+                    <span>Total</span>
+                    <span>{formatCurrency(selectedInvoiceOrder.invoice.total)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
       </main>
 

@@ -137,7 +137,7 @@ const AboutPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
               <div className="text-center group">
                 <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
-                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">eco</span>
+                  <span className="material-symbols-outlined text-[#281900] text-3xl" style={{ fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" }}>eco</span>
                 </div>
                 <h4 className="font-headline text-xl font-bold mb-4">Ethical Sourcing</h4>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
@@ -146,7 +146,7 @@ const AboutPage = () => {
               </div>
               <div className="text-center group">
                 <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
-                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">science</span>
+                  <span className="material-symbols-outlined text-[#281900] text-3xl" style={{ fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" }}>science</span>
                 </div>
                 <h4 className="font-headline text-xl font-bold mb-4">Purity First</h4>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
@@ -155,7 +155,7 @@ const AboutPage = () => {
               </div>
               <div className="text-center group">
                 <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8 transition-transform group-hover:rotate-12 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]">
-                  <span className="material-symbols-outlined text-on-tertiary-fixed text-3xl">workspace_premium</span>
+                  <span className="material-symbols-outlined text-[#281900] text-3xl" style={{ fontVariationSettings: "'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24" }}>workspace_premium</span>
                 </div>
                 <h4 className="font-headline text-xl font-bold mb-4">Artisanal Quality</h4>
                 <p className="text-on-surface-variant text-sm leading-relaxed">

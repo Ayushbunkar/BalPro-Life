@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Dumbbell, Sparkles, Zap } from 'lucide-react';
 import { productsAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
 import bottleChocolateImage from '../assets/bottleechoclate.jpg';
@@ -371,8 +372,8 @@ const ProductsPage = ({ onAddToCart }) => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="group relative bg-surface-container-highest p-10 rounded-xl transition-all duration-500 hover:-translate-y-2">
-                <div className="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">auto_awesome</span>
+                <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <Sparkles size={30} className="text-white" strokeWidth={2.2} />
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-4">Adaptogenic Core</h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -381,8 +382,8 @@ const ProductsPage = ({ onAddToCart }) => {
               </div>
 
               <div className="group relative bg-surface-container-highest p-10 rounded-xl transition-all duration-500 hover:-translate-y-2">
-                <div className="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">electric_bolt</span>
+                <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <Zap size={30} className="text-white" strokeWidth={2.2} />
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-4">Slow Release Energy</h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -391,8 +392,8 @@ const ProductsPage = ({ onAddToCart }) => {
               </div>
 
               <div className="group relative bg-surface-container-highest p-10 rounded-xl transition-all duration-500 hover:-translate-y-2">
-                <div className="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary mb-8 group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">spa</span>
+                <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <Dumbbell size={30} className="text-white" strokeWidth={2.2} />
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-4">Muscle Recovery</h3>
                 <p className="text-on-surface-variant leading-relaxed">

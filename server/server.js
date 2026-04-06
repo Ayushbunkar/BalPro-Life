@@ -17,6 +17,7 @@ import gameRoutes from './routes/game.js';
 import dashboardRoutes from './routes/dashboard.js';
 import analyticsRoutes from './routes/analytics.js';
 import cartRoutes from './routes/cartRoutes.js';
+import paymentRoutes from './routes/payments.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
@@ -108,7 +109,14 @@ if (rateLimitEnabled) {
 }
 
 // Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, _res, buf) => {
+    if (req.originalUrl === '/api/payments/webhook') {
+      req.rawBody = buf.toString();
+    }
+  }
+}));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Cookie parser (used for cookie-based auth flows)
@@ -145,6 +153,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/codes', codeRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/game', gameRoutes);
+app.use('/api', paymentRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

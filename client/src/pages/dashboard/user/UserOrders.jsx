@@ -1,8 +1,115 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import UserSidebar from './UserSidebar';
+import { ordersAPI } from '../../../utils/api';
+import bottleChocolateImage from '../../../assets/bottleechoclate.jpg';
+import vanillaChocolateImage from '../../../assets/vanillachoclate.jpg';
+import chocolatePack6Image from '../../../assets/6packchoclate.jpg';
+import vanillaPack6Image from '../../../assets/vanilla6pack.png';
+
+const formatCurrency = (value) => `₹${Number(value || 0).toFixed(2)}`;
+
+const formatOrderDate = (order) => {
+  const sourceDate = order?.isDelivered
+    ? (order?.deliveredAt || order?.updatedAt || order?.createdAt)
+    : (order?.createdAt || order?.updatedAt);
+
+  if (!sourceDate) return 'Date unavailable';
+
+  const dateLabel = new Date(sourceDate).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+
+  return order?.isDelivered ? `Delivered ${dateLabel}` : `Placed ${dateLabel}`;
+};
+
+const inferOrderImageFromItem = (item) => {
+  const text = `${item?.name || ''}`.toLowerCase();
+  const isVanilla = text.includes('vanilla');
+  const isPack6 = text.includes('pack of 6') || text.includes('6 pack') || text.includes('pack6') || text.includes('x6');
+
+  if (isVanilla && isPack6) return vanillaPack6Image;
+  if (isVanilla) return vanillaChocolateImage;
+  if (isPack6) return chocolatePack6Image;
+  return bottleChocolateImage;
+};
+
+const resolveOrderImage = (item) => {
+  const rawImage = String(item?.image || item?.product?.images?.[0]?.url || '').trim();
+  if (/^https?:\/\//i.test(rawImage)) return rawImage;
+  if (rawImage.startsWith('/uploads/')) {
+    if (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+      return `http://localhost:5000${rawImage}`;
+    }
+    return rawImage;
+  }
+
+  return inferOrderImageFromItem(item);
+};
+
+const normalizeOrderForCard = (order) => {
+  const firstItem = Array.isArray(order?.orderItems) && order.orderItems.length > 0 ? order.orderItems[0] : null;
+  const quantity = (Array.isArray(order?.orderItems) ? order.orderItems : []).reduce((sum, item) => sum + Number(item?.quantity || 0), 0);
+  const status = String(order?.status || 'pending').toLowerCase();
+  const isShipped = status === 'shipped';
+
+  return {
+    id: order?._id,
+    displayId: String(order?._id || '').slice(-6).toUpperCase(),
+    title: firstItem?.name || 'Order Item',
+    date: formatOrderDate(order),
+    total: formatCurrency(order?.totalPrice),
+    status: status.charAt(0).toUpperCase() + status.slice(1),
+    statusClass: isShipped ? 'text-tertiary' : 'text-primary-fixed-dim',
+    dotClass: isShipped ? 'bg-tertiary' : 'bg-primary-fixed-dim',
+    qty: `${quantity || 1}x`,
+    image: resolveOrderImage(firstItem),
+    badgeClass: isShipped ? 'bg-tertiary text-on-tertiary' : 'bg-outline-variant text-on-surface',
+    actionText: isShipped ? 'Track' : 'Invoice',
+    actionIcon: isShipped ? 'local_shipping' : 'receipt_long',
+  };
+};
 
 const UserOrders = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let active = true;
+
+    const loadOrders = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await ordersAPI.getUserOrders();
+        const rawOrders = Array.isArray(response?.data) ? response.data : [];
+        if (active) {
+          setOrders(rawOrders);
+        }
+      } catch (err) {
+        if (active) {
+          setOrders([]);
+          setError(err?.message || 'Unable to load orders right now.');
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadOrders();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const orderCards = useMemo(() => orders.map(normalizeOrderForCard), [orders]);
+
   return (
     <div className="bg-[#19120f] text-[#efdfd9] font-body min-h-screen">
       <UserSidebar />
@@ -34,50 +141,19 @@ const UserOrders = () => {
 
         <section className="p-8 space-y-12">
           <div className="space-y-6">
-            {[
-              {
-                id: 'BL-89230',
-                title: 'Signature Cacao Tetra Pack',
-                date: 'Delivery expected Oct 24, 2023',
-                total: '₹42.00',
-                status: 'Shipped',
-                statusClass: 'text-tertiary',
-                dotClass: 'bg-tertiary',
-                qty: '3x',
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRg4XNpDevU5isyk1VYVr6zdnvFkkWwMmUmq9oTCIbAHbdjd5Fz0TDqP1iWka6UmRieRxgn1tdPLIIMA7DTzYbmMaecRA8UGV6mOs3eh_jxW0NIYL7IblpXo5jyWErvnWnIOW9RcxXwmVZZQs7Zhsm6nEIeXgY7cR41R69lGvkZVJfVDTrRAlQocp9NCHMyuaFR255i0UoelQOweJU4g5vvP1DQ8bv0auTKk7PBO1UcVCMEqJZMp6wUmL3ads8oIPTmivTKg9FXw',
-                badgeClass: 'bg-tertiary text-on-tertiary',
-                actionText: 'Track',
-                actionIcon: 'local_shipping'
-              },
-              {
-                id: 'BL-89112',
-                title: 'Ashwagandha Infusion',
-                date: 'Delivered Oct 12, 2023',
-                total: '₹18.50',
-                status: 'Delivered',
-                statusClass: 'text-primary-fixed-dim',
-                dotClass: 'bg-primary-fixed-dim',
-                qty: '1x',
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDZSY6095Pzebvb7Ys8q5JOQYnEpU4Z-jX8CzciKhemT80VZQGcwXtxWp-RHQxeExGdEGTn_UVOdR2z085E5xmoiN6yssAoqdlhgG9fLSX6NmfUAQR5ejSlQ4DU9KNqrxMcvsYThcD6TtbG0Ydu1aBLUiDmV_qV4CFXgDDzkS5hnN40XxAVQd4vDaLzmJ1D_7CUaaUPED2FH3BY_yLPbT4MKxXngJdy5ygy4V0AqoWhXtwSHcU9SC0ALifYZFAA--XrCtjZvG24Gw',
-                badgeClass: 'bg-outline-variant text-on-surface',
-                actionText: 'Invoice',
-                actionIcon: 'receipt_long'
-              },
-              {
-                id: 'BL-88901',
-                title: 'Cacao Ritual Bundle',
-                date: 'Delivered Sept 28, 2023',
-                total: '₹78.00',
-                status: 'Delivered',
-                statusClass: 'text-primary-fixed-dim',
-                dotClass: 'bg-primary-fixed-dim',
-                qty: '6x',
-                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMbtJ0fpQ65ZrMQThv9-iUPACim_sheWe2DN2inYV7Wr97yVi82k3nJ-H3z3v8sc-Rl48OOKEHw6k4ztRp690j--PUHrUtQbk20vfia3LYk4KNidH0Z0MSxgi3oqRga2GhKs-8GpoXkCFsYUfS2W2KzDIoGR2zTQrMOZWCeEAIYZeakHSBRgTPwn8NSpNDP2ZUFqeWjrPNOeuZx3Qr5yQPCazpAcyyII1qxoYFttY9zyMDGZi3gZ4uFQsm7LXZTxO-QvDe6E7YbA',
-                badgeClass: 'bg-outline-variant text-on-surface',
-                actionText: 'Invoice',
-                actionIcon: 'receipt_long'
-              }
-            ].map((item) => (
+            {loading && (
+              <div className="bg-surface-container-low rounded-xl p-8 text-primary-fixed-dim">Loading your orders...</div>
+            )}
+
+            {!loading && error && (
+              <div className="bg-surface-container-low rounded-xl p-8 text-error">{error}</div>
+            )}
+
+            {!loading && !error && orderCards.length === 0 && (
+              <div className="bg-surface-container-low rounded-xl p-8 text-primary-fixed-dim">No orders found yet.</div>
+            )}
+
+            {!loading && !error && orderCards.map((item) => (
               <div key={item.id} className="bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-colors duration-300">
                 <div className="p-8 flex flex-col lg:flex-row lg:items-center gap-8">
                   <div className="flex items-center gap-6 flex-1">
@@ -86,7 +162,7 @@ const UserOrders = () => {
                       <div className={`absolute -top-2 -right-2 ${item.badgeClass} text-[10px] font-bold px-2 py-0.5 rounded-full`}>{item.qty}</div>
                     </div>
                     <div>
-                      <span className="text-tertiary text-[10px] font-bold uppercase tracking-widest">Order #{item.id}</span>
+                      <span className="text-tertiary text-[10px] font-bold uppercase tracking-widest">Order #{item.displayId}</span>
                       <h3 className="text-xl font-headline font-bold text-on-surface mt-1">{item.title}</h3>
                       <p className="text-primary-fixed-dim text-sm">{item.date}</p>
                     </div>

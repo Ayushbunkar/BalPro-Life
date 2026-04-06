@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { AuthProvider } from './contexts/AuthContext';
@@ -48,8 +48,10 @@ function AppContent() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notification, setNotification] = useState(null);
+  const notificationTimeoutRef = useRef(null);
 
   const handleAddToCart = async (product, quantity = 1) => {
+    showNotification(`Adding ${product?.name || 'item'}...`);
     try {
       await addToCart(product, quantity);
       showNotification(`${product?.name || 'Item'} added to cart.`);
@@ -85,7 +87,13 @@ function AppContent() {
 
   const showNotification = (msg) => {
     setNotification(msg);
-    setTimeout(() => setNotification(null), 3000);
+    if (notificationTimeoutRef.current) {
+      clearTimeout(notificationTimeoutRef.current);
+    }
+    notificationTimeoutRef.current = setTimeout(() => {
+      setNotification(null);
+      notificationTimeoutRef.current = null;
+    }, 1800);
   };
 
   const handleCheckout = () => {
@@ -112,6 +120,14 @@ function AppContent() {
       navigate(`${location.pathname}${location.search}`, { replace: true });
     }
   }, [location.hash, location.pathname, location.search, navigate]);
+
+  useEffect(() => {
+    return () => {
+      if (notificationTimeoutRef.current) {
+        clearTimeout(notificationTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">

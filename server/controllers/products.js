@@ -38,11 +38,16 @@ const isVanillaProduct = (product) => {
   return searchText.includes('vanilla');
 };
 
+const hasUsableImage = (product) => {
+  const firstImage = product?.images?.[0];
+  return !!(firstImage && typeof firstImage.url === 'string' && firstImage.url.trim());
+};
+
 const normalizeFlavorImage = (product, req) => {
   const normalized = product?.toObject ? product.toObject() : { ...product };
   if (!normalized) return normalized;
 
-  if (isVanillaProduct(normalized)) {
+  if (isVanillaProduct(normalized) && !hasUsableImage(normalized)) {
     normalized.images = [
       {
         url: resolveImageUrl(req, VANILLA_IMAGE_URL),
@@ -170,7 +175,7 @@ export const createProduct = async (req, res) => {
       data.images = [img];
     }
 
-    if (isVanillaProduct(data)) {
+    if (isVanillaProduct(data) && !hasUsableImage(data)) {
       data.images = [{ url: VANILLA_IMAGE_URL, alt: data.name || 'BalPro Vanilla' }];
     }
 
@@ -224,7 +229,7 @@ export const updateProduct = async (req, res) => {
       updateData.images = [img];
     }
 
-    if (isVanillaProduct(updateData)) {
+    if (isVanillaProduct(updateData) && !hasUsableImage(updateData)) {
       updateData.images = [{ url: VANILLA_IMAGE_URL, alt: updateData.name || 'BalPro Vanilla' }];
     }
 

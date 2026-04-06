@@ -29,13 +29,17 @@ const UserSidebar = () => {
         <nav className="grow space-y-1 mt-1">
           {items.map((item) => (
             <NavLink key={item.path} to={item.path} end={item.end} className={navClass}>
-              <span
-                className="material-symbols-outlined mr-4 group-hover:text-tertiary"
-                style={item.name === 'Rituals' ? { fontVariationSettings: "'FILL' 1" } : undefined}
-              >
-                {item.icon}
-              </span>
-              <span className="font-headline text-sm uppercase tracking-widest">{item.name}</span>
+              {({ isActive }) => (
+                <>
+                  <span
+                    className={`material-symbols-outlined mr-4 ${isActive ? 'text-[#2a170f]' : 'text-[#e2bfb2] group-hover:text-tertiary'}`}
+                    style={item.name === 'Rituals' ? { fontVariationSettings: "'FILL' 1" } : undefined}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className={`font-headline text-sm uppercase tracking-widest ${isActive ? 'text-[#2a170f]' : 'text-[#e2bfb2]'}`}>{item.name}</span>
+                </>
+              )}
             </NavLink>
           ))}
         </nav>

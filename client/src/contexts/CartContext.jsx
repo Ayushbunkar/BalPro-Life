@@ -2,12 +2,70 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import { cartAPI } from '../utils/api';
 import { useAuth } from './AuthContext';
 import bottleChocolateImage from '../assets/bottleechoclate.jpg';
+import vanillaChocolateImage from '../assets/vanillachoclate.jpg';
+import chocolatePack6Image from '../assets/6packchoclate.jpg';
+import vanillaPack6Image from '../assets/vanilla6pack.png';
 
 const CartContext = createContext();
 
+const getBackendOrigin = () => {
+  if (typeof window === 'undefined') return '';
+
+  const envApiBase = import.meta.env.VITE_API_BASE;
+  if (envApiBase) {
+    try {
+      const parsed = new URL(envApiBase, window.location.origin);
+      return parsed.origin;
+    } catch (_error) {
+      return '';
+    }
+  }
+
+  const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  return isLocalHost ? 'http://localhost:5000' : window.location.origin;
+};
+
+const inferImageFromProductIdentity = (product) => {
+  const sku = String(product?.inventory?.sku || '').toUpperCase();
+  if (sku === 'BALPRO-CHOC-006') return chocolatePack6Image;
+  if (sku === 'BALPRO-VANI-006') return vanillaPack6Image;
+  if (sku === 'BALPRO-VANI-001') return vanillaChocolateImage;
+  if (sku === 'BALPRO-CHOC-001') return bottleChocolateImage;
+
+  const text = `${product?.name || ''} ${product?.description || ''} ${(product?.tags || []).join(' ')}`.toLowerCase();
+  const isVanilla = text.includes('vanilla');
+  const isPack6 = text.includes('pack of 6') || text.includes('6 pack') || text.includes('pack6') || text.includes('x6');
+
+  if (isVanilla && isPack6) return vanillaPack6Image;
+  if (isVanilla) return vanillaChocolateImage;
+  if (isPack6) return chocolatePack6Image;
+  return bottleChocolateImage;
+};
+
+const resolveProductImage = (product) => {
+  const mappedImage = inferImageFromProductIdentity(product);
+  const rawUrl = typeof product?.images?.[0]?.url === 'string' ? product.images[0].url.trim() : '';
+
+  if (/^https?:\/\//i.test(rawUrl)) {
+    return rawUrl;
+  }
+
+  if (rawUrl.startsWith('/uploads/')) {
+    const backendOrigin = getBackendOrigin();
+    return backendOrigin ? `${backendOrigin}${rawUrl}` : rawUrl;
+  }
+
+  // Avoid fragile relative /assets URLs from API and use reliable local mapped assets.
+  if (rawUrl.startsWith('/assets/')) {
+    return mappedImage;
+  }
+
+  return rawUrl || mappedImage;
+};
+
 const normalizeCartItem = (item) => {
   const product = item?.product || {};
-  const image = product?.images?.[0]?.url || bottleChocolateImage;
+  const image = resolveProductImage(product);
   const details = product?.description || '';
 
   return {

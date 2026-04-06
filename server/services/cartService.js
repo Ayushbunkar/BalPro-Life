@@ -15,11 +15,16 @@ const isVanillaProduct = (product) => {
   return text.includes('vanilla');
 };
 
+const hasUsableImage = (product) => {
+  const firstImage = product?.images?.[0];
+  return !!(firstImage && typeof firstImage.url === 'string' && firstImage.url.trim());
+};
+
 const normalizeCartImages = (cart) => {
   if (!cart?.items?.length) return cart;
 
   cart.items.forEach((item) => {
-    if (item?.product && isVanillaProduct(item.product)) {
+    if (item?.product && isVanillaProduct(item.product) && !hasUsableImage(item.product)) {
       item.product.images = [
         {
           url: VANILLA_IMAGE_URL,

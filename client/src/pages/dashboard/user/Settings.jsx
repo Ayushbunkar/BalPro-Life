@@ -77,17 +77,18 @@ const Settings = () => {
     <div className="bg-surface text-on-surface min-h-screen overflow-x-hidden">
       <UserSidebar />
 
-      <main className="md:ml-72 min-h-screen p-6 md:p-12 lg:p-20">
-        <header className="mb-8 md:mb-16">
+      <main className="md:ml-72 min-h-screen px-4 pt-8 pb-24 sm:px-6 md:px-10 md:pt-12 md:pb-14 lg:px-14">
+        <div className="mx-auto w-full max-w-[1200px]">
+        <header className="mb-8 md:mb-12">
           <p className="text-tertiary font-headline text-sm tracking-[0.3em] uppercase mb-4">Account Sanctuary</p>
           <h2 className="text-5xl md:text-6xl font-headline font-black tracking-tighter text-on-surface">Settings</h2>
           {message && <p className="mt-4 text-sm text-green-300">{message}</p>}
           {error && <p className="mt-4 text-sm text-error">{error}</p>}
         </header>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <section className="lg:col-span-8 bg-surface-container-low rounded-xl p-8 md:p-12 relative overflow-hidden">
-            <div className="relative z-10 flex flex-col md:flex-row gap-12 items-start md:items-center">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 xl:grid-cols-12 gap-6 md:gap-8">
+          <section className="xl:col-span-8 bg-surface-container-low rounded-xl p-6 md:p-8 lg:p-10 relative overflow-hidden">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[auto,1fr] gap-8 md:gap-10 items-start">
               <div className="relative group">
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container-highest">
                   <img alt="User Profile" className="w-full h-full object-cover" src={user?.avatar || 'https://lh3.googleusercontent.com/aida-public/AB6AXuDHtZMA1mNHDiouhNVna3NNLLlUYiXqFpW-bLy4TvvL_3-HhCLlkrETwB5PwjSNkQbYrxu-QNjEbDdcg1gZD7JLJHrEKBPKG_qHgwpiLAU4yyWEVHUdLaqY-AOnMczmfuMOUNp0X0R186vHA5RuI1qRojuLyYBx4ocIDMhTICTZMVJehimLl-IS4Z_cQCoBjqnRaZ_bGoPaLibrYSkg7TFNG-FjJ4YbSSaTEFEIZUD90cuCbj2FMrQj71LBwxhp4ImUnPfI-Sfi3Q'} />
@@ -98,8 +99,8 @@ const Settings = () => {
                 </label>
               </div>
 
-              <div className="flex-1 space-y-6 w-full">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex-1 space-y-5 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-widest text-outline">Full Name</label>
                     <input name="name" onChange={handleChange} value={form.name} className="w-full bg-surface-container border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-tertiary text-on-surface placeholder-outline-variant" type="text" />
@@ -117,7 +118,7 @@ const Settings = () => {
                     <input name="profession" onChange={handleChange} value={form.profession} className="w-full bg-surface-container border-none rounded-lg px-4 py-3 focus:ring-1 focus:ring-tertiary text-on-surface placeholder-outline-variant" type="text" />
                   </div>
                 </div>
-                <label className="inline-flex items-center gap-2 text-sm text-primary-fixed-dim">
+                <label className="inline-flex items-center gap-2.5 text-sm text-primary-fixed-dim">
                   <input type="checkbox" name="isProfessional" checked={form.isProfessional} onChange={handleChange} />
                   Professional account
                 </label>
@@ -126,7 +127,7 @@ const Settings = () => {
             <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
           </section>
 
-          <section className="lg:col-span-4 bg-surface-container-highest rounded-xl p-8 flex flex-col justify-between border border-outline-variant/10">
+          <section className="xl:col-span-4 bg-surface-container-highest rounded-xl p-6 md:p-8 flex flex-col justify-between border border-outline-variant/10 min-h-80">
             <div className="space-y-6">
               <div className="flex items-center gap-4 text-tertiary">
                 <span className="material-symbols-outlined">shield_person</span>
@@ -134,7 +135,7 @@ const Settings = () => {
               </div>
               <p className="text-primary-fixed-dim text-sm leading-relaxed">Your data is curated with the same care as our cacao blends. Biometric lock is active.</p>
             </div>
-            <div className="space-y-3 mt-8">
+            <div className="space-y-3 mt-7">
               <button type="button" className="w-full text-left px-6 py-4 rounded-lg bg-surface-container flex justify-between items-center hover:bg-surface-bright transition-colors">
                 <span className="text-sm font-bold">Change Password</span>
                 <span className="material-symbols-outlined text-outline">chevron_right</span>
@@ -148,7 +149,7 @@ const Settings = () => {
             </div>
           </section>
 
-          <section className="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section className="xl:col-span-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             <div className="bg-surface-container-low rounded-xl p-8 border border-outline-variant/5">
               <div className="mb-6 flex justify-between items-start">
                 <div className="p-3 bg-tertiary-container rounded-lg text-tertiary">
@@ -208,7 +209,7 @@ const Settings = () => {
             </div>
           </section>
 
-          <section className="lg:col-span-12 bg-surface-container-low rounded-xl p-8 md:p-12">
+          <section className="xl:col-span-12 bg-surface-container-low rounded-xl p-6 md:p-10">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
               <div>
                 <h4 className="font-headline text-2xl font-bold mb-2">Communication Preferences</h4>
@@ -243,6 +244,7 @@ const Settings = () => {
             </div>
           </section>
         </form>
+        </div>
 
       </main>
 

@@ -30,263 +30,209 @@ const reviewVideos = [
 
 const quotes = [
   {
-    text: 'Balpro has completely replaced my morning coffee. The ritual of whisking the cacao is meditative, and the focus I get is clean with no jitters.',
+    text: 'Balpro has completely replaced my morning coffee. The ritual of whisking the cacao is meditative, and the focus I get is clean-no jitters, just pure flow.',
     name: 'Amara Williams',
     role: 'Architect, Brooklyn',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuCfcxRdQJTaXYd6-2uZ6MK0Jcc88xNj7a_TUaMIqPQmFGOb7I5v4t4ArN02g20hXCZuc3y2QnNpsRJvEXlGMGHVsMS6329kbBh6LCqM6Oe0Oglhe2rLzxkaqHg-zT2qaugmBHpCOMC3RmgyEPUCciVjzSOFqYumdtJsST0W9AyahV0m7pgpPojAJgKXO1qFFBAL4EviT1XhXJbOXHlV6XYwH2lJRt9A8nnMEgEyHJP5D2VCi6qgoU7m2Z_4hH8ux7yvQdPvhCMJ2g',
   },
   {
-    text: 'I have tried every functional drink on the market. Most taste like dirt. Balpro tastes like luxury dessert and feels deeply grounding.',
+    text: "I've tried every functional drink on the market. Most taste like dirt. Balpro tastes like a $15 luxury dessert but leaves me feeling like I just meditated for an hour.",
     name: 'Julian Voss',
     role: 'Tech Founder',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA3XnSabqgpwLMFQ3yoAoECuq5Ryd4uVQZUmHw_p4cdQEORPrcGfXTn7fbfzC3FoSBfEKdwhGCLcfq6vxDXN_ZzL9KvlqqPLP8YhSkmskSo81_ml-9H3HPY_B_2CrXyPEN2eWQXTQfptkOVNKM3KQ0UsQPeYvqvcmsD0K6z_xY603mLC2asuE9VvDA7VUUuhDFMC2snG6fd6h5q0eQYHXB9TZxceoCOei45HvrvexEOCQgnYkaNVVvmdpmZJAyL2McIRmicZuVOmg',
   },
   {
-    text: 'The transparency sold me. I know exactly what adaptogens I am getting. My sleep improved after switching my evening snack for Balpro hot cacao.',
+    text: "The transparency is what sold me. I know exactly what adaptogens I'm getting. My sleep has improved significantly since switching my late-night snack for a Balpro hot cacao.",
     name: 'Sophie Chen',
     role: 'Yoga Instructor',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuApS2j-GmkAq045oJwQwurO8KhrW7APb3H-zr18APhHhQUGQBgAeDSeniC1cL07VMitF7kTc0E9U8JidN8OYskNmrvBzlnWM4hp9ZjjKg4RMHpHR5FuziTXUEro4-5LlFr1-as5_frYGY1vBw0inWVbHk3kmFJ9ufqhVVpH-CaLtvX2vLQ-Uvc5lIfDiOvekJo9AE2AW8oj_7gmdxM9M8MlENZP0iLWJRsJZCQ2P5Hzy5Yci-einQtoQeoWrFo1KoYkI64lBR5wlQ',
   },
   {
-    text: 'Finally, a healthy product that actually feels premium. From packaging to texture, Balpro feels like pure luxury.',
+    text: "Finally, a 'healthy' product that actually feels premium. From the packaging to the silkiness of the powder, Balpro is pure luxury.",
     name: 'Daniel Graham',
     role: 'Venture Capitalist',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA8JPlGHnqKI4yzuydv09tv7eq_WfFp0PfSC2s0bEjaEEvRcf6FjRsSVr6KYviipGLNd205ymuwXl4GMAAGM6bA1SsN7rHmcZd2ZhK2g3MUYUOIOQ5zAJF3JwyBDm6OGBjM8Oz3JUPOKPKPPSgs6od8PQnCTZHXY7E6H9VbPz9mFJfC08ZaDDMuyPaZr8u6S8uQ3zO4xtvjS68gWdtiSa1CXPb0iB6BsTSWsHj2Gt0Hkz3MXwMjWn7K-0ge4TpD9DdrqQE5cK1dgw',
   },
+  {
+    text: 'From taste to energy lift, this is the first functional drink that feels like a luxury ritual. I look forward to it every evening.',
+    name: 'Leah Morgan',
+    role: 'Product Designer',
+    image:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuCfcxRdQJTaXYd6-2uZ6MK0Jcc88xNj7a_TUaMIqPQmFGOb7I5v4t4ArN02g20hXCZuc3y2QnNpsRJvEXlGMGHVsMS6329kbBh6LCqM6Oe0Oglhe2rLzxkaqHg-zT2qaugmBHpCOMC3RmgyEPUCciVjzSOFqYumdtJsST0W9AyahV0m7pgpPojAJgKXO1qFFBAL4EviT1XhXJbOXHlV6XYwH2lJRt9A8nnMEgEyHJP5D2VCi6qgoU7m2Z_4hH8ux7yvQdPvhCMJ2g',
+  },
+  {
+    text: 'Three weeks in and my afternoon crashes are gone. Smooth focus, great flavor, and the packaging is genuinely premium.',
+    name: 'Ryan Patel',
+    role: 'Performance Coach',
+    image:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuA3XnSabqgpwLMFQ3yoAoECuq5Ryd4uVQZUmHw_p4cdQEORPrcGfXTn7fbfzC3FoSBfEKdwhGCLcfq6vxDXN_ZzL9KvlqqPLP8YhSkmskSo81_ml-9H3HPY_B_2CrXyPEN2eWQXTQfptkOVNKM3KQ0UsQPeYvqvcmsD0K6z_xY603mLC2asuE9VvDA7VUUuhDFMC2snG6fd6h5q0eQYHXB9TZxceoCOei45HvrvexEOCQgnYkaNVVvmdpmZJAyL2McIRmicZuVOmg',
+  },
 ];
 
 const ReviewsPage = () => {
   return (
-    <div className="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary-fixed pb-28 md:pb-0">
-      <header className="relative pt-32 pb-24 overflow-hidden bg-[radial-gradient(circle_at_center,#221a17_0%,#19120f_100%)]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative z-10">
-            <span className="text-tertiary font-label tracking-[0.2em] text-xs uppercase mb-6 block">The Superior Standard</span>
-            <h1 className="font-headline text-5xl md:text-7xl font-bold text-on-surface leading-[1.1] mb-8 tracking-tighter">
-              Indulgence <br />
-              <span className="text-tertiary italic">Redefined.</span>
-            </h1>
-            <p className="text-primary-fixed-dim text-lg md:text-xl max-w-xl leading-relaxed mb-10">
-              We did not just make another chocolate drink. We curated a functional ritual that bridges the gap between
-              high-performance nutrition and artisanal luxury.
-            </p>
-            <div className="flex flex-wrap gap-6">
-              <Link className="rounded-full px-8 py-4 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary font-semibold hover:scale-105 transition-transform duration-300 shadow-xl" to="/products">
-                Shop Flagship Pack
+    <div className="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary-fixed">
+      <main className="pt-32 pb-32">
+        <section className="px-8 mb-24 max-w-7xl mx-auto text-center">
+          <span className="text-tertiary uppercase tracking-[0.3em] font-semibold text-xs mb-4 block">Authentic Feedback</span>
+          <h1 className="font-headline text-5xl md:text-7xl font-bold text-on-surface tracking-tighter mb-8 max-w-4xl mx-auto">
+            The Standard for <span className="italic font-light">Daily Indulgence.</span>
+          </h1>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 bg-surface-container-low p-10 rounded-xl border border-outline-variant/10">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center gap-1 mb-2">
+                <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>star_half</span>
+              </div>
+              <div className="text-5xl font-headline font-bold text-on-surface">4.9/5</div>
+              <div className="text-primary-fixed-dim text-sm uppercase tracking-widest mt-2">Verified Rating</div>
+            </div>
+            <div className="h-px w-24 md:h-16 md:w-px bg-outline-variant/30"></div>
+            <div className="flex flex-wrap justify-center gap-8 max-w-xl">
+              <div className="text-center">
+                <div className="text-2xl font-headline font-bold">12,400+</div>
+                <div className="text-primary-fixed-dim text-xs uppercase tracking-tighter">Happy Customers</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-headline font-bold">98%</div>
+                <div className="text-primary-fixed-dim text-xs uppercase tracking-tighter">Repeat Purchase</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-headline font-bold">450+</div>
+                <div className="text-primary-fixed-dim text-xs uppercase tracking-tighter">5-Star Video Reviews</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-8 mb-32 max-w-[1440px] mx-auto">
+          <div className="flex items-end justify-between mb-12">
+            <h2 className="font-headline text-4xl font-bold tracking-tight">
+              Real People. <br />Real Performance.
+            </h2>
+            <p className="text-primary-fixed-dim max-w-xs text-sm leading-relaxed mb-2">Watch how the world's most discerning palates experience the functional cacao revolution.</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {reviewVideos.map((item, idx) => (
+              <div key={item.name} className={`relative aspect-9/16 rounded-lg overflow-hidden group cursor-pointer ${idx % 2 === 1 ? 'lg:mt-12' : ''}`}>
+                <img className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={item.image} alt={item.name} />
+                <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent opacity-80"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <span className="material-symbols-outlined text-tertiary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
+                  </div>
+                </div>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="text-on-surface font-semibold mb-1">{item.name}</div>
+                  <div className="text-tertiary text-xs uppercase tracking-widest">{item.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="px-8 mb-32 bg-surface-container-low py-24 rounded-xl">
+          <div className="max-w-[1440px] mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="font-headline text-4xl font-bold mb-4">The Wall of Indulgence</h2>
+              <p className="text-primary-fixed-dim">Join the collective of those who refuse to compromise.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {quotes.map((item) => (
+                <div key={item.name} className="bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] p-8 rounded-lg border border-outline-variant/10 h-full">
+                  <div className="flex gap-1 mb-6">
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                    <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                  </div>
+                  <p className="text-on-surface text-lg leading-relaxed font-light mb-8 italic">&quot;{item.text}&quot;</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <img className="w-full h-full object-cover" src={item.image} alt={item.name} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm">{item.name}</div>
+                      <div className="text-primary-fixed-dim text-xs">{item.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-8 mb-32 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1 relative">
+              <div className="aspect-4/5 rounded-xl overflow-hidden shadow-2xl">
+                <img
+                  className="w-full h-full object-cover"
+                  alt="Lifestyle overhead shot of a healthy bowl and drink"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPHURQLu5Ahl-n3S_-zXxEEP7_OcXuGfaWjmAPN4wID-IOL5eRU8-eydzpR9a-kTTBGKM6Xg3IuqVHmSJl-FpY5cvfZxauqk_jROS8hu2jW8d1ISbAPgh-hqmFLOiTd3Hc6DOKUZrMIdhZZHQwXiVqkkMJOsifWMEVsvJqPVACm0bglxmUrnc3bWwicsVXJ14wyg2Qb-SkJtruGOn5Y14JRvleR4F7c9LgS5wHFgyykF9V-RfZzN-0BOUGrKqreLP7os_ppQvmOA"
+                />
+              </div>
+              <div className="absolute -bottom-8 -right-8 bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] p-6 rounded-lg border border-outline-variant/20 max-w-60">
+                <div className="text-tertiary text-xs uppercase tracking-widest mb-2 font-bold">Clinical Impact</div>
+                <p className="text-sm font-light">&quot;Cortisol levels stabilized after 21 days of consistent use.&quot;</p>
+                <div className="mt-4 flex -space-x-2">
+                  <div className="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-highest flex items-center justify-center text-[8px]">DR</div>
+                  <div className="w-8 h-8 rounded-full border-2 border-surface bg-tertiary flex items-center justify-center text-[8px] text-on-tertiary">LV</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <h2 className="font-headline text-5xl font-bold tracking-tight mb-8">
+                Beyond the Cup: <br />
+                <span className="text-tertiary">Lifestyle Evolutions</span>
+              </h2>
+              <div className="space-y-12">
+                {[
+                  ['01', 'Sustained Vitality', "Users report a 40% increase in productivity during the 2-4 PM 'slump' window without the subsequent crash common with sugar-heavy alternatives."],
+                  ['02', 'Cognitive Clarity', "Our Lion's Mane and Ashwagandha blend works cumulatively. After 3 weeks, 85% of users noted significantly improved mental focus during complex tasks."],
+                  ['03', 'The Zen Shift', "Functional cacao isn't just about energy; it's about mood. L-Theanine helps transition the body into a flow state, reducing environmental stress impact."],
+                ].map((item) => (
+                  <div key={item[0]} className="flex gap-6">
+                    <div className="shrink-0 w-12 h-12 rounded-full border border-tertiary/30 flex items-center justify-center font-headline text-tertiary font-bold">{item[0]}</div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-2">{item[1]}</h3>
+                      <p className="text-primary-fixed-dim leading-relaxed">{item[2]}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-8 pb-32">
+          <div className="max-w-5xl mx-auto bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] rounded-xl p-16 text-center relative overflow-hidden group">
+            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_center,white_1px,transparent_1px)] bg-size-[24px_24px]"></div>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-[#2a1a08] mb-6 tracking-tighter relative z-10">Start Your Own Story.</h2>
+            <p className="text-[#3f2b12] text-lg mb-12 max-w-lg mx-auto font-semibold relative z-10">Join 12,000+ others who have elevated their daily ritual. Experience Balpro risk-free.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
+              <Link className="bg-[#2a1a08] text-[#f5ddb1] px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform duration-300 shadow-xl" to="/products">
+                Shop The Collection
+              </Link>
+              <Link className="bg-transparent border border-[#6d4b1f]/40 text-[#2a1a08] px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#2a1a08] hover:text-[#f5ddb1] transition-all duration-300" to="/ingredients">
+                Compare Blends
               </Link>
             </div>
+            <p className="mt-8 text-[#4f3717] text-xs uppercase tracking-widest font-bold">30-Day Happiness Guarantee • Free Shipping Over $50</p>
           </div>
-
-          <div className="relative">
-            <img
-              alt="Premium Chocolate Packaging"
-              className="relative z-10 w-full h-auto rounded-xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUOs1BVxnN1jZHN3gXBjX4UTCRx1K7W1tF3oEx9Hl8WJCVvRB8uinhsGDWqWfA_YtbnuIJC2FRhHjFYK2aHnb-ykA9z7MnoFjJcZMWFwbfiGXcAVR0bm5mZahgexbN3bvs8JeHPuFlbxd_utcfclSMCiyf7CXzRscpS24AvH_UlImHxj6CXBa0ovh068G_yoA1Xj0Qs-oC0j_RbDDwgyn45VLdqLpVxkPAxREAiXMRBh0id5UeO1E5Q0vJnKKzozXct96QGE8ayA"
-            />
-          </div>
-        </div>
-      </header>
-
-      <section className="py-24 bg-surface-container-low">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {[
-              ['verified', 'GMP Certified'],
-              ['eco', '100% Organic'],
-              ['science', 'Lab Tested'],
-              ['potted_plant', 'Vegan Friendly'],
-            ].map((badge) => (
-              <div key={badge[1]} className="flex flex-col items-center text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary border border-outline-variant/20">
-                  <span className="material-symbols-outlined text-3xl">{badge[0]}</span>
-                </div>
-                <span className="font-headline font-bold text-on-surface">{badge[1]}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 bg-surface">
-        <div className="max-w-5xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-20">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-on-surface mb-6 tracking-tight">The Analysis</h2>
-            <p className="text-primary-fixed-dim max-w-2xl mx-auto">
-              A transparent look at how Balpro Life compares to the industry standard. No fillers, no compromises.
-            </p>
-          </div>
-
-          <div className="overflow-hidden rounded-xl border border-outline-variant/10 shadow-2xl">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-surface-container-highest">
-                  <th className="p-8 font-headline text-lg text-on-surface border-b border-outline-variant/10">Key Metric</th>
-                  <th className="p-8 font-headline text-lg text-tertiary border-b border-outline-variant/10 bg-surface-container/50">Balpro Life</th>
-                  <th className="p-8 font-headline text-lg text-on-surface-variant border-b border-outline-variant/10">Standard Drinks</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant/10">
-                {[
-                  ['Sugar Content', '0g Added', '24g - 32g'],
-                  ['Functional Adaptogens', 'Ashwagandha + Reishi', 'None'],
-                  ['Cocoa Origin', 'Single Origin Heirloom', 'Mass Commodity Blend'],
-                  ['Protein Source', 'Bio-available Pea & Seed', 'Whey Isolate (Processed)'],
-                  ['Bioavailability', '94% Retention', 'Less than 40%'],
-                ].map((row) => (
-                  <tr key={row[0]}>
-                    <td className="p-8 font-medium">{row[0]}</td>
-                    <td className="p-8 text-tertiary font-bold bg-surface-container/30">{row[1]}</td>
-                    <td className="p-8 text-on-surface-variant">{row[2]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 bg-surface-container-low">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-16">
-            <h2 className="font-headline text-4xl font-bold text-on-surface mb-4">Common Enquiries</h2>
-            <div className="w-20 h-1 bg-tertiary rounded-full"></div>
-          </div>
-
-          <div className="space-y-6">
-            {[
-              'What makes the Life formula unique?',
-              'Is this suitable for ketogenic lifestyles?',
-              'How often should I consume Balpro Life?',
-            ].map((question, index) => (
-              <div key={question} className="bg-surface p-8 rounded-lg border border-outline-variant/10 hover:border-tertiary/30 transition-colors">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-headline text-xl font-semibold text-on-surface">{question}</h3>
-                  <span className="material-symbols-outlined text-tertiary">expand_more</span>
-                </div>
-                {index === 0 && (
-                  <p className="mt-4 text-primary-fixed-dim leading-relaxed">
-                    Our formula integrates ceremonial-grade cacao, adaptogenic mushrooms for cognitive support, and a
-                    mineral complex designed for rapid absorption.
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-8 mb-32 max-w-[1440px] mx-auto">
-        <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
-          <h2 className="font-headline text-4xl font-bold tracking-tight">Real People. <br />Real Performance.</h2>
-          <p className="text-primary-fixed-dim max-w-xs text-sm leading-relaxed mb-2">
-            Watch how the world&apos;s most discerning palates experience the functional cacao revolution.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {reviewVideos.map((item, idx) => (
-            <div key={item.name} className={`relative aspect-9/16 rounded-lg overflow-hidden group cursor-pointer ${idx % 2 === 1 ? 'lg:mt-12' : ''}`}>
-              <img className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src={item.image} alt={item.name} />
-              <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent opacity-80"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="material-symbols-outlined text-tertiary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>play_arrow</span>
-                </div>
-              </div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="text-on-surface font-semibold mb-1">{item.name}</div>
-                <div className="text-tertiary text-xs uppercase tracking-widest">{item.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="px-8 mb-32 bg-surface-container-low py-24 rounded-xl">
-        <div className="max-w-[1440px] mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="font-headline text-4xl font-bold mb-4">The Wall of Indulgence</h2>
-            <p className="text-primary-fixed-dim">Join the collective of those who refuse to compromise.</p>
-          </div>
-
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
-            {quotes.map((item) => (
-              <div key={item.name} className="bg-[rgba(34,26,23,0.6)] backdrop-blur-[20px] p-8 rounded-lg border border-outline-variant/10 break-inside-avoid">
-                <div className="flex gap-1 mb-6">
-                  <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                  <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                  <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                  <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                  <span className="material-symbols-outlined text-tertiary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                </div>
-                <p className="text-on-surface text-lg leading-relaxed font-light mb-8 italic">&quot;{item.text}&quot;</p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <img className="w-full h-full object-cover" src={item.image} alt={item.name} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">{item.name}</div>
-                    <div className="text-primary-fixed-dim text-xs">{item.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            alt="Luxury Cacao Background"
-            className="w-full h-full object-cover opacity-20"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2V8Vk2HkKtnm6G4VCxHRaATGvaA80bOx_n_x8ed1E2ytw3VX3tAA8nvHUKrmJ-18xJDrNS5TN_ZLFmucXs-Uil12fsR2W9fBMPBRn_PKIhCUpK0_alAOvi-dbPTPZggBvNdoJk2AG7UzTUw6VAfgTry1tlNzZuaQyMM98T-8A0RJdOHGMkC9Kg9ssKLv0epIenhqYWleK7sGVI4xhEpXlaAh1JdO_h-ADKgYqQh7Thmujz-DCbTPW5DKqZn_C9A2J0dW3r-Lu-Q"
-          />
-          <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background"></div>
-        </div>
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <h2 className="font-headline text-5xl md:text-7xl font-bold text-on-surface mb-8 tracking-tighter">
-            Ready to elevate your <br />
-            <span className="text-tertiary">daily ritual?</span>
-          </h2>
-          <p className="text-primary-fixed-dim text-xl mb-12 max-w-2xl mx-auto">
-            Experience the flagship blend that redefined the category. Limited batches crafted monthly for peak potency.
-          </p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-            <Link className="w-full md:w-auto px-12 py-5 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] rounded-full text-on-tertiary font-bold text-lg hover:scale-105 transition-all duration-300 shadow-2xl" to="/products">
-              Get The Flagship Pack
-            </Link>
-            <Link className="w-full md:w-auto px-12 py-5 rounded-full border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-container-highest transition-all duration-300" to="/ingredients">
-              Explore Ingredients
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <nav className="fixed bottom-0 w-full z-50 rounded-t-3xl md:hidden bg-[#19120f]/90 backdrop-blur-2xl border-t border-[#4f4440]/20 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
-        <div className="flex justify-around items-center h-20 pb-safe px-6">
-          <Link className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 scale-95 active:scale-90 transition-transform active:bg-[#3c332f] rounded-full" to="/products">
-            <span className="material-symbols-outlined">local_mall</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest mt-1">Shop</span>
-          </Link>
-          <Link className="flex flex-col items-center justify-center text-[#efbf70] bg-[#3c332f] rounded-full py-2 px-4 scale-95 active:scale-90 transition-transform" to="/about">
-            <span className="material-symbols-outlined">auto_awesome</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest mt-1">Why Choose Us</span>
-          </Link>
-          <button className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 scale-95 active:scale-90 transition-transform active:bg-[#3c332f] rounded-full" type="button">
-            <span className="material-symbols-outlined">shopping_cart</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest mt-1">Cart</span>
-          </button>
-          <Link className="flex flex-col items-center justify-center text-[#e2bfb2]/50 py-2 px-4 scale-95 active:scale-90 transition-transform active:bg-[#3c332f] rounded-full" to="/login">
-            <span className="material-symbols-outlined">person</span>
-            <span className="text-[10px] font-medium uppercase tracking-widest mt-1">Account</span>
-          </Link>
-        </div>
-      </nav>
+        </section>
+      </main>
     </div>
   );
 };

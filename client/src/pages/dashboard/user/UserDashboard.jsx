@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import UserSidebar from './UserSidebar';
-import { authAPI } from '../../../utils/api';
+import { authAPI, ordersAPI } from '../../../utils/api';
+import { useAuth } from '../../../contexts/AuthContext';
+import sixPackChocolateImage from '../../../assets/6packchoclate.jpg';
 
 const UserDashboard = () => {
+  const { user, updateUser } = useAuth();
   const [pointsSummary, setPointsSummary] = useState({
     currentPoints: 0,
     freeDrinkThreshold: 100,
@@ -13,6 +16,10 @@ const UserDashboard = () => {
   const [redeeming, setRedeeming] = useState(false);
   const [redeemError, setRedeemError] = useState('');
   const [redeemSuccess, setRedeemSuccess] = useState('');
+  const [latestOrder, setLatestOrder] = useState(null);
+  const [scheduleLoading, setScheduleLoading] = useState(false);
+  const [scheduleError, setScheduleError] = useState('');
+  const [scheduleSuccess, setScheduleSuccess] = useState('');
 
   useEffect(() => {
     let active = true;
@@ -34,6 +41,29 @@ const UserDashboard = () => {
     };
 
     loadPoints();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadOrders = async () => {
+      try {
+        const res = await ordersAPI.getUserOrders();
+        const orders = Array.isArray(res?.data) ? res.data : [];
+        if (active) {
+          setLatestOrder(orders[0] || null);
+        }
+      } catch (_error) {
+        if (active) {
+          setLatestOrder(null);
+        }
+      }
+    };
+
+    loadOrders();
     return () => {
       active = false;
     };
@@ -68,6 +98,74 @@ const UserDashboard = () => {
     100,
     Math.floor((pointsSummary.currentPoints % pointsSummary.freeDrinkThreshold) / pointsSummary.freeDrinkThreshold * 100),
   );
+  const displayName = (user?.name || user?.email?.split('@')?.[0] || 'Friend').split(' ')[0];
+  const ritualFrequencyDays = Number(user?.ritualFrequencyDays || 14);
+
+  const nextRitualDate = useMemo(() => {
+    if (user?.nextShipmentDate) {
+      const parsed = new Date(user.nextShipmentDate);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    if (latestOrder?.createdAt) {
+      const base = new Date(latestOrder.createdAt);
+      if (Number.isNaN(base.getTime())) return null;
+      const computed = new Date(base);
+      computed.setDate(base.getDate() + ritualFrequencyDays);
+      return computed;
+    }
+
+    return null;
+  }, [user?.nextShipmentDate, latestOrder?.createdAt, ritualFrequencyDays]);
+
+  const ritualScheduleLabel = useMemo(() => {
+    if (!nextRitualDate) return 'Not Scheduled';
+    return nextRitualDate.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+  }, [nextRitualDate]);
+
+  const ritualTitle = latestOrder?.orderItems?.[0]?.name || 'Adaptogenic Cacao Pour';
+  const ritualDescription = latestOrder
+    ? `Built from your latest order rhythm. Next curated pour is set every ${ritualFrequencyDays} days.`
+    : 'Focused on stress reduction and cortisol balance. Infused with Ashwagandha and ceremonial grade magnesium.';
+
+  const recentOrderTitle = latestOrder?.orderItems?.[0]?.name || 'The Longevity Bundle';
+  const recentOrderMeta = latestOrder?.createdAt
+    ? `${latestOrder?.isDelivered ? 'Delivered' : 'Ordered'} ${new Date(latestOrder.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+    : 'Place your first order to start your ritual history';
+
+  const handleReschedule = async () => {
+    setScheduleError('');
+    setScheduleSuccess('');
+    setScheduleLoading(true);
+
+    try {
+      const baseDate = nextRitualDate ? new Date(nextRitualDate) : new Date();
+      baseDate.setDate(baseDate.getDate() + ritualFrequencyDays);
+
+      const res = await authAPI.updateProfile({
+        ritualFrequencyDays,
+        nextShipmentDate: baseDate.toISOString(),
+      });
+
+      if (res?.data) {
+        updateUser(res.data);
+      } else {
+        updateUser({ nextShipmentDate: baseDate.toISOString() });
+      }
+
+      setScheduleSuccess('Ritual schedule updated.');
+      setTimeout(() => setScheduleSuccess(''), 3000);
+    } catch (error) {
+      setScheduleError(error?.message || 'Unable to reschedule now.');
+    } finally {
+      setScheduleLoading(false);
+    }
+  };
 
   return (
     <div className="bg-background text-on-background font-body antialiased min-h-screen">
@@ -78,18 +176,18 @@ const UserDashboard = () => {
           <div className="relative mb-24">
             <div className="max-w-4xl">
               <h2 className="font-headline text-6xl md:text-8xl font-black text-on-surface tracking-tighter leading-none">
-                Welcome Back, <span className="text-tertiary">Julian</span>
+                Welcome Back, <span className="text-tertiary">{displayName}</span>
               </h2>
               <p className="mt-6 text-xl text-primary-fixed-dim max-w-xl leading-relaxed">
                 Your afternoon ritual is perfectly timed. Ready for your dose of functional luxury?
               </p>
             </div>
 
-            <div className="hidden lg:block absolute -right-12 -top-12 w-96 h-[500px] rounded-xl overflow-hidden shadow-2xl rotate-3 translate-y-12">
+            <div className="hidden lg:block absolute -right-12 -top-16 w-96 h-[500px] rounded-xl overflow-hidden shadow-2xl rotate-3 translate-y-8">
               <img
                 className="w-full h-full object-cover"
-                alt="Premium bottle"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVJaR27i2pVfvC6HJRaTRc_QfhEPcIEaL_W6qGOMSvHyq-U86a2IqZYi-aARxtu8RzONslIu3Y8gvUPY3A-xHOnhQsWTIBTyW7-tGQMg4BNtk09stQ5EhGl6HvD6pwWaUn4uibemSKtyhBOd7r9OAMlMKpFeECjE8hFw7838rCcFzVcnLOyro0PwplOos3ThiroqZAvwQ902D6zGdemDOfNi2o6D9fzohWAGRwfGuRG3duaBL3Zf4vi6d5ZVpL_sj1Q_Mc6ZTniQ"
+                alt="Chocolate shake 6 pack"
+                src={sixPackChocolateImage}
               />
             </div>
           </div>
@@ -98,12 +196,12 @@ const UserDashboard = () => {
             <div className="md:col-span-7 lg:col-span-8 glass-card rounded-xl p-8 border border-outline-variant/10 flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start mb-12">
-                  <span className="text-tertiary text-xs font-bold tracking-widest uppercase px-3 py-1 bg-tertiary/10 rounded-full">Next Scheduled Ritual</span>
-                  <span className="text-primary-fixed-dim text-sm">Today, 4:30 PM</span>
+                  <span className="text-[#2a1a08] text-xs font-bold tracking-widest uppercase px-3 py-1 bg-tertiary/10 rounded-full">Next Scheduled Ritual</span>
+                  <span className="text-primary-fixed-dim text-sm">{ritualScheduleLabel}</span>
                 </div>
-                <h3 className="font-headline text-4xl font-bold mb-4">Adaptogenic Cacao Pour</h3>
+                <h3 className="font-headline text-4xl font-bold mb-4">{ritualTitle}</h3>
                 <p className="text-primary-fixed-dim leading-relaxed max-w-md">
-                  Focused on stress reduction and cortisol balance. Infused with Ashwagandha and ceremonial grade magnesium.
+                  {ritualDescription}
                 </p>
               </div>
               <div className="mt-12 flex items-center gap-6">
@@ -111,11 +209,13 @@ const UserDashboard = () => {
                   <span>Start Ritual</span>
                   <span className="material-symbols-outlined">play_arrow</span>
                 </button>
-                <button className="text-primary-fixed-dim hover:text-tertiary transition-colors flex items-center gap-2" type="button">
+                <button className="text-primary-fixed-dim hover:text-tertiary transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed" type="button" onClick={handleReschedule} disabled={scheduleLoading}>
                   <span className="material-symbols-outlined">schedule</span>
-                  <span>Reschedule</span>
+                  <span>{scheduleLoading ? 'Rescheduling...' : 'Reschedule'}</span>
                 </button>
               </div>
+              {scheduleError && <p className="text-xs text-error mt-4">{scheduleError}</p>}
+              {scheduleSuccess && <p className="text-xs text-tertiary mt-4">{scheduleSuccess}</p>}
             </div>
 
             <div className="md:col-span-5 lg:col-span-4 bg-[#221a17] rounded-xl p-8 border border-outline-variant/5 shadow-xl">
@@ -123,7 +223,7 @@ const UserDashboard = () => {
               <div className="relative pt-1">
                 <div className="flex mb-4 items-center justify-between">
                   <div>
-                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-tertiary bg-tertiary/10">Free Drink Progress</span>
+                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-[#2a1a08] bg-tertiary/10">Free Drink Progress</span>
                   </div>
                   <div className="text-right">
                     <span className="text-sm font-bold text-tertiary">{pointsSummary.currentPoints} / {pointsSummary.freeDrinkThreshold} pts</span>
@@ -162,7 +262,7 @@ const UserDashboard = () => {
             <div className="md:col-span-12 lg:col-span-5 glass-card rounded-xl overflow-hidden relative border border-outline-variant/10">
               <div className="p-8 relative z-10">
                 <div className="w-12 h-12 bg-tertiary/20 rounded-lg flex items-center justify-center mb-6">
-                  <span className="material-symbols-outlined text-tertiary">insights</span>
+                  <span className="material-symbols-outlined text-[#2a1a08] text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
                 </div>
                 <h3 className="font-headline text-2xl font-bold mb-4">Wellness Insight</h3>
                 <p className="text-primary-fixed-dim mb-6 leading-relaxed">
@@ -179,22 +279,22 @@ const UserDashboard = () => {
             <div className="md:col-span-12 lg:col-span-7 bg-[#221a17] rounded-xl p-8 flex flex-col md:flex-row gap-8 items-center border border-outline-variant/5">
               <div className="w-full md:w-1/3 aspect-square rounded-lg overflow-hidden">
                 <img
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-full object-cover"
                   alt="Order"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg00sI2Qy79_ExUOYLhOh-2nZXgAh8j5fA8xnZOGX0yiA208V2-eRWH_uDa-L5KqrRN6Z-fDWEH1zj_0hxS7LLzDbt48kXSLZLe6Mpu1Ng28mYG6o2Np0qmq9NWYbB_67iDuNZ8EZNpynbS6a2GBU6ySr7fl_pZ3lOrhaKaKxbJ-AGjA3f2kABplXJaXSubo_h2ZoJLQrpI1KzF0WGSnA3q4dMvbTK3IjFZqcNKVym8Mzu3dumVoWKE0KMptYnE-ubK9qPYhuuFA"
                 />
               </div>
               <div className="flex-1">
                 <span className="text-[#e2bfb2] text-[10px] tracking-widest uppercase mb-2 block">Recent Ritual Order</span>
-                <h4 className="font-headline text-xl font-bold mb-2">The Longevity Bundle</h4>
-                <p className="text-sm text-primary-fixed-dim mb-6">Arrived Tuesday, Nov 14th</p>
+                <h4 className="font-headline text-xl font-bold mb-2">{recentOrderTitle}</h4>
+                <p className="text-sm text-primary-fixed-dim mb-6">{recentOrderMeta}</p>
                 <div className="flex gap-4">
-                  <button className="bg-surface-container-highest px-6 py-3 rounded-full text-xs font-bold hover:bg-tertiary hover:text-on-tertiary transition-colors" type="button">
+                  <Link to="/products" className="inline-flex items-center bg-surface-container-highest px-6 py-3 rounded-full text-xs font-bold hover:bg-tertiary hover:text-on-tertiary transition-colors">
                     Order Again
-                  </button>
-                  <button className="outline-1 outline-outline-variant/30 px-6 py-3 rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors" type="button">
+                  </Link>
+                  <Link to="/dashboard/orders" className="inline-flex items-center outline-1 outline-outline-variant/30 px-6 py-3 rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
                     View Tracking
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

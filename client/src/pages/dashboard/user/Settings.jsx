@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
-import { authAPI } from '../../../utils/api';
+import { authAPI, ordersAPI } from '../../../utils/api';
 import UserSidebar from './UserSidebar';
 
 const Settings = () => {
@@ -11,9 +11,13 @@ const Settings = () => {
     email: user?.email || '',
     phone: user?.phone || '',
     profession: user?.profession || '',
+    ritualFrequencyDays: user?.ritualFrequencyDays || 14,
     isProfessional: !!user?.isProfessional,
   });
   const [loading, setLoading] = useState(false);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [latestOrder, setLatestOrder] = useState(null);
+  const [nextShipmentDate, setNextShipmentDate] = useState(user?.nextShipmentDate ? new Date(user.nextShipmentDate) : null);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [notifications, setNotifications] = useState({
@@ -25,8 +29,64 @@ const Settings = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : (name === 'ritualFrequencyDays' ? Number(value) : value) }));
   };
+
+  useEffect(() => {
+    const loadSettingsData = async () => {
+      setSettingsLoading(true);
+      try {
+        const ordersRes = await ordersAPI.getUserOrders();
+        const orders = Array.isArray(ordersRes?.data) ? ordersRes.data : [];
+        const mostRecentOrder = orders[0] || null;
+        setLatestOrder(mostRecentOrder);
+      } catch (err) {
+        console.error('Failed to load settings data:', err);
+      } finally {
+        setSettingsLoading(false);
+      }
+    };
+
+    loadSettingsData();
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (!user?.nextShipmentDate && latestOrder?.createdAt) {
+      const base = new Date(latestOrder.createdAt);
+      const computed = new Date(base);
+      computed.setDate(base.getDate() + Number(form.ritualFrequencyDays || 14));
+      setNextShipmentDate(computed);
+    }
+  }, [latestOrder, form.ritualFrequencyDays, user?.nextShipmentDate]);
+
+  useEffect(() => {
+    if (user?.nextShipmentDate) {
+      setNextShipmentDate(new Date(user.nextShipmentDate));
+    }
+  }, [user?.nextShipmentDate]);
+
+  const derivedPaymentMethod = useMemo(() => {
+    if (!latestOrder?.paymentMethod) return 'Not Set';
+    const map = {
+      card: 'Card',
+      razorpay: 'Razorpay',
+      paypal: 'PayPal',
+      bank_transfer: 'Bank Transfer'
+    };
+    return map[latestOrder.paymentMethod] || latestOrder.paymentMethod;
+  }, [latestOrder]);
+
+  const derivedCardLast4 = useMemo(() => {
+    const source = latestOrder?.paymentResult?.order_id || latestOrder?.paymentResult?.id || latestOrder?._id || '';
+    const compact = String(source).replace(/[^a-zA-Z0-9]/g, '');
+    if (!compact) return '0000';
+    return compact.slice(-4).toUpperCase();
+  }, [latestOrder]);
+
+  const shipmentDateLabel = useMemo(() => {
+    if (!nextShipmentDate || Number.isNaN(nextShipmentDate.getTime())) return 'Not Scheduled';
+    return nextShipmentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }, [nextShipmentDate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +102,8 @@ const Settings = () => {
         fd.append('phone', form.phone);
         fd.append('profession', form.profession);
         fd.append('isProfessional', form.isProfessional);
+        fd.append('ritualFrequencyDays', String(form.ritualFrequencyDays || 14));
+        if (nextShipmentDate) fd.append('nextShipmentDate', nextShipmentDate.toISOString());
         fd.append('avatar', form.avatarFile);
         res = await authAPI.updateProfileForm(fd);
       } else {
@@ -50,7 +112,9 @@ const Settings = () => {
           email: form.email,
           phone: form.phone,
           profession: form.profession,
-          isProfessional: form.isProfessional
+          isProfessional: form.isProfessional,
+          ritualFrequencyDays: Number(form.ritualFrequencyDays || 14),
+          ...(nextShipmentDate ? { nextShipmentDate: nextShipmentDate.toISOString() } : {})
         };
         res = await authAPI.updateProfile(payload);
       }
@@ -69,6 +133,27 @@ const Settings = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files && e.target.files[0];
     setForm(prev => ({ ...prev, avatarFile: file }));
+  };
+
+  const handleReschedule = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const baseDate = (nextShipmentDate && !Number.isNaN(nextShipmentDate.getTime())) ? new Date(nextShipmentDate) : new Date();
+      baseDate.setDate(baseDate.getDate() + Number(form.ritualFrequencyDays || 14));
+      const res = await authAPI.updateProfile({
+        ritualFrequencyDays: Number(form.ritualFrequencyDays || 14),
+        nextShipmentDate: baseDate.toISOString()
+      });
+      setNextShipmentDate(baseDate);
+      if (res?.data) updateUser(res.data);
+      setMessage('Next shipment rescheduled successfully');
+      setTimeout(() => setMessage(null), 3000);
+    } catch (err) {
+      setError(err.message || 'Failed to reschedule shipment');
+    } finally {
+      setLoading(false);
+    }
   };
 
   
@@ -142,8 +227,8 @@ const Settings = () => {
               </button>
               <button type="button" className="w-full text-left px-6 py-4 rounded-lg bg-surface-container flex justify-between items-center hover:bg-surface-bright transition-colors">
                 <span className="text-sm font-bold">Two-Factor Auth</span>
-                <div className="w-10 h-5 bg-tertiary/20 rounded-full relative">
-                  <div className="absolute right-1 top-1 w-3 h-3 bg-tertiary rounded-full"></div>
+                <div className="w-10 h-5 rounded-full relative border border-tertiary/40 bg-[#6f5025]">
+                  <div className="absolute right-0.5 top-0.5 w-4 h-4 bg-[#ffd996] rounded-full shadow-sm"></div>
                 </div>
               </button>
             </div>
@@ -158,11 +243,16 @@ const Settings = () => {
                 <span className="text-[10px] uppercase tracking-[0.2em] bg-tertiary/10 text-tertiary px-3 py-1 rounded-full font-bold">Active Ritual</span>
               </div>
               <h4 className="font-headline text-xl font-bold mb-2">Frequency</h4>
-              <p className="text-outline text-sm mb-6">Your cacao arrives every 14 days to maintain your morning ritual.</p>
-              <select className="w-full bg-surface-container border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-tertiary text-on-surface">
-                <option>Every 7 Days</option>
-                <option defaultValue>Every 14 Days</option>
-                <option>Every 30 Days</option>
+              <p className="text-outline text-sm mb-6">Your cacao arrives every {form.ritualFrequencyDays} days to maintain your morning ritual.</p>
+              <select
+                name="ritualFrequencyDays"
+                value={String(form.ritualFrequencyDays)}
+                onChange={handleChange}
+                className="w-full bg-surface-container border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-tertiary text-on-surface"
+              >
+                <option value="7">Every 7 Days</option>
+                <option value="14">Every 14 Days</option>
+                <option value="30">Every 30 Days</option>
               </select>
             </div>
 
@@ -174,10 +264,10 @@ const Settings = () => {
               </div>
               <h4 className="font-headline text-xl font-bold mb-2">Next Shipment</h4>
               <div className="flex items-baseline gap-2 mb-6">
-                <span className="text-3xl font-black font-headline text-tertiary">Oct 24</span>
-                <span className="text-outline text-xs uppercase tracking-widest">2023</span>
+                <span className="text-3xl font-black font-headline text-tertiary">{shipmentDateLabel.split(',')[0] || 'Not Scheduled'}</span>
+                <span className="text-outline text-xs uppercase tracking-widest">{shipmentDateLabel.includes(',') ? shipmentDateLabel.split(',')[1]?.trim() : ''}</span>
               </div>
-              <button type="button" className="text-tertiary text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all">
+              <button type="button" onClick={handleReschedule} disabled={loading || settingsLoading} className="text-tertiary text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all disabled:opacity-60 disabled:cursor-not-allowed">
                 Reschedule <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
             </div>
@@ -192,7 +282,7 @@ const Settings = () => {
                 </button>
               </div>
               <h4 className="font-headline text-xl font-bold mb-1">Payment Method</h4>
-              <p className="text-outline text-xs uppercase tracking-[0.2em] mb-6">Default Ritual Account</p>
+              <p className="text-outline text-xs uppercase tracking-[0.2em] mb-6">{derivedPaymentMethod === 'Not Set' ? 'No Recent Payment' : 'Default Ritual Account'}</p>
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-8 bg-surface-variant rounded flex items-center justify-center">
                   <div className="flex -space-x-2">
@@ -201,8 +291,8 @@ const Settings = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-bold">•••• 8821</p>
-                  <p className="text-[10px] text-outline">Expires 12/26</p>
+                  <p className="text-sm font-bold">{derivedPaymentMethod}</p>
+                  <p className="text-[10px] text-outline">•••• {derivedCardLast4}</p>
                 </div>
               </div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 blur-3xl -mr-16 -mt-16"></div>
@@ -235,9 +325,9 @@ const Settings = () => {
                   <button
                     type="button"
                     onClick={() => setNotifications(prev => ({ ...prev, [key]: !prev[key] }))}
-                    className={`w-12 h-6 rounded-full relative transition-colors ${notifications[key] ? 'bg-tertiary' : 'bg-surface-variant'}`}
+                    className={`w-12 h-6 rounded-full relative transition-colors border ${notifications[key] ? 'bg-[#d9ab5f] border-[#f0c376]' : 'bg-[#3e2f26] border-[#8b6f57]'}`}
                   >
-                    <div className={`absolute top-1 w-4 h-4 rounded-full transition-all ${notifications[key] ? 'right-1 bg-on-tertiary' : 'left-1 bg-outline'}`}></div>
+                    <div className={`absolute top-0.5 w-5 h-5 rounded-full transition-all ${notifications[key] ? 'right-0.5 bg-[#2a1a08]' : 'left-0.5 bg-[#e6d7c4]'}`}></div>
                   </button>
                 </div>
               ))}

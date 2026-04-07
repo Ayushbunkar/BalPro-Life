@@ -169,14 +169,14 @@ const AboutPage = () => {
         <section className="py-40 bg-surface">
           <div className="max-w-4xl mx-auto px-6 text-center">
             <div className="relative inline-block mb-12">
-              <div className="absolute inset-0 blur-3xl opacity-20 animate-pulse bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]"></div>
+              <div className="absolute inset-0 blur-3xl opacity-10 animate-pulse bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0)_70%)]"></div>
               <h2 className="relative font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tighter leading-tight">
                 Experience the <br />Curated Life.
               </h2>
             </div>
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
               <Link
-                className="text-on-tertiary-fixed px-12 py-5 rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl shadow-tertiary/10 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)]"
+                className="px-12 py-5 rounded-full font-bold text-lg text-on-surface border border-outline-variant/40 bg-surface-container-highest hover:bg-surface-container-high transition-all duration-300"
                 to="/products"
               >
                 Shop the Collection

@@ -46,6 +46,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  ritualFrequencyDays: {
+    type: Number,
+    enum: [7, 14, 30],
+    default: 14
+  },
+  nextShipmentDate: {
+    type: Date,
+    default: null
+  },
   isProfessional: {
     type: Boolean,
     default: false

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle, Loader } from 'lucide-react';
 import { codesAPI } from '../utils/rewardApi.js';
 
@@ -153,9 +153,9 @@ const CodeEntryPage = () => {
             </button>
 
             <div className="mt-8 flex items-center gap-6 text-xs text-outline font-label tracking-widest uppercase">
-              <a className="hover:text-tertiary transition-colors" href="#">Help Center</a>
+              <Link className="hover:text-tertiary transition-colors" to="/contact">Help Center</Link>
               <div className="w-1 h-1 bg-outline-variant rounded-full"></div>
-              <a className="hover:text-tertiary transition-colors" href="#">Buy Balpro</a>
+              <Link className="hover:text-tertiary transition-colors" to="/products">Buy Balpro</Link>
             </div>
           </div>
 

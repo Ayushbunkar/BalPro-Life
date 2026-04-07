@@ -464,6 +464,18 @@ export const updateProfile = async (req, res) => {
     // allow profession and professional flag to be updated from settings
     if (typeof req.body.profession !== 'undefined') fieldsToUpdate.profession = req.body.profession;
     if (typeof req.body.isProfessional !== 'undefined') fieldsToUpdate.isProfessional = req.body.isProfessional === 'true' || req.body.isProfessional === true;
+    if (typeof req.body.ritualFrequencyDays !== 'undefined') {
+      const parsedFrequency = Number(req.body.ritualFrequencyDays);
+      if ([7, 14, 30].includes(parsedFrequency)) {
+        fieldsToUpdate.ritualFrequencyDays = parsedFrequency;
+      }
+    }
+    if (typeof req.body.nextShipmentDate !== 'undefined') {
+      const nextDate = req.body.nextShipmentDate ? new Date(req.body.nextShipmentDate) : null;
+      if (nextDate && !Number.isNaN(nextDate.getTime())) {
+        fieldsToUpdate.nextShipmentDate = nextDate;
+      }
+    }
 
     // If an avatar was uploaded via middleware, attach it and remove previous avatar if present
     if (req.uploaded) {

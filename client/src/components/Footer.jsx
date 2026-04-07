@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -11,16 +12,46 @@ const Footer = () => {
             <p className="text-primary-fixed-dim text-base leading-relaxed max-w-sm">
               Crafting the daily ritual through masterfully crafted functional nutrition. We believe wellness should be an indulgence, not a chore.
             </p>
-            <div className="flex gap-5">
-              <Link className="text-on-surface-variant hover:text-tertiary transition-colors duration-300" to="/login">
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
-              </Link>
-              <Link className="text-on-surface-variant hover:text-tertiary transition-colors duration-300" to="/reviews">
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>share</span>
-              </Link>
-              <Link className="text-on-surface-variant hover:text-tertiary transition-colors duration-300" to="/about">
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>public</span>
-              </Link>
+            <div>
+              <p className="text-tertiary text-[10px] font-bold uppercase tracking-[0.22em] mb-3">Follow Us</p>
+              <div className="flex flex-wrap gap-2.5">
+                <a
+                  className="w-9 h-9 rounded-full border border-outline-variant/30 text-primary-fixed-dim hover:text-tertiary hover:border-tertiary/50 transition-colors inline-flex items-center justify-center"
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={16} />
+                </a>
+                <a
+                  className="w-9 h-9 rounded-full border border-outline-variant/30 text-primary-fixed-dim hover:text-tertiary hover:border-tertiary/50 transition-colors inline-flex items-center justify-center"
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={16} />
+                </a>
+                <a
+                  className="w-9 h-9 rounded-full border border-outline-variant/30 text-primary-fixed-dim hover:text-tertiary hover:border-tertiary/50 transition-colors inline-flex items-center justify-center"
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="YouTube"
+                >
+                  <Youtube size={16} />
+                </a>
+                <a
+                  className="w-9 h-9 rounded-full border border-outline-variant/30 text-primary-fixed-dim hover:text-tertiary hover:border-tertiary/50 transition-colors inline-flex items-center justify-center"
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="X"
+                >
+                  <Twitter size={16} />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -49,8 +80,8 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-4">
             <h4 className="font-headline text-tertiary text-sm font-bold uppercase tracking-[0.2em]">Support</h4>
             <ul className="space-y-2.5 flex flex-col">
-              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">FAQ</Link></li>
-              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Shipping &amp; Returns</Link></li>
+              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/faq">FAQ</Link></li>
+              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/shipping-returns">Shipping &amp; Returns</Link></li>
               <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Contact Us</Link></li>
               <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Wholesale Inquiry</Link></li>
               <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/dashboard/orders">Track Order</Link></li>
@@ -60,25 +91,18 @@ const Footer = () => {
           <div className="lg:col-span-2 space-y-4">
             <h4 className="font-headline text-tertiary text-sm font-bold uppercase tracking-[0.2em]">Legal</h4>
             <ul className="space-y-2.5 flex flex-col">
-              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Privacy Policy</Link></li>
-              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Terms of Service</Link></li>
+              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/terms-of-service">Terms of Service</Link></li>
               <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Cookie Policy</Link></li>
               <li><Link className="text-primary-fixed-dim hover:text-tertiary transition-colors footer-link-hover" to="/contact">Accessibility</Link></li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-outline-variant/10 gap-3">
+        <div className="flex flex-col md:flex-row justify-center md:justify-start items-center pt-6 border-t border-outline-variant/10 gap-3">
           <p className="text-on-surface-variant text-sm font-medium tracking-wide">
             © 2024 BALPRO LIFE. CRAFTED FOR THE INDULGENT.
           </p>
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-3 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer">
-              <span className="material-symbols-outlined text-xl">payments</span>
-              <span className="material-symbols-outlined text-xl">credit_card</span>
-              <span className="material-symbols-outlined text-xl">wallet</span>
-            </div>
-          </div>
         </div>
       </div>
     </footer>

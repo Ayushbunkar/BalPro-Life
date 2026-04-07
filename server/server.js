@@ -18,6 +18,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import analyticsRoutes from './routes/analytics.js';
 import cartRoutes from './routes/cartRoutes.js';
 import paymentRoutes from './routes/payments.js';
+import legalRoutes from './routes/legal.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
@@ -154,6 +155,7 @@ app.use('/api/codes', codeRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/game', gameRoutes);
 app.use('/api', paymentRoutes);
+app.use('/api/legal', legalRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

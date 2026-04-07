@@ -29,13 +29,16 @@ const HowItWorksPage = () => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center shrink-0 shadow-lg shadow-[#efbf70]/20">
                   <span className="text-[#432c00] font-['Epilogue'] text-3xl font-bold">1</span>
                 </div>
-                <div className="flex-grow">
+                <div className="grow">
                   <h3 className="font-['Epilogue'] text-2xl font-bold mb-3 text-[#efdfd9]">Locate the Golden Wax Seal</h3>
                   <p className="text-[#d3c3be] leading-relaxed mb-4">
                     Examine the top of your Cacao Gold tetra pack. You will find an embossed golden wax seal or foil cap. This is the signature mark of authenticity and conceals your hidden code.
                   </p>
                   <div className="bg-[#19120f] rounded-lg p-4 border border-[#efbf70]/20">
-                    <p className="text-sm text-[#e2bfb2] italic">💡 Tip: The seal is typically located at the apex of the package, marked with the Cacao Gold emblem.</p>
+                    <p className="text-sm text-[#e2bfb2] italic flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#efbf70] text-base" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
+                      <span>Tip: The seal is typically located at the apex of the package, marked with the Cacao Gold emblem.</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -47,13 +50,16 @@ const HowItWorksPage = () => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center shrink-0 shadow-lg shadow-[#efbf70]/20">
                   <span className="text-[#432c00] font-['Epilogue'] text-3xl font-bold">2</span>
                 </div>
-                <div className="flex-grow">
+                <div className="grow">
                   <h3 className="font-['Epilogue'] text-2xl font-bold mb-3 text-[#efdfd9]">Carefully Peel Back the Label</h3>
                   <p className="text-[#d3c3be] leading-relaxed mb-4">
                     Using gentle, deliberate motions, peel back the protective label directly beneath the golden wax seal. The label is designed to reveal without tearing. Work slowly to avoid damage to the code printed underneath.
                   </p>
                   <div className="bg-[#19120f] rounded-lg p-4 border border-[#efbf70]/20">
-                    <p className="text-sm text-[#e2bfb2] italic">💡 Tip: Start from one corner and peel at a 45-degree angle for the cleanest reveal.</p>
+                    <p className="text-sm text-[#e2bfb2] italic flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#efbf70] text-base" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
+                      <span>Tip: Start from one corner and peel at a 45-degree angle for the cleanest reveal.</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -65,7 +71,7 @@ const HowItWorksPage = () => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center shrink-0 shadow-lg shadow-[#efbf70]/20">
                   <span className="text-[#432c00] font-['Epilogue'] text-3xl font-bold">3</span>
                 </div>
-                <div className="flex-grow">
+                <div className="grow">
                   <h3 className="font-['Epilogue'] text-2xl font-bold mb-3 text-[#efdfd9]">Reveal Your Unique Sequence</h3>
                   <p className="text-[#d3c3be] leading-relaxed mb-4">
                     Once the label is fully peeled, you will see your unique 12-digit ritual code printed in elegant gold foil. This sequence is one-of-a-kind and can only be redeemed once. Record it carefully for entry into the portal.
@@ -84,13 +90,16 @@ const HowItWorksPage = () => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center shrink-0 shadow-lg shadow-[#efbf70]/20">
                   <span className="text-[#432c00] font-['Epilogue'] text-3xl font-bold">4</span>
                 </div>
-                <div className="flex-grow">
+                <div className="grow">
                   <h3 className="font-['Epilogue'] text-2xl font-bold mb-3 text-[#efdfd9]">Enter Your Code in the Portal</h3>
                   <p className="text-[#d3c3be] leading-relaxed mb-4">
                     Return to the Cacao Gold rewards portal and submit your code. The system will validate the sequence and instantly reveal your reward—whether it's an exclusive artisanal blend, ritual points, or a rare collector's item.
                   </p>
                   <div className="bg-[#19120f] rounded-lg p-4 border border-[#efbf70]/20">
-                    <p className="text-sm text-[#e2bfb2] italic">💡 Tip: Keep your code secure. Each code can only be redeemed once and is tied to your account.</p>
+                    <p className="text-sm text-[#e2bfb2] italic flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#efbf70] text-base" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
+                      <span>Tip: Keep your code secure. Each code can only be redeemed once and is tied to your account.</span>
+                    </p>
                   </div>
                 </div>
               </div>

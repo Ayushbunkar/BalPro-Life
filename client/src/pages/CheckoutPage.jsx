@@ -464,6 +464,12 @@ const CheckoutPage = () => {
             saveAddressToLocal(shippingAddress);
 
             await clearCart();
+            const confirmedOrderId = verifyRes?.data?.orderId;
+            if (confirmedOrderId) {
+              navigate(`/order-confirmation/${confirmedOrderId}`);
+            } else {
+              navigate('/dashboard/orders');
+            }
             resolve();
           } catch (verifyError) {
             reject(verifyError);
@@ -500,7 +506,7 @@ const CheckoutPage = () => {
         return;
       }
 
-      await ordersAPI.createOrder({
+      const createdOrderRes = await ordersAPI.createOrder({
         orderItems: items.map((item) => ({
           product: item.id,
           quantity: item.qty,
@@ -513,7 +519,12 @@ const CheckoutPage = () => {
 
       saveAddressToLocal(shippingAddress);
       await clearCart();
-      navigate('/dashboard/orders');
+      const createdOrderId = createdOrderRes?.data?._id || createdOrderRes?.data?.id;
+      if (createdOrderId) {
+        navigate(`/order-confirmation/${createdOrderId}`);
+      } else {
+        navigate('/dashboard/orders');
+      }
     } catch (err) {
       setError(err?.message || 'Failed to place order. Please try again.');
     } finally {

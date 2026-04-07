@@ -348,3 +348,16 @@ export const analyticsAPI = {
   getUsers: () => apiRequest('/analytics/users'),
   getConversion: () => apiRequest('/analytics/conversion')
 };
+
+export const legalAPI = {
+  getPrivacyPolicy: () => apiRequest('/legal/privacy'),
+  getTermsOfService: () => apiRequest('/legal/terms'),
+  confirmTermsAgreement: (payload) => apiRequest('/legal/terms/confirm', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+  subscribeNewsletter: (payload) => apiRequest('/legal/newsletter', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+};

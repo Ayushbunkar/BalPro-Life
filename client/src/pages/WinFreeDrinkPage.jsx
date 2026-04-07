@@ -15,7 +15,7 @@ const WinFreeDrinkPage = () => {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary">
       <main className="relative overflow-hidden min-h-screen">
-        <section id="experience" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section id="experience" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-8 md:pt-12">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-linear-to-b from-transparent via-[#19120f] to-[#19120f] z-10"></div>
             <img
@@ -26,7 +26,7 @@ const WinFreeDrinkPage = () => {
           </div>
           <div className="relative z-20 container mx-auto px-6 text-center">
             <span className="inline-block py-2 px-4 rounded-full bg-[#3c332f] text-tertiary text-xs font-bold tracking-[0.2em] uppercase mb-8">The Liquid Curator Presents</span>
-            <h1 className="font-['Epilogue'] text-5xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-[0.9]">
+            <h1 className="font-['Epilogue'] text-5xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-[1.03] md:leading-[1.02]">
               Scan. Play.<br />
               <span className="text-tertiary">Win Free Drinks</span>
             </h1>

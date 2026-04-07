@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,25 +6,11 @@ import { useAuth } from '../contexts/AuthContext';
 const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-  const accountMenuRef = useRef(null);
 
   const dashboardPath = user?.role === 'admin' ? '/admin' : '/dashboard';
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target)) {
-        setAccountMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const handleLogout = () => {
     logout();
-    setAccountMenuOpen(false);
     setMobileMenuOpen(false);
     navigate('/');
   };
@@ -80,38 +66,14 @@ const Navbar = ({ cartCount, mobileMenuOpen, setMobileMenuOpen }) => {
             </div>
           )}
           {isAuthenticated && (
-            <div className="relative" ref={accountMenuRef}>
-              <button
-                type="button"
-                className="cursor-pointer transition-transform active:scale-95 hover:scale-105"
-                onClick={() => setAccountMenuOpen((prev) => !prev)}
-                aria-label="Open account menu"
-              >
-                <User size={20} />
-              </button>
-
-              {accountMenuOpen && (
-                <div className="absolute right-0 mt-3 w-44 rounded-xl border border-[#4f4440]/30 bg-[#19120f]/95 backdrop-blur-xl shadow-xl p-2 z-60">
-                  <button
-                    type="button"
-                    className="w-full text-left px-3 py-2 rounded-lg text-[#efbf70] font-semibold hover:bg-[#3c332f]/70 transition-colors"
-                    onClick={() => {
-                      setAccountMenuOpen(false);
-                      navigate(dashboardPath);
-                    }}
-                  >
-                    Dashboard
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full text-left px-3 py-2 rounded-lg text-[#e2bfb2] hover:bg-[#3c332f]/70 transition-colors"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
+            <button
+              type="button"
+              className="cursor-pointer transition-transform active:scale-95 hover:scale-105"
+              onClick={() => navigate(dashboardPath)}
+              aria-label="Go to dashboard"
+            >
+              <User size={20} />
+            </button>
           )}
           <button
             className="md:hidden"

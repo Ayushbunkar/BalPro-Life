@@ -108,21 +108,21 @@ const ContactPage = () => {
                 <div className="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mb-6 text-tertiary">
                   <span className="material-symbols-outlined">location_on</span>
                 </div>
-                <h3 className="text-xl font-headline font-semibold text-on-surface mb-2">Global Headquarters</h3>
+                <h3 className="text-xl font-headline font-semibold text-on-surface mb-2">Headquarters</h3>
                 <address className="not-italic text-primary-fixed-dim leading-relaxed">
-                  742 Indulgence Avenue, <br />
-                  Luxury District, Zurich <br />
-                  8001, Switzerland
+                  462038 <br />
+                  Bhopal District, MP <br />
+                  India
                 </address>
               </div>
               <div className="mt-6 pt-6 border-t border-outline-variant/20 flex gap-8">
                 <div>
                   <span className="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Call Us</span>
-                  <p className="text-on-surface font-medium">+41 44 211 4000</p>
+                  <p className="text-on-surface font-medium">+91 9589636029</p>
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Email Us</span>
-                  <p className="text-on-surface font-medium">concierge@balpro.life</p>
+                  <p className="text-on-surface font-medium">balprolife@gmail.com</p>
                 </div>
               </div>
             </div>

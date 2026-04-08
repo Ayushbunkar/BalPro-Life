@@ -12,15 +12,15 @@ const compareRows = [
 const faqs = [
   {
     q: 'What makes the Life formula unique?',
-    a: 'Our formula integrates a triple-threat of ceremonial grade cacao, specific adaptogenic mushrooms for cognitive support, and a mineral complex designed for rapid absorption.',
+    a: 'BalProLife stands out with its blend of protein, great taste, and balanced nutrition—designed to support strength and energy in your daily life.',
   },
   {
     q: 'Is this suitable for ketogenic lifestyles?',
-    a: 'Absolutely. With 0g of added sugar and high-quality MCT fats, Balpro Life is designed to support metabolic health and sustained ketosis without the crash.',
+    a: 'BalProLife is a balanced nutrition drink and is not specifically formulated for strict ketogenic diets.',
   },
   {
     q: 'How often should I consume Balpro Life?',
-    a: 'Most of our community enjoys one cup in the morning for sustained focus and one in the evening as a restorative ritual. The adaptogens work cumulatively over time.',
+    a: 'Enjoy BalProLife once daily, or as part of your routine, to support consistent energy and balanced nutrition.',
   },
 ];
 
@@ -53,44 +53,44 @@ const reviewVideos = [
 
 const reviewQuotes = [
   {
-    text: 'Balpro has completely replaced my morning coffee. The ritual of whisking the cacao is meditative, and the focus I get is clean-no jitters, just pure flow.',
-    name: 'Amara Williams',
-    role: 'Architect, Brooklyn',
+    text: 'BalProLife has become part of my daily routine. I take it in the morning and it gives me steady energy without any jitters. It feels light, tasty, and really easy to drink.',
+    name: 'Aman Verma',
+    role: 'Student, Delhi',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuCfcxRdQJTaXYd6-2uZ6MK0Jcc88xNj7a_TUaMIqPQmFGOb7I5v4t4ArN02g20hXCZuc3y2QnNpsRJvEXlGMGHVsMS6329kbBh6LCqM6Oe0Oglhe2rLzxkaqHg-zT2qaugmBHpCOMC3RmgyEPUCciVjzSOFqYumdtJsST0W9AyahV0m7pgpPojAJgKXO1qFFBAL4EviT1XhXJbOXHlV6XYwH2lJRt9A8nnMEgEyHJP5D2VCi6qgoU7m2Z_4hH8ux7yvQdPvhCMJ2g',
   },
   {
-    text: "I've tried every functional drink on the market. Most taste like dirt. Balpro tastes like a $15 luxury dessert but leaves me feeling like I just meditated for an hour.",
-    name: 'Julian Voss',
-    role: 'Tech Founder',
+    text: 'I have tried many health drinks, but most of them do not taste good. BalProLife tastes really nice and gives me good energy throughout the day.',
+    name: 'Rohit Sharma',
+    role: 'Software Engineer, Bangalore',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA3XnSabqgpwLMFQ3yoAoECuq5Ryd4uVQZUmHw_p4cdQEORPrcGfXTn7fbfzC3FoSBfEKdwhGCLcfq6vxDXN_ZzL9KvlqqPLP8YhSkmskSo81_ml-9H3HPY_B_2CrXyPEN2eWQXTQfptkOVNKM3KQ0UsQPeYvqvcmsD0K6z_xY603mLC2asuE9VvDA7VUUuhDFMC2snG6fd6h5q0eQYHXB9TZxceoCOei45HvrvexEOCQgnYkaNVVvmdpmZJAyL2McIRmicZuVOmg',
   },
   {
-    text: "The transparency is what sold me. I know exactly what adaptogens I'm getting. My sleep has improved significantly since switching my late-night snack for a Balpro hot cacao.",
-    name: 'Sophie Chen',
-    role: 'Yoga Instructor',
+    text: 'What I like most is that it has protein and good nutrition. Since I started drinking it, I feel more active and less tired.',
+    name: 'Neha Gupta',
+    role: 'Fitness Trainer, Mumbai',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuApS2j-GmkAq045oJwQwurO8KhrW7APb3H-zr18APhHhQUGQBgAeDSeniC1cL07VMitF7kTc0E9U8JidN8OYskNmrvBzlnWM4hp9ZjjKg4RMHpHR5FuziTXUEro4-5LlFr1-as5_frYGY1vBw0inWVbHk3kmFJ9ufqhVVpH-CaLtvX2vLQ-Uvc5lIfDiOvekJo9AE2AW8oj_7gmdxM9M8MlENZP0iLWJRsJZCQ2P5Hzy5Yci-einQtoQeoWrFo1KoYkI64lBR5wlQ',
   },
   {
-    text: "Finally, a 'healthy' product that actually feels premium. From the packaging to the silkiness of the powder, Balpro is pure luxury.",
-    name: 'Daniel Graham',
-    role: 'Venture Capitalist',
+    text: 'Finally a drink that is healthy and also tastes great. It fits perfectly into my busy schedule and keeps me going.',
+    name: 'Priya Mehta',
+    role: 'Working Professional, Pune',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA8JPlGHnqKI4yzuydv09tv7eq_WfFp0PfSC2s0bEjaEEvRcf6FjRsSVr6KYviipGLNd205ymuwXl4GMAAGM6bA1SsN7rHmcZd2ZhK2g3MUYUOIOQ5zAJF3JwyBDm6OGBjM8Oz3JUPOKPKPPSgs6od8PQnCTZHXY7E6H9VbPz9mFJfC08ZaDDMuyPaZr8u6S8uQ3zO4xtvjS68gWdtiSa1CXPb0iB6BsTSWsHj2Gt0Hkz3MXwMjWn7K-0ge4TpD9DdrqQE5cK1dgw',
   },
   {
-    text: 'From taste to energy lift, this is the first functional drink that feels like a luxury ritual. I look forward to it every evening.',
-    name: 'Leah Morgan',
-    role: 'Product Designer',
+    text: 'BalProLife helps me stay focused during work. I replaced my evening snacks with it and feel much better and lighter.',
+    name: 'Karan Singh',
+    role: 'Entrepreneur, Hyderabad',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuCfcxRdQJTaXYd6-2uZ6MK0Jcc88xNj7a_TUaMIqPQmFGOb7I5v4t4ArN02g20hXCZuc3y2QnNpsRJvEXlGMGHVsMS6329kbBh6LCqM6Oe0Oglhe2rLzxkaqHg-zT2qaugmBHpCOMC3RmgyEPUCciVjzSOFqYumdtJsST0W9AyahV0m7pgpPojAJgKXO1qFFBAL4EviT1XhXJbOXHlV6XYwH2lJRt9A8nnMEgEyHJP5D2VCi6qgoU7m2Z_4hH8ux7yvQdPvhCMJ2g',
   },
   {
-    text: 'Three weeks in and my afternoon crashes are gone. Smooth focus, great flavor, and the packaging is genuinely premium.',
-    name: 'Ryan Patel',
-    role: 'Performance Coach',
+    text: 'The taste is really smooth and easy to drink. It has become a simple and healthy habit for me every day.',
+    name: 'Sneha Reddy',
+    role: 'College Student, Chennai',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA3XnSabqgpwLMFQ3yoAoECuq5Ryd4uVQZUmHw_p4cdQEORPrcGfXTn7fbfzC3FoSBfEKdwhGCLcfq6vxDXN_ZzL9KvlqqPLP8YhSkmskSo81_ml-9H3HPY_B_2CrXyPEN2eWQXTQfptkOVNKM3KQ0UsQPeYvqvcmsD0K6z_xY603mLC2asuE9VvDA7VUUuhDFMC2snG6fd6h5q0eQYHXB9TZxceoCOei45HvrvexEOCQgnYkaNVVvmdpmZJAyL2McIRmicZuVOmg',
   },
@@ -108,7 +108,7 @@ const WhyChooseUsPage = () => {
               <span className="text-tertiary italic">Redefined.</span>
             </h1>
             <p className="text-primary-fixed-dim text-lg md:text-xl max-w-xl leading-relaxed mb-10">
-              We did not just make another chocolate drink. We curated a functional ritual that bridges the gap between high-performance nutrition and artisanal luxury.
+              We did not just make another Protein Drink. We curated a functional ritual that bridges the gap between high-performance nutrition and artisanal luxury.
             </p>
             <div className="flex flex-wrap gap-6">
               <Link to="/products" className="rounded-full px-8 py-4 bg-[linear-gradient(135deg,#efbf70_0%,#a77e36_100%)] text-on-tertiary font-semibold hover:scale-105 transition-transform duration-300 shadow-xl">
@@ -129,7 +129,7 @@ const WhyChooseUsPage = () => {
       <section className="py-24 bg-surface-container-low">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {[['verified', 'GMP Certified'], ['eco', '100% Organic'], ['science', 'Lab Tested'], ['potted_plant', 'Vegan Friendly']].map((item) => (
+            {[['verified', 'GMP Certified'], ['eco', '100% Organic'], ['science', 'Lab Tested'], ['potted_plant', 'Dual Protein']].map((item) => (
               <div key={item[1]} className="flex flex-col items-center text-center space-y-4">
                 <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary border border-outline-variant/20">
                   <span className="material-symbols-outlined text-3xl">{item[0]}</span>

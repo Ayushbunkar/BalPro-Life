@@ -4,18 +4,18 @@ const IngredientsSection = () => {
   const ingredients = [
     {
       icon: 'nutrition',
-      title: 'Raw Cacao',
-      description: 'High in flavonoids for cognitive health and natural nitric oxide production.'
+      title: 'Chocolate Blend',
+      description: 'A rich chocolate blend that delivers great taste with daily energy and nutrition.'
     },
     {
       icon: 'fitness_center',
-      title: 'Pea Isolate',
+      title: 'Soya Isolate',
       description: 'Clean, plant-based protein with a complete amino acid profile for muscle repair.'
     },
     {
       icon: 'spa',
-      title: 'Adaptogens',
-      description: 'Ashwagandha and Lion\'s Mane to modulate stress response and focus.'
+      title: 'Daily Wellness',
+      description: 'Supports overall well being and keeps you feeling balanced.'
     }
   ];
 

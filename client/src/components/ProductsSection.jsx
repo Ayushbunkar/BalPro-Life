@@ -10,6 +10,8 @@ const formatPrice = (value) => {
   return `₹${value.toFixed(2)}`;
 };
 
+const stripFlavorWord = (value = '') => value.replace(/\bflavou?r\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+
 const ProductsSection = ({ onAddToCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,7 +83,7 @@ const ProductsSection = ({ onAddToCart }) => {
               {
                 key: 'chocolate-single',
                 title: 'Chocolate Collection',
-                displayName: chocolateSingleProduct?.name || 'BalPro Chocolate',
+                displayName: stripFlavorWord(chocolateSingleProduct?.name || 'BalPro Chocolate'),
                 product: chocolateSingleProduct,
                 flavor: 'chocolate',
                 sizeLabel: 'Single Bottle',
@@ -90,7 +92,7 @@ const ProductsSection = ({ onAddToCart }) => {
               {
                 key: 'vanilla-single',
                 title: 'Vanilla Collection',
-                displayName: hasFlavor(vanillaSingleProduct, 'vanilla') ? vanillaSingleProduct?.name : 'BalPro Vanilla',
+                displayName: stripFlavorWord(hasFlavor(vanillaSingleProduct, 'vanilla') ? vanillaSingleProduct?.name : 'BalPro Vanilla'),
                 product: vanillaSingleProduct,
                 flavor: 'vanilla',
                 sizeLabel: 'Single Bottle',
@@ -99,7 +101,7 @@ const ProductsSection = ({ onAddToCart }) => {
               {
                 key: 'chocolate-pack6',
                 title: 'Chocolate Collection',
-                displayName: chocolatePack6Product?.name || 'BalPro Chocolate Pack of 6',
+                displayName: stripFlavorWord(chocolatePack6Product?.name || 'BalPro Chocolate Pack of 6'),
                 product: chocolatePack6Product,
                 flavor: 'chocolate',
                 sizeLabel: 'Pack of 6',
@@ -108,7 +110,7 @@ const ProductsSection = ({ onAddToCart }) => {
               {
                 key: 'vanilla-pack6',
                 title: 'Vanilla Collection',
-                displayName: hasFlavor(vanillaPack6Product, 'vanilla') ? vanillaPack6Product?.name : 'BalPro Vanilla Pack of 6',
+                displayName: stripFlavorWord(hasFlavor(vanillaPack6Product, 'vanilla') ? vanillaPack6Product?.name : 'BalPro Vanilla Pack of 6'),
                 product: vanillaPack6Product,
                 flavor: 'vanilla',
                 sizeLabel: 'Pack of 6',

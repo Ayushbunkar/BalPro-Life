@@ -7,7 +7,7 @@ dotenv.config();
 const run = async () => {
   try {
     await connectDB();
-    const prod = await Product.findOne({ name: process.env.SEED_PRODUCT_NAME || 'BalPro Chocolate Flavour' }).lean();
+    const prod = await Product.findOne({ name: process.env.SEED_PRODUCT_NAME || 'BalPro Chocolate' }).lean();
     if (!prod) {
       console.log('Product not found');
       process.exit(0);

@@ -11,12 +11,12 @@ const BenefitsSection = () => {
     {
       number: '02',
       title: 'Deep Recovery',
-      description: 'Magnesium and Zinc support overnight muscle repair and nervous system calm.'
+      description: 'Supports muscle recovery and helps your body relax after a long day.'
     },
     {
       number: '03',
-      title: 'Cognitive Edge',
-      description: 'Polyphenols crossing the blood-brain barrier to keep you sharp and focused.'
+      title: 'Daily Focus Boost',
+      description: 'Keeps you alert and ready for your daily tasks.'
     }
   ];
 
@@ -32,9 +32,9 @@ const BenefitsSection = () => {
                 src={manImage}
               />
             </div>
-            <div className="absolute -bottom-12 -right-12 glass-panel p-8 rounded-xl shadow-2xl border border-tertiary/20 hidden md:block">
+            <div className="absolute -bottom-17 -right-22 glass-panel p-8 rounded-xl shadow-2xl border border-tertiary/20 hidden md:block">
               <div className="text-tertiary font-bold text-4xl">100%</div>
-              <div className="text-sm uppercase tracking-tighter">Plant Based Integrity</div>
+              <div className="text-sm uppercase tracking-tighter">Dual Protein Blend</div>
             </div>
           </div>
 

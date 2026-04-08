@@ -21,18 +21,20 @@ const isPackOf6 = (product) => {
   return text.includes('pack of 6') || text.includes('6 pack') || text.includes('x6') || text.includes('pack6');
 };
 
+const stripFlavorWord = (value = '') => value.replace(/\bflavou?r\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+
 const PRODUCT_VARIANTS = [
   {
     key: 'chocolate-single',
-    title: 'Chocolate Flavour',
+    title: 'Chocolate',
     packType: 'single',
     flavor: 'chocolate',
-    fallbackName: 'BalPro Chocolate Flavour',
+    fallbackName: 'BalPro Chocolate',
     fallbackImage: bottleChocolateImage,
   },
   {
     key: 'vanilla-single',
-    title: 'Vanilla Flavour',
+    title: 'Vanilla',
     packType: 'single',
     flavor: 'vanilla',
     fallbackName: 'BalPro Vanilla',
@@ -43,7 +45,7 @@ const PRODUCT_VARIANTS = [
     title: 'Chocolate Pack of 6',
     packType: 'pack6',
     flavor: 'chocolate',
-    fallbackName: 'BalPro Chocolate Flavour Pack of 6',
+    fallbackName: 'BalPro Chocolate Pack of 6',
     fallbackImage: chocolatePack6Image,
   },
   {
@@ -60,17 +62,17 @@ const faqs = [
   {
     question: 'How should I serve it?',
     answer:
-      'For the ultimate experience, serve chilled or pour over ice. You can also heat it gently on a stovetop for a gourmet functional hot chocolate.',
+      'Simply open the cap and experience instant nourishment in its purest form. A thoughtfully crafted, protein and vitamin rich drink ready to fuel your day, anytime, anywhere. No preparation, no effort just effortless nutrition at its finest.',
   },
   {
     question: 'When will I feel the effects?',
     answer:
-      'Most customers report smoother focus in 20 to 40 minutes. Effects vary by hydration, sleep quality, and personal caffeine sensitivity.',
+      'Results can vary from person to person. Many people feel improved energy and focus within a few days of consistent use, while full benefits build over regular daily consumption.',
   },
   {
     question: 'Is it safe for daily use?',
     answer:
-      'Yes, for healthy adults this formula is designed for daily use. If you are pregnant, nursing, or under medical supervision, consult your clinician first.',
+      'Designed for daily use by healthy adults, this formula supports your routine with consistent, high quality nutrition. For individuals under medical care, pregnant, or nursing, we recommend consulting a healthcare professional before use. ',
   },
 ];
 
@@ -192,7 +194,7 @@ const ProductsPage = ({ onAddToCart }) => {
     }
   };
 
-  const displayName = primaryProduct?.name || selectedVariant?.fallbackName || 'Product Unavailable';
+  const displayName = stripFlavorWord(primaryProduct?.name || selectedVariant?.fallbackName || 'Product Unavailable');
   const displayDescription = primaryProduct?.description || 'Choose from our four signature wellness variants.';
   const displayPrice = typeof primaryProduct?.price === 'number' ? primaryProduct.price : 0;
   const displayOriginalPrice = typeof primaryProduct?.originalPrice === 'number' ? primaryProduct.originalPrice : null;
@@ -206,7 +208,7 @@ const ProductsPage = ({ onAddToCart }) => {
 
           <div className="w-full md:w-1/2 z-10 space-y-5 lg:space-y-6">
             <div className="inline-block px-4 py-1 rounded-full bg-surface-container-highest text-tertiary text-xs font-bold tracking-[0.2em] mb-4">
-              {selectedVariant?.title?.toUpperCase() || 'CHOCOLATE FLAVOUR'}
+              {selectedVariant?.title?.toUpperCase() || 'CHOCOLATE'}
             </div>
             <h1 className="font-headline text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] [text-shadow:0_10px_30px_rgba(0,0,0,0.5)]">
               {displayName.split(' ')[0] || 'Product'} <br /> <span className="text-tertiary">Recovery.</span>
@@ -260,7 +262,7 @@ const ProductsPage = ({ onAddToCart }) => {
                       {variantPrice !== null && <span className="text-[11px] font-semibold text-[#f3d7a5]">₹{variantPrice.toFixed(0)}</span>}
                     </div>
 
-                    <p className="relative text-sm md:text-[15px] font-bold text-on-surface mt-1 leading-snug line-clamp-2">{variant.product?.name || variant.fallbackName}</p>
+                    <p className="relative text-sm md:text-[15px] font-bold text-on-surface mt-1 leading-snug line-clamp-2">{stripFlavorWord(variant.product?.name || variant.fallbackName)}</p>
                     {!available && <p className="relative text-[11px] text-on-surface-variant mt-1">Unavailable</p>}
                   </button>
                 );
@@ -375,9 +377,9 @@ const ProductsPage = ({ onAddToCart }) => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                   <Sparkles size={30} className="text-white" strokeWidth={2.2} />
                 </div>
-                <h3 className="font-headline text-2xl font-bold mb-4">Adaptogenic Core</h3>
+                <h3 className="font-headline text-2xl font-bold mb-4">Balanced Nutrient Delivery</h3>
                 <p className="text-on-surface-variant leading-relaxed">
-                  Infused with 500mg of Reishi and Ashwagandha to modulate stress response and enhance focus.
+                  A carefully designed blend of protein and nutrients that supports daily strength and sustained energy release.
                 </p>
               </div>
 
@@ -385,9 +387,9 @@ const ProductsPage = ({ onAddToCart }) => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                   <Zap size={30} className="text-white" strokeWidth={2.2} />
                 </div>
-                <h3 className="font-headline text-2xl font-bold mb-4">Slow Release Energy</h3>
+                <h3 className="font-headline text-2xl font-bold mb-4">Gut-Friendly Formula</h3>
                 <p className="text-on-surface-variant leading-relaxed">
-                  No spikes. No crashes. Just sustained mental clarity powered by organic raw cacao beans.
+                  Enriched with fibers and enzymes that support smoother digestion and better nutrient absorption.
                 </p>
               </div>
 
@@ -395,9 +397,9 @@ const ProductsPage = ({ onAddToCart }) => {
                 <div className="w-16 h-16 rounded-full bg-[#efbf70] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                   <Dumbbell size={30} className="text-white" strokeWidth={2.2} />
                 </div>
-                <h3 className="font-headline text-2xl font-bold mb-4">Muscle Recovery</h3>
+                <h3 className="font-headline text-2xl font-bold mb-4">Physical Synergy</h3>
                 <p className="text-on-surface-variant leading-relaxed">
-                  Natural magnesium content aids in muscle relaxation and reduces inflammation post-ritual.
+                  Botanical extracts and natural compounds that support focus, stamina, and overall body performance together.
                 </p>
               </div>
             </div>
@@ -442,9 +444,9 @@ const ProductsPage = ({ onAddToCart }) => {
                     preserve the delicate structure of functional botanicals.
                   </p>
                   <div className="flex gap-4 flex-wrap">
-                    <span className="px-3 py-1 rounded bg-tertiary/10 text-tertiary text-xs uppercase font-bold">Non-GMO</span>
-                    <span className="px-3 py-1 rounded bg-tertiary/10 text-tertiary text-xs uppercase font-bold">Vegan</span>
-                    <span className="px-3 py-1 rounded bg-tertiary/10 text-tertiary text-xs uppercase font-bold">Gluten Free</span>
+                    <span className="px-3 py-1 rounded bg-[#efbf70] text-[#1e140f] text-xs uppercase font-bold">Non-GMO</span>
+                    <span className="px-3 py-1 rounded bg-[#efbf70] text-[#1e140f] text-xs uppercase font-bold">Vegan</span>
+                    <span className="px-3 py-1 rounded bg-[#efbf70] text-[#1e140f] text-xs uppercase font-bold">Gluten Free</span>
                   </div>
                 </div>
               </div>
@@ -455,38 +457,71 @@ const ProductsPage = ({ onAddToCart }) => {
         <section className="py-24 px-8 md:px-24 bg-surface-container-low">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-16 gap-6 flex-wrap">
-              <h2 className="font-headline text-4xl font-bold">Voices of Indulgence</h2>
+              <h2 className="font-headline text-4xl font-bold text-[#f7efe6]">Voices of Indulgence</h2>
               <div className="flex items-center space-x-2 text-tertiary">
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="text-on-surface font-bold ml-2">4.9 / 5</span>
+                <span className="text-[#f3d7a5] font-bold ml-2">4.9 / 5</span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="md:col-span-2 bg-surface p-8 rounded-lg shadow-sm">
-                <p className="text-lg font-medium mb-6">
-                  Finally, a health drink that does not taste like dirt. It is thick, creamy, and actually helps me
+              <div className="md:col-span-2 bg-surface-container-highest border border-[#efbf70]/20 p-8 rounded-lg shadow-sm h-full flex flex-col justify-between">
+                <p className="text-lg font-medium text-[#f4ece4] leading-relaxed mb-6">
+                  Finally, a health drink that does not taste like dirt. It is thick, chocolatey, and actually helps me
                   wind down after a long day.
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-secondary-container"></div>
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#efbf70]/30">
+                    <img
+                      src="https://ui-avatars.com/api/?name=Aditi+Verma&background=6B4D2E&color=fff&bold=true"
+                      alt="Aditi Verma"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                   <div>
-                    <p className="font-bold">Julianne V.</p>
-                    <p className="text-xs text-outline">Verified Connoisseur</p>
+                    <p className="font-bold text-[#fff7ee]">Aditi Verma</p>
+                    <p className="text-xs text-[#e8c58d]">Verified Customer</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-surface p-8 rounded-lg shadow-sm">
-                <p className="text-sm mb-6">The subscription replaced my 3PM coffee and my 9PM dessert.</p>
-                <p className="font-bold">Marcus T.</p>
+              <div className="bg-surface-container-highest border border-[#efbf70]/20 p-8 rounded-lg shadow-sm h-full flex flex-col justify-between">
+                <p className="text-sm text-[#f4ece4] leading-relaxed mb-6">The subscription replaced my 3PM coffee and my 9PM dessert.</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#efbf70]/30">
+                    <img
+                      src="https://ui-avatars.com/api/?name=Rohan+Mehta&background=6B4D2E&color=fff&bold=true"
+                      alt="Rohan Mehta"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#fff7ee]">Rohan Mehta</p>
+                    <p className="text-xs text-[#e8c58d]">Verified Customer</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-surface p-8 rounded-lg shadow-sm">
-                <p className="text-sm mb-6">Packaging is editorial quality. Looks amazing in my fridge and tastes even better.</p>
-                <p className="font-bold">Elena R.</p>
+              <div className="bg-surface-container-highest border border-[#efbf70]/20 p-8 rounded-lg shadow-sm h-full flex flex-col justify-between">
+                <p className="text-sm text-[#f4ece4] leading-relaxed mb-6">Packaging is editorial quality. Looks amazing in my fridge and tastes even better.</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-[#efbf70]/30">
+                    <img
+                      src="https://ui-avatars.com/api/?name=Kavya+Singh&background=6B4D2E&color=fff&bold=true"
+                      alt="Kavya Singh"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[#fff7ee]">Kavya Singh</p>
+                    <p className="text-xs text-[#e8c58d]">Verified Customer</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

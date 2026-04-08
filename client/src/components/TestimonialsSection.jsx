@@ -3,22 +3,22 @@ import React from 'react';
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: 'Julianne R.',
+      name: 'Lalit Pawar',
       role: 'Verified Collector',
       text: '"Finally, a protein drink that doesn\'t taste like chalk. It\'s my daily afternoon luxury that actually gives me energy."',
       stars: 5
     },
     {
-      name: 'Marcus T.',
+      name: 'Kaustybh Soni',
       role: 'Peak Performance Coach',
-      text: '"The adaptogen blend is a game changer for my morning focus. I\'ve replaced my second coffee with Balpro."',
+      text: '“BalProLife keeps me energized and focused throughout the day. It’s now part of my daily routine.”',
       stars: 5,
       marginTop: true
     },
     {
-      name: 'Sofia L.',
+      name: 'Sahil Singh',
       role: 'Wellness Editor',
-      text: '"Silk in a bottle. The Peruvian cacao quality is evident from the first sip. Truly a world-class beverage."',
+      text: '“Smooth taste and real energy. You can feel the difference from the first sip.”',
       stars: 5
     }
   ];

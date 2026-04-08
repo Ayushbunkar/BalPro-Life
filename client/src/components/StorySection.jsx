@@ -19,8 +19,12 @@ const StorySection = () => {
             The Journey from <span className="text-tertiary">Pod to Performance.</span>
           </h2>
           <div className="space-y-8 text-lg text-primary-fixed-dim leading-relaxed">
-            <p>We spent three years traversing the Andean highlands to find a cacao variety that possessed the perfect lipid profile for high-performance nutrition.</p>
-            <p>Balpro Life isn't just a drink; it's a testament to the belief that luxury and health shouldn't be mutually exclusive. We combine ancient botanical wisdom with modern nutrient-density mapping.</p>
+            <p>BalProLife was created with one simple belief good nutrition should be easy, affordable, and for everyone.</p>
+            <p>In today’s busy life, many people struggle to get the right balance of protein, energy, and daily nutrition. We saw this gap and created a drink that fits into real Indian routines whether you are a student, a working professional, or someone focused on staying fit. <p></p>
+
+              BalProLife combines high quality protein and essential nutrients in a smooth and tasty drink that supports your strength, energy, and everyday performance without making it complicated or expensive.
+
+              We believe that staying strong and healthy should not be a luxury. It should be a daily habit.</p>
             <div className="pt-6">
               <a href="#" className="text-tertiary font-bold flex items-center group">
                 Discover Our Origin Story

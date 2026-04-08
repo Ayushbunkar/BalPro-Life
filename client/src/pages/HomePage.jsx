@@ -1,6 +1,5 @@
 import React from 'react';
 import ChocolateHero from '../components/ChocolateHero';
-import BrandTrust from '../components/BrandTrust';
 import ProductSpotlight from '../components/ProductSpotlight';
 import WhyBalpro from '../components/WhyBalpro';
 import StorySection from '../components/StorySection';
@@ -18,7 +17,6 @@ const HomePage = ({ onAddToCart }) => {
   return (
     <>
       <ChocolateHero onShopClick={handleShopClick} />
-      <BrandTrust />
       <ProductSpotlight />
       <section id="about">
         <WhyBalpro />

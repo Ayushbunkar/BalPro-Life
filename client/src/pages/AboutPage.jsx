@@ -20,8 +20,7 @@ const AboutPage = () => {
               Crafted for the <span className="italic text-tertiary">Indulgent</span> Mind.
             </h1>
             <p className="text-primary-fixed-dim text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-body">
-              We believe wellness should not be a chore. It should be a ritual, a moment of pure cocoa-infused
-              transcendence designed for the high-performer.
+             We believe wellness should not be a chore. It should be a ritual, a moment of pure nourishment designed for the high performer.
             </p>
           </div>
         </section>
@@ -141,7 +140,7 @@ const AboutPage = () => {
                 </div>
                 <h4 className="font-headline text-xl font-bold mb-4">Ethical Sourcing</h4>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
-                  Direct-trade cacao from regenerative farms that honor the earth and the hands that harvest.
+                Direct sourced ingredients from regenerative Companies that honor the earth and the hands that harvest.
                 </p>
               </div>
               <div className="text-center group">

@@ -204,7 +204,7 @@ const ClinicalStudiesPage = () => {
                       <span className="material-symbols-outlined text-on-tertiary text-[16px] font-bold">check</span>
                     </div>
                     <div>
-                      <h5 className="font-bold text-on-surface mb-2">Chelated Minerals</h5>
+                      <h5 className="font-bold text-on-surface mb-2">Easy Absorption</h5>
                       <p className="text-on-surface-variant text-sm">Magnesium and Potassium in highly absorbable forms to prevent digestive discomfort and maximize hydration.</p>
                     </div>
                   </li>

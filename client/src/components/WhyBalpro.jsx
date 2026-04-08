@@ -5,12 +5,12 @@ const WhyBalpro = () => {
     {
       icon: 'compost',
       title: 'Pure Ingredients',
-      description: 'Ethically sourced Peruvian cacao and premium adaptogens. No fillers, ever.'
+      description: ' Made with quality ingredients for clean, reliable daily nutrition.'
     },
     {
       icon: 'restaurant',
       title: 'Refined Taste',
-      description: 'A silky texture that rivals artisanal patisseries without the guilt.'
+      description: 'Rich, smooth taste with the goodness of protein and nutrition.'
     },
     {
       icon: 'bolt',
@@ -28,8 +28,8 @@ const WhyBalpro = () => {
     <section className="py-32">
       <div className="max-w-[1380px] mx-auto px-6 md:px-10 xl:px-14">
         <div className="text-center mb-24 max-w-2xl mx-auto">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Built for the Discerning.</h2>
-          <p className="text-primary-fixed-dim">Every sip is a result of meticulous sourcing and biological optimization.</p>
+          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Built for Everyday Strength</h2>
+          <p className="text-primary-fixed-dim">Every sip is crafted to give you strength, energy, and daily nutrition.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 items-stretch">

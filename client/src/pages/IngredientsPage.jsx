@@ -15,14 +15,13 @@ const IngredientsPage = () => {
         <section className="relative min-h-[calc(100svh-6rem)] flex items-center px-8 py-6 md:py-8 overflow-hidden">
           <div className="max-w-[1440px] mx-auto w-full grid md:grid-cols-2 gap-10 lg:gap-12 items-center">
             <div className="relative z-10">
-              <span className="text-tertiary font-bold tracking-widest text-sm mb-4 block uppercase">Functional Alchemy</span>
+              <span className="text-tertiary font-bold tracking-widest text-sm mb-4 block uppercase">Complete Nutrition</span>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-headline font-extrabold text-on-surface leading-[1.1] tracking-tighter mb-6">
                 The Science of <br />
                 <span className="text-tertiary italic">Indulgent</span> Nutrition.
               </h1>
               <p className="text-lg md:text-xl text-on-surface-variant max-w-lg mb-8 lg:mb-10 leading-relaxed">
-                Beyond basic supplements. Balpro Life is a meticulously engineered bio-available formula designed to bridge
-                the gap between hedonistic cocoa and clinical human performance.
+               More than just a health drink, BalProLife delivers protein, energy, and daily nutrition to keep you strong and active.
               </p>
               <div className="flex flex-wrap gap-6">
                 <Link
@@ -74,17 +73,16 @@ const IngredientsPage = () => {
                     <span className="material-symbols-outlined text-4xl text-on-tertiary-fixed">restaurant</span>
                   </div>
                   <div>
-                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">Heirloom Cacao</h3>
+                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">High Protein Strength</h3>
                     <p className="text-on-surface-variant mb-6 text-lg">
-                      Rich in polyphenols and theobromine. Our cacao is sourced from volcanic soil for maximum mineral
-                      density and a flavor profile that rivals artisanal chocolatiers.
+                     Rich in protein to support muscle strength and daily performance with a smooth, great taste.
                     </p>
                     <div className="flex gap-3 flex-wrap">
                       <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
-                        Anti-Inflammatory
+                        Supports Recovery
                       </span>
                       <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
-                        Natural Mood Elevator
+                        Boosts Mood
                       </span>
                     </div>
                   </div>
@@ -97,8 +95,7 @@ const IngredientsPage = () => {
                 </div>
                 <h3 className="text-2xl font-headline font-bold mb-4">Bio-Protein Matrix</h3>
                 <p className="text-on-surface-variant mb-6">
-                  A 24g blend of sprouted peas and fermented hemp, ensuring 98% bioavailability without the bloating of
-                  whey.
+                 A balanced blend of plant and milk protein designed to support strength, recovery, and daily energy with easy digestion.
                 </p>
                 <ul className="space-y-2 text-sm text-on-surface font-semibold">
                   <li className="flex items-center gap-2">
@@ -107,7 +104,7 @@ const IngredientsPage = () => {
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-tertiary text-lg">check_circle</span>
-                    Grass-Fed Standards
+                    Smooth & Easy to Digest
                   </li>
                 </ul>
               </div>
@@ -116,18 +113,18 @@ const IngredientsPage = () => {
                 <div className="mb-6 w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center group-hover:bg-tertiary transition-colors">
                   <span className="material-symbols-outlined text-2xl group-hover:text-on-tertiary-fixed">science</span>
                 </div>
-                <h3 className="text-2xl font-headline font-bold mb-4">Chelated Minerals</h3>
+                <h3 className="text-2xl font-headline font-bold mb-4">Easy Absorption</h3>
                 <p className="text-on-surface-variant mb-6">
-                  Magnesium and Zinc bound to organic acids for effortless absorption by the gut lining.
+                  Essential nutrients your body absorbs easily for strength and daily health.
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-surface-container rounded-lg">
-                    <p className="text-tertiary font-bold text-xl">400mg</p>
+                    <p className="text-tertiary font-bold text-xl">65 mg</p>
                     <p className="text-[10px] uppercase text-on-surface-variant tracking-tighter">Magnesium</p>
                   </div>
                   <div className="text-center p-3 bg-surface-container rounded-lg">
-                    <p className="text-tertiary font-bold text-xl">15mg</p>
-                    <p className="text-[10px] uppercase text-on-surface-variant tracking-tighter">Zinc Glycinate</p>
+                    <p className="text-tertiary font-bold text-xl">3 mg</p>
+                    <p className="text-[10px] uppercase text-on-surface-variant tracking-tighter">Fiber</p>
                   </div>
                 </div>
               </div>
@@ -138,14 +135,13 @@ const IngredientsPage = () => {
                     <span className="material-symbols-outlined text-4xl text-on-tertiary-fixed">bolt</span>
                   </div>
                   <div className="text-left">
-                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">Adaptogenic Complex</h3>
+                    <h3 className="text-3xl font-headline font-bold mb-4 text-tertiary">Great Taste Experience</h3>
                     <p className="text-on-surface-variant mb-6 text-lg">
-                      Lions Mane and KSM-66 Ashwagandha extract. These work in tandem to modulate cortisol while
-                      providing cognitive clarity during demanding days.
+                    Smooth, delicious taste with added herbal support to help you stay calm, focused, and energized throughout the day.
                     </p>
                     <div className="flex gap-3 flex-wrap justify-start">
                       <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
-                        Nootropic Focus
+                        Better Focus
                       </span>
                       <span className="px-4 py-1 rounded-full border border-outline-variant/20 text-xs font-bold uppercase tracking-widest">
                         Stress Support
@@ -165,37 +161,37 @@ const IngredientsPage = () => {
               <h2 className="text-3xl lg:text-4xl font-headline font-bold">What's Inside Matters.</h2>
               <div className="relative pl-9 border-l-2 border-outline-variant/20">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
-                <h4 className="text-xl font-bold mb-1">0g Added Sugar</h4>
+                <h4 className="text-xl font-bold mb-1">Low Added Sugar</h4>
                 <p className="text-on-surface-variant text-base leading-relaxed">
-                  Sweetened with monk fruit and a hint of vanilla bean. No glucose spikes, no midday crashes.
+                Lightly sweetened for great taste without excess sugar. Helps you stay active without feeling heavy.
                 </p>
               </div>
               <div className="relative pl-9 border-l-2 border-outline-variant/20">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
-                <h4 className="text-xl font-bold mb-1">High Fiber Pre-biotics</h4>
+                <h4 className="text-xl font-bold mb-1">Digestive Support</h4>
                 <p className="text-on-surface-variant text-base leading-relaxed">
-                  Chicory root fiber feeds your microbiome, improving nutrient absorption from every scoop.
+                  Added fiber helps support digestion and keeps your stomach feeling light.
                 </p>
               </div>
               <div className="relative pl-9 border-l-2 border-outline-variant/20">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
-                <h4 className="text-xl font-bold mb-1">Cold-Pressed Process</h4>
+                <h4 className="text-xl font-bold mb-1">Quality Ingredients</h4>
                 <p className="text-on-surface-variant text-base leading-relaxed">
-                  Our ingredients never see temperatures above 40 C, preserving delicate enzymes and anti-oxidants.
+                  Made with carefully selected ingredients to give you better nutrition every day.
                 </p>
               </div>
               <div className="relative pl-9 border-l-2 border-outline-variant/20">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
-                <h4 className="text-xl font-bold mb-1">Digestive Enzyme Support</h4>
+                <h4 className="text-xl font-bold mb-1">Easy to Digest</h4>
                 <p className="text-on-surface-variant text-base leading-relaxed">
-                  A gentle enzyme blend helps break down protein and cacao compounds for smoother digestion and better comfort.
+                  Supports smoother digestion so your body can use the nutrition effectively
                 </p>
               </div>
               <div className="relative pl-9 border-l-2 border-outline-variant/20">
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-tertiary"></div>
-                <h4 className="text-xl font-bold mb-1">Electrolyte Balance</h4>
+                <h4 className="text-xl font-bold mb-1">Hydration Support</h4>
                 <p className="text-on-surface-variant text-base leading-relaxed">
-                  Naturally occurring potassium and magnesium help maintain hydration and sustained performance throughout the day.
+                Helps keep you refreshed and active throughout the day.
                 </p>
               </div>
             </div>

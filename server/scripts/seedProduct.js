@@ -11,7 +11,7 @@ const run = async () => {
     const defaultQty = Number(process.env.SEED_PRODUCT_QTY || 100);
     const productsToSeed = [
       {
-        name: 'BalPro Chocolate Flavour',
+        name: 'BalPro Chocolate',
         description: 'Single bottle. Rich Belgian chocolate with adaptogenic support for daily wellness.',
         price: 40,
         originalPrice: 49.99,
@@ -29,7 +29,7 @@ const run = async () => {
         tags: ['functional', 'vanilla', 'single', 'adaptogen']
       },
       {
-        name: 'BalPro Chocolate Flavour Pack of 6',
+        name: 'BalPro Chocolate Pack of 6',
         description: 'Pack of 6 bottles. Chocolate wellness box for weekly stock and better value.',
         price: 240,
         originalPrice: 299,

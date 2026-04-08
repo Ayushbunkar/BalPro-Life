@@ -28,12 +28,12 @@ const ChocolateHero = ({ onShopClick }) => {
       <div className="w-full max-w-[1380px] mx-auto px-6 md:px-10 xl:px-14 relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         {/* Left Content */}
         <div className="space-y-4 lg:space-y-5 max-w-[640px] lg:pl-2 xl:pl-4">
-          <span className="text-tertiary font-bold tracking-[0.2em] uppercase text-sm block">Functional Cacao</span>
+          <span className="text-tertiary font-bold tracking-[0.2em] uppercase text-sm block">Daily Protein Nutrition</span>
           <h1 className="font-headline text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter leading-tight text-on-surface">
             Chocolate Nutrition, <span className="text-tertiary italic font-normal">Reimagined.</span>
           </h1>
           <p className="text-primary-fixed-dim text-lg md:text-xl max-w-lg leading-relaxed">
-            A velvet-smooth fusion of organic cacao, adaptogens, and pure plant protein. Indulgence that fuels your peak performance.
+           A smooth, protein-rich cocoa drink that fuels your strength, energy, and everyday performance without the extra sugar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-1">
             <button 

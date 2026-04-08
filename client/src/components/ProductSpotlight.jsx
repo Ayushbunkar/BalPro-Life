@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const ProductSpotlight = () => {
   return (
-    <section className="py-10 md:py-14 bg-surface min-h-[calc(100svh-6rem)] flex items-center">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-10 md:py-14 bg-surface min-h-[calc(100svh-6rem)] flex items-center px-2 sm:px-4 md:px-6">
+      <div className="w-full max-w-[1150px] mx-auto">
         <div className="bg-surface-container-low rounded-[3rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl border border-outline-variant/5 min-h-[520px] lg:min-h-[calc(100svh-10rem)]">
           <div className="lg:w-1/2 relative h-80 md:h-[380px] lg:h-auto overflow-hidden">
             <img
@@ -19,9 +19,9 @@ const ProductSpotlight = () => {
             <div className="inline-flex items-center px-4 py-1 rounded-full border border-tertiary/30 text-tertiary text-xs font-bold uppercase tracking-widest w-fit">
               The Masterpiece
             </div>
-            <h2 className="font-headline text-4xl lg:text-5xl font-extrabold text-on-surface">Signature Velvet Cacao</h2>
+            <h2 className="font-headline text-4xl lg:text-5xl font-extrabold text-on-surface">Signature Smooth Protein</h2>
             <p className="text-primary-fixed-dim text-lg leading-relaxed">
-              Our flagship formula features 72% single-origin Peruvian cacao, infused with Lion's Mane and 20g of bio-available pea protein. It's the ritual your morning deserves.
+              Packed with protein and daily nutrition to keep you active, strong, and energized throughout the day.
             </p>
             <ul className="space-y-3">
               <li className="flex items-center space-x-3">
@@ -30,11 +30,15 @@ const ProductSpotlight = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <span className="material-symbols-outlined text-tertiary">check_circle</span>
-                <span>Daily Vitamin Complex</span>
+                <span>Rich in Fiber</span>
               </li>
               <li className="flex items-center space-x-3">
                 <span className="material-symbols-outlined text-tertiary">check_circle</span>
-                <span>Keto & Vegan Friendly</span>
+                <span>High in Protein</span>
+              </li>
+              <li className="flex items-center space-x-3">
+                <span className="material-symbols-outlined text-tertiary">check_circle</span>
+                <span>All Essential Amino Acids</span>
               </li>
             </ul>
             <Link

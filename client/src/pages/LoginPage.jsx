@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
+import { readPendingCartAction } from '../utils/pendingCartAction';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -48,8 +50,13 @@ const LoginPage = () => {
       // Use auth context to login
       login(data.data.user, data.data.token);
 
-      // Redirect to dashboard (admin -> /admin, user -> /dashboard)
-      if (data.data.user?.role === 'admin') {
+      const pendingCartAction = readPendingCartAction();
+      const fromRoute = typeof location.state?.from === 'string' ? location.state.from : '';
+      const returnTo = fromRoute || pendingCartAction?.returnTo || '';
+
+      if (returnTo) {
+        navigate(returnTo, { replace: true });
+      } else if (data.data.user?.role === 'admin') {
         navigate('/admin');
       } else {
         navigate('/dashboard');

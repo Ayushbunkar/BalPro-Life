@@ -33,7 +33,7 @@ const ChocolateHero = ({ onShopClick }) => {
             Chocolate Nutrition, <span className="text-tertiary italic font-normal">Reimagined.</span>
           </h1>
           <p className="text-primary-fixed-dim text-lg md:text-xl max-w-lg leading-relaxed">
-           A smooth, protein-rich cocoa drink that fuels your strength, energy, and everyday performance without the extra sugar.
+           A smooth, protein rich drink that fuels your strength, energy, and everyday performance without the extra sugar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-1">
             <button 

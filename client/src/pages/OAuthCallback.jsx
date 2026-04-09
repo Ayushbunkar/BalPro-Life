@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { readPendingCartAction } from '../utils/pendingCartAction';
 
 const OAuthCallback = () => {
   const navigate = useNavigate();
@@ -24,7 +25,14 @@ const OAuthCallback = () => {
         if (res.ok && data.data) {
           // login without storing a token (cookie is HttpOnly)
           login(data.data);
-          if (data.data.role === 'admin') navigate('/admin'); else navigate('/dashboard');
+          const pendingCartAction = readPendingCartAction();
+          if (pendingCartAction?.returnTo) {
+            navigate(pendingCartAction.returnTo, { replace: true });
+          } else if (data.data.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard');
+          }
         } else {
           navigate('/login');
         }

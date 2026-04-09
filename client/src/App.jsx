@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import { Check } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 import { CartProvider, useCart } from './contexts/CartContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -47,16 +48,19 @@ import UserRituals from './pages/dashboard/user/UserRituals';
 import ProtectedRoute from './components/ProtectedRoute';
 import CartSidebar from './components/CartSidebar';
 import MobileBottomNav from './components/MobileBottomNav';
+import { clearPendingCartAction, readPendingCartAction, writePendingCartAction } from './utils/pendingCartAction';
 
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
   const prefersReducedMotion = useReducedMotion();
+  const { isAuthenticated } = useAuth();
   const { items, itemCount, total, addToCart, removeItem, updateItemQuantityByDelta } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notification, setNotification] = useState(null);
   const notificationTimeoutRef = useRef(null);
+  const pendingCartReplayInProgressRef = useRef(false);
 
   const handleAddToCart = async (product, quantity = 1) => {
     showNotification(`Adding ${product?.name || 'item'}...`);
@@ -69,8 +73,23 @@ function AppContent() {
       showNotification(message);
 
       if (message.toLowerCase().includes('sign in')) {
+        const productId = String(product?._id || product?.id || '');
+        if (productId) {
+          writePendingCartAction({
+            productId,
+            productName: product?.name || 'Item',
+            quantity,
+            returnTo: `${location.pathname}${location.search}`,
+          });
+        }
+
         setTimeout(() => {
-          navigate('/login', { state: { from: `${location.pathname}${location.search}` } });
+          navigate('/login', {
+            state: {
+              from: `${location.pathname}${location.search}`,
+              pendingCartAction: productId ? { productId, quantity } : null,
+            },
+          });
         }, 700);
       }
     }
@@ -146,6 +165,29 @@ function AppContent() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated || pendingCartReplayInProgressRef.current) return;
+
+    const pending = readPendingCartAction();
+    if (!pending?.productId) return;
+
+    pendingCartReplayInProgressRef.current = true;
+
+    (async () => {
+      try {
+        await addToCart({ _id: pending.productId, name: pending.productName }, pending.quantity);
+        clearPendingCartAction();
+        showNotification(`${pending.productName || 'Item'} added to cart.`);
+        setIsCartOpen(true);
+      } catch (error) {
+        clearPendingCartAction();
+        showNotification(error?.message || 'Unable to restore your cart item. Please try again.');
+      } finally {
+        pendingCartReplayInProgressRef.current = false;
+      }
+    })();
+  }, [isAuthenticated, addToCart]);
 
   return (
     <div className="min-h-screen bg-background font-sans text-on-surface selection:bg-tertiary selection:text-on-tertiary-fixed">

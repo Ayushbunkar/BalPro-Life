@@ -145,10 +145,15 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    // For normal page navigation, always start from top.
-    if (location.hash) return;
+    // Force top-of-page on route changes, including when Lenis manages scroll state.
+    if (typeof window !== 'undefined' && window.__lenisInstance?.scrollTo) {
+      window.__lenisInstance.scrollTo(0, { immediate: true, force: true });
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [location.pathname, location.search, location.hash]);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location.pathname, location.search]);
 
   useEffect(() => {
     // Defensive cleanup: if any stale anchor link adds a hash-only fragment,

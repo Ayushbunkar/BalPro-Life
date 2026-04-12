@@ -24,7 +24,7 @@ const UserSidebar = () => {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col h-[calc(100vh-6rem)] pt-3 pb-6 bg-[#221a17] w-72 left-0 top-24 fixed shadow-2xl shadow-black/20 z-40">
+      <aside className="hidden md:flex flex-col h-[calc(100vh-6rem)] pt-3 pb-6 bg-[#221a17] w-72 right-0 top-24 fixed shadow-2xl shadow-black/20 z-40">
 
         <nav className="grow space-y-1 mt-1">
           {items.map((item) => (

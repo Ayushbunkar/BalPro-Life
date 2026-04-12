@@ -107,7 +107,7 @@ const UserRewards = () => {
     <div className="bg-surface text-on-surface min-h-screen">
       <UserSidebar />
 
-      <main className="md:ml-72 min-h-screen p-12 bg-surface">
+      <main className="md:mr-72 min-h-screen p-12 bg-surface">
         <header className="flex justify-between items-end mb-16">
           <div>
             <span className="text-tertiary font-bold tracking-[0.3em] text-[10px] uppercase mb-4 block">Loyalty Program</span>

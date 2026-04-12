@@ -162,7 +162,7 @@ const Settings = () => {
     <div className="bg-surface text-on-surface min-h-screen overflow-x-hidden">
       <UserSidebar />
 
-      <main className="md:ml-72 min-h-screen px-4 pt-8 pb-24 sm:px-6 md:px-10 md:pt-12 md:pb-14 lg:px-14">
+      <main className="md:mr-72 min-h-screen px-4 pt-8 pb-24 sm:px-6 md:px-10 md:pt-12 md:pb-14 lg:px-14">
         <div className="mx-auto w-full max-w-[1200px]">
         <header className="mb-8 md:mb-12">
           <p className="text-tertiary font-headline text-sm tracking-[0.3em] uppercase mb-4">Account Sanctuary</p>

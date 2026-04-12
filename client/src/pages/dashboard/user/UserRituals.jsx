@@ -10,7 +10,7 @@ const UserRituals = () => {
     <div className="font-body selection:bg-tertiary selection:text-surface bg-[#19120f] text-[#efdfd9] min-h-screen">
       <UserSidebar />
 
-      <main className="md:ml-72 min-h-screen pb-24">
+      <main className="md:mr-72 min-h-screen pb-24">
         <header className="p-8 md:p-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <span className="text-tertiary font-headline font-bold tracking-[0.2em] text-xs uppercase mb-4 block">Personalized Sanctuary</span>

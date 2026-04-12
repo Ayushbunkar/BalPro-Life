@@ -236,7 +236,7 @@ const UserOrders = () => {
     <div className="bg-[#19120f] text-[#efdfd9] font-body min-h-screen">
       <UserSidebar />
 
-      <main className="flex-1 md:ml-72 min-h-screen bg-surface">
+      <main className="flex-1 md:mr-72 min-h-screen bg-surface">
         <header className="flex justify-between items-center px-8 py-6 w-full">
           <div>
             <h2 className="font-headline text-3xl font-bold tracking-tight text-on-surface">Your Orders</h2>

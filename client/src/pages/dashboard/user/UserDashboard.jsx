@@ -171,7 +171,7 @@ const UserDashboard = () => {
     <div className="bg-background text-on-background font-body antialiased min-h-screen">
       <UserSidebar />
 
-      <main className="md:ml-72 min-h-screen relative">
+      <main className="md:mr-72 min-h-screen relative">
         <section className="px-8 py-12">
           <div className="relative mb-24">
             <div className="max-w-4xl">

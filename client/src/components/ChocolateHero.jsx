@@ -33,10 +33,10 @@ const ChocolateHero = ({ onShopClick }) => {
             Chocolate Nutrition, <span className="text-tertiary italic font-normal">Reimagined.</span>
           </h1>
           <p className="text-primary-fixed-dim text-lg md:text-xl max-w-lg leading-relaxed">
-           A smooth, protein rich drink that fuels your strength, energy, and everyday performance without the extra sugar.
+            A smooth, protein rich drink that fuels your strength, energy, and everyday performance without the extra sugar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-1">
-            <button 
+            <button
               onClick={onShopClick}
               className="gold-shimmer text-on-tertiary-fixed font-bold px-10 py-5 rounded-full hover:scale-105 transition-transform shadow-xl active:scale-95"
             >

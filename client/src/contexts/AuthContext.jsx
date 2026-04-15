@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const hydrateSession = async () => {
       const userData = localStorage.getItem('user');
       const token = localStorage.getItem('token');
+      const hadCachedUser = Boolean(userData);
 
       // Only trust cached user when a token exists; otherwise treat it as stale.
       if (userData && token) {
@@ -28,6 +29,13 @@ export const AuthProvider = ({ children }) => {
         }
       } else if (userData && !token) {
         localStorage.removeItem('user');
+      }
+
+      // Avoid calling /auth/me for anonymous visitors with no known session.
+      // This prevents expected 401 noise while still restoring token/cookie sessions.
+      if (!token && !hadCachedUser) {
+        setLoading(false);
+        return;
       }
 
       try {

@@ -85,11 +85,15 @@ if (corsAllowAll) {
 }
 
 // Rate limiting (apply after CORS so preflight and CORS headers are returned)
-// Controlled only by `RATE_LIMIT_ENABLED` env var.
-const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true';
+// Enabled by default in production unless explicitly disabled.
+const rateLimitEnabledEnv = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase();
+const rateLimitEnabled = rateLimitEnabledEnv
+  ? rateLimitEnabledEnv === 'true'
+  : process.env.NODE_ENV === 'production';
 if (rateLimitEnabled) {
+  const rateLimitWindowMinutes = Number(process.env.RATE_LIMIT_WINDOW || 15);
   const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
+    windowMs: rateLimitWindowMinutes * 60 * 1000,
     max: Number(process.env.RATE_LIMIT_MAX || 100), // limit each IP to RATE_LIMIT_MAX requests per windowMs
     // Return JSON error so clients (and fetch) can parse it safely
     handler: (req, res) => {
@@ -101,11 +105,11 @@ if (rateLimitEnabled) {
   });
   app.use(limiter);
   if (process.env.QUIET_STARTUP !== 'true') {
-    console.log(`🔒 Rate limiter enabled (max ${process.env.RATE_LIMIT_MAX || 100} requests / ${process.env.RATE_LIMIT_WINDOW || 15} minutes)`);
+    console.log(`🔒 Rate limiter enabled (max ${process.env.RATE_LIMIT_MAX || 100} requests / ${rateLimitWindowMinutes} minutes)`);
   }
 } else {
   if (process.env.QUIET_STARTUP !== 'true') {
-    console.log('⚠️ Rate limiter is disabled. To enable set RATE_LIMIT_ENABLED=true.');
+    console.log('⚠️ Rate limiter is disabled. Set RATE_LIMIT_ENABLED=true to enable it.');
   }
 }
 

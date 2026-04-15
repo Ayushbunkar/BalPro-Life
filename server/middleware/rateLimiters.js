@@ -1,6 +1,9 @@
 import rateLimit from 'express-rate-limit';
 
-const rateLimitEnabled = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase() === 'true';
+const rateLimitEnabledEnv = (process.env.RATE_LIMIT_ENABLED || '').toLowerCase();
+const rateLimitEnabled = rateLimitEnabledEnv
+  ? rateLimitEnabledEnv === 'true'
+  : process.env.NODE_ENV === 'production';
 
 const getRequestKey = (req) => {
   if (req.user?._id) {

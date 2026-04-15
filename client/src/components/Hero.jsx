@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import Bottle3D from './Bottle3D';
 
 const Hero = ({ scrollToSection }) => {
   return (
@@ -61,12 +62,11 @@ const Hero = ({ scrollToSection }) => {
         <div className="relative flex justify-center items-center">
           <div className="relative z-20 w-full max-w-md aspect-[3/4] rounded-full absolute -inset-10 opacity-30 blur-3xl" style={{backgroundColor: 'rgba(239, 191, 112, 0.1)'}}></div>
           
-          <img
-            alt="Velvet Cocoa Bottle"
-            className="relative z-30 w-full h-auto max-h-[716px] object-contain drop-shadow-2xl"
-            style={{filter: 'drop-shadow(0 35px 35px rgba(0,0,0,0.8)) brightness(1.1)', mixBlendMode: 'lighten'}}
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_burfxyEJaHUOHia8VkIm2AujuhnhVujLdHxSpZStPXIEWt22n-faTP2Zev0LqLj2i4wIs0LUbKlijQ-v2lsDJT_BHw8mVWAGmSgEcb4MJwj8gvCGxkwaOWBJRJNiO5eJKlzQO1nD2k6bbcN4F0fOUsPJSVX_NJA8nV-D3JozxdpvrXwowNyCVtnL3kuPNmkg39tMDi2QmYxGPxUDmZygG29d3M6S7al_tLbpotXETZLeBl0x1AuU-8_gWPUxBICh7m0A-j-uKdg"
-          />
+          <div className="relative z-30 w-full h-[600px] flex items-center justify-center">
+            <Suspense fallback={<div className="text-[#efbf70] font-label tracking-widest text-sm animate-pulse">Loading Asset...</div>}>
+              <Bottle3D />
+            </Suspense>
+          </div>
 
           {/* Floating Cards */}
           <div

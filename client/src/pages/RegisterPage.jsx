@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authAPI } from '../utils/api';
 import { useAuth } from '../contexts/AuthContext';
-//sdfdfs
+//sdfdfsdrgff
 
 const RegisterPage = () => {
   const navigate = useNavigate();

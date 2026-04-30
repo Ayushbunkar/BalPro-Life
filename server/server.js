@@ -170,6 +170,14 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+const clientDistPath = path.join(process.cwd(), 'client', 'dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get(/^\/(?!api|uploads).*/, (req, res) => {
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
+
 app.use(notFound);
 app.use(errorHandler);
 

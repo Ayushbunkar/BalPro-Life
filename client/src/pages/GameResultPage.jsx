@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RotateCcw, Heart, QrCode, Share2, Wallet, Trophy, PartyPopper } from 'lucide-react';
-//jijbh
+//jijbhfdgcfhvjbkknjbmn
 
 const GameResultPage = () => {
   const location = useLocation();
